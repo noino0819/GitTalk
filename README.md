@@ -8,7 +8,7 @@
 
 > <웹파싱 코드>
 
-![웹파싱](./C:\Users\Owner\Desktop/웹파싱.png)
+![웹파싱](https://user-images.githubusercontent.com/54929601/67845950-b768f380-fb43-11e9-927d-23eb98058243.png)
 
 
 웹파싱의 경우, 측정시간이 N초로 나타남.
