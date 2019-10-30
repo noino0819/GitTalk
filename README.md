@@ -13,7 +13,8 @@
 
 ### 웹파싱
 
-```using System;
+~~~c
+using System;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -48,8 +49,8 @@ namespace WebParsing
                 return;
             }
         }
-    }                   
-
+    }                  
+    ~~~
 </details>
 
 > <웹파싱의 시간측정 >
