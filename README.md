@@ -12,7 +12,7 @@
 <summary>웹파싱 코드</summary>
 
 ### 웹파싱
-~~~java
+~~~c#
 using System;
 using System.Linq;
 using System.Text;
