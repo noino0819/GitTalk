@@ -12,7 +12,7 @@
 <summary>웹파싱 코드</summary>
 
 ### 웹파싱
-
+~~~
 using System;
 using System.Linq;
 using System.Text;
@@ -48,8 +48,8 @@ namespace WebParsing
                 return;
             }
         }
-    }                  
-    
+    }
+~~~
 </details>
 
 > <웹파싱의 시간측정 >
@@ -66,7 +66,7 @@ namespace WebParsing
 <summary>pull 코드</summary>
 
 ### pull
-~~~
+~~~c++
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
