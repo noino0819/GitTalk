@@ -47,7 +47,6 @@ namespace WebParsing
                 Console.WriteLine("html is null");
                 return;
             }
-            
         }
     }
 
