@@ -8,7 +8,52 @@
 
 * 웹파싱
 
-> <웹파싱 코드>
+<details markdown="1">
+<summary>상세코드</summary>
+
+### 웹파싱
+
+using System;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Net;
+using agi = HtmlAgilityPack;
+using System.Diagnostics;
+
+namespace WebParsing
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Stopwatch sw = new Stopwatch();
+            WebClient wc = new WebClient
+            {
+                Encoding = Encoding.UTF8
+            };
+            try
+            {
+                sw.Start();
+                string html = wc.DownloadString("https://github.com/noino0819/GitTalk");
+                agi.HtmlDocument doc = new agi.HtmlDocument();
+                doc.LoadHtml(html);
+                Console.WriteLine(doc.GetElementbyId("readme").InnerText);
+                sw.Stop();
+                Console.WriteLine(sw.ElapsedMilliseconds.ToString() + "ms");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("html is null");
+                return;
+            }
+            
+        }
+    }
+
+
+</details>
+
 > 
 > ![웹파싱](https://user-images.githubusercontent.com/54929601/67845950-b768f380-fb43-11e9-927d-23eb98058243.png)
 > 
