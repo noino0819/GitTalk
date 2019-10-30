@@ -9,7 +9,7 @@
 * 웹파싱
 
 <details markdown="1">
-<summary>웹파싱 상세코드</summary>
+<summary>웹파싱 코드</summary>
 
 ### 웹파싱
 
@@ -64,7 +64,7 @@ namespace WebParsing
 * pull
 
 <details markdown="1">
-<summary>pull 상세코드</summary>
+<summary>pull 코드</summary>
 
 ### pull
 
@@ -116,7 +116,7 @@ int main(){
 
 </details>
 
-> <pull의 시간측정 코드>
+> <pull의 시간측정 >
 > 
 > ![pull](https://user-images.githubusercontent.com/54929601/67846031-de272a00-fb43-11e9-9947-69cff317b084.png)
 > 
