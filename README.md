@@ -58,7 +58,7 @@ namespace WebParsing
 > ![웹파싱](https://user-images.githubusercontent.com/54929601/67845950-b768f380-fb43-11e9-927d-23eb98058243.png)
 > 
 > 
-> 웹파싱의 경우, 측정시간이 ### 611ms 로 나타남.
+> 웹파싱의 경우, 측정시간이 611ms 로 나타남.
 
 
 * pull
@@ -120,7 +120,7 @@ int main(){
 > 
 > ![pull](https://user-images.githubusercontent.com/54929601/67846031-de272a00-fb43-11e9-9947-69cff317b084.png)
 > 
-> pull의 경우, 측정시간이 ### 16.102ms로 나타남.
+> pull의 경우, 측정시간이 16.102ms로 나타남.
 
 
 측정 결과, 웹파싱보다 pull의 속도가 더 우세하게 나타남.
