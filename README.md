@@ -9,7 +9,7 @@
 * 웹파싱
 
 <details markdown="1">
-<summary>상세코드</summary>
+<summary>웹파싱 상세코드</summary>
 
 ### 웹파싱
 
@@ -62,6 +62,59 @@ namespace WebParsing
 
 
 * pull
+
+<details markdown="1">
+<summary>pull 상세코드</summary>
+
+### pull
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+int main(){
+   clock_t start, end;
+   clock_t total_start, total_end;
+
+   total_start = clock();
+   FILE *fp = fopen("./SETTING.txt", "rt");
+
+   char remote_add[120] = "git remote add GitTalk https://github.com/";
+   char ID[20];
+   char password[20];
+   char repository_name[50];
+   
+   if (fp == NULL){
+      printf("SETTING.txt 파일이 없습니다.\n");
+      return 0;
+   }
+
+   fscanf(fp, "%s", ID);
+   fscanf(fp, "%s", password);
+   fscanf(fp, "%s", repository_name);
+
+   strcat(remote_add, ID);
+   strcat(remote_add, "/");
+   strcat(remote_add, repository_name);
+   
+   system(remote_add);
+   start = clock();
+   system("git pull GitTalk master:master");
+   end = clock();
+   system("git remote remove GitTalk");
+
+   fclose(fp);
+   total_end = clock();
+
+   putchar('\n');
+   printf("pull만 :  %f\n", (double) (end - start) / CLOCKS_PER_SEC);
+   printf("전체 : %f\n", (double) (total_end - total_start) / CLOCKS_PER_SEC);
+
+   return 0;
+
+
+</details>
 
 > <pull의 시간측정 코드>
 > 
