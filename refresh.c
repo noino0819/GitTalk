@@ -31,12 +31,10 @@ void refresh(){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master");
+	strcat(push_string, "@github.com/noino0819/GitTalk_Test master");
 
 	//https://github.com/noino0810/GitTalk을 git clone해서 만든 디렉토리라고 가정
 	system("git pull origin master");
 	system(push_string);
-
-	return;
 }
 
