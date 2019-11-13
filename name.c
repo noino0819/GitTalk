@@ -7,6 +7,6 @@ int main(){
 	scanf("%s", name);
 	strcat(echo_string, name);
 	strcat(echo_string, ">");
-	strcat(echo_string, name);
+	strcat(echo_string, "name.txt");
 	system(echo_string);
 }

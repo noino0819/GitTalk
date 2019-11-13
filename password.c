@@ -4,7 +4,7 @@
 int main(){
 	char echo_string[50] = "echo ";
 	char name[30];
-	char pw[] = ".password";
+	char pw[30] = "password.txt";
 	scanf("%s", name);
 	strcat(echo_string, name);
 	strcat(echo_string, ">");
