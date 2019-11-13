@@ -29,9 +29,9 @@ void main_menu(void){ //입력인자 void는 나중에 파일 입출력 포인�
 	}
 }
 void chatting_menu_print(void){
-	printf("1. 채팅방 등록");
-	printf("2. 채팅방 목록");
-	printf("3. 로그아웃");
+	printf("1. 채팅방 등록\n");
+	printf("2. 채팅방 목록\n");
+	printf("3. 로그아웃\n");
 	printf("\n번호를 선택하세요 : ");
 }
 void chatting_menu(void){
