@@ -3,11 +3,9 @@
 #include <string.h>
 
 void make_chatting_room();
-//void delete_file();
 
 int main() {
 	make_chatting_room();
-	//delete_file();
 }
 
 void make_chatting_room() {
