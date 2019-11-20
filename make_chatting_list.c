@@ -14,9 +14,9 @@ int main() {
 
 void check_where_make_room() {
 	printf("채팅방을 업로드할 깃허브 주소를 알려주세요");
-	char Git_address[30];
+	char Git_address[70];
 	scanf("%s", Git_address);
-	char echo_string[60] = "git remote add GitTalk ";
+	char echo_string[100] = "git remote add GitTalk ";
 	strcat(echo_string, Git_address);
 	system(echo_string);
 }
@@ -29,7 +29,7 @@ void make_chatting_room() {
 
 	printf("대화를 원하는 상대방의 Git 아이디를 입력해주세요 : ");
 	scanf("%s", chatting_partner);
-
+	printf("ccccc");
 	name_fp = fopen("./name.txt", "rt");
 	fscanf(name_fp, "%s", name);
 
