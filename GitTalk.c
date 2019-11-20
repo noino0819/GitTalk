@@ -3,8 +3,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <termio.h>
 #define CLEAR_BUFFER() while(getchar() != '\n')
 
+int getch(void);
 void main_menu_print(void);
 void main_menu(void);
 void chatting_menu_print(void);
@@ -23,6 +25,19 @@ int main(){
 	return 0;
 }
 
+int getch(void){
+    int ch;
+    struct termios buf, save;
+    tcgetattr(0,&save);
+    buf = save;
+    buf.c_lflag &= ~(ICANON|ECHO);
+    buf.c_cc[VMIN] = 1;
+    buf.c_cc[VTIME] = 0;
+    tcsetattr(0, TCSAFLUSH, &buf);
+    ch = getchar();
+    tcsetattr(0, TCSAFLUSH, &save);
+    return ch;
+}
 void main_menu_print(void){
 	printf("1. 회원가입\n");
 	printf("2. 로그인\n");
@@ -83,7 +98,7 @@ void chatting_menu(void){
 				break;
 			// 본인이 포함된 채팅방 검색
 			case 2:
-				show_list();
+				chatting(show_list());
 				break;
 			// 로그아웃
 			case 3:
@@ -194,7 +209,7 @@ void refresh(void){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk_Test master 2> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master 2> bin.txt");
 
 	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
 	system("git pull GitTalk master 2> bin.txt");
@@ -300,13 +315,13 @@ void chatting(char *chatting_file){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk_Test master 2> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master 2> bin.txt");
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, NULL);
 	sleep(1);
 	while(1){
 		ch = getch();
-		if (ch == 10 || ch == 13){ //'\n' == 10, '\r' == 13
+		if (ch == 10){ //'\n' == 10, '\r' == 13
 			//Enter를 통해 채팅 입력
 			printf("보낼 메시지를 입력하세요. (200바이트 이내)\n");
 			//메시지 받고 pull
@@ -317,6 +332,7 @@ void chatting(char *chatting_file){
 			pthread_cancel(refresh_thread);
 			return;
 		}
+			pthread_cancel(refresh_thread);
 	}
 }
 void *refresh_routine(void *chatting_file_string){
@@ -325,7 +341,10 @@ void *refresh_routine(void *chatting_file_string){
 	while(1){
 		refresh();
 		system("clear");
-		ifp = fopen(chatting_file_string, "rt");
+		if ((ifp = fopen(chatting_file_string, "rt")) == NULL){
+			printf("채팅방이 존재하지 않습니다.");
+			return NULL;
+		}
 		while ((ch = getc(ifp)) != EOF){
 			putchar(ch);
 		}
