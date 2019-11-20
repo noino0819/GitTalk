@@ -60,7 +60,7 @@ void chatting_menu_print(void){
 void chatting_menu(void){
 	FILE *name_fp;
 	char name[30];
-	char push_string[100];		
+	char push_string[100] = "";		
 	if((name_fp = fopen("./name.txt", "rt")) == NULL){
 		printf("ID 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
 		return;
@@ -82,6 +82,8 @@ void chatting_menu(void){
 				strcat(push_string, "find Chatting/ -name \"*");
 				strcat(push_string, name);
 				strcat(push_string, "*\"");
+				printf("%s\n", push_string);
+				sleep(2);
 				system(push_string);
 				break;
 			// 로그아웃
@@ -207,6 +209,8 @@ void make_chatting_room(void){
 	char echo_string2[50] = "echo Chatting/";
 	char name[30];
 	char chatting_partner[30];
+	char chatting_room_name[50] = "";
+	char echo_chattinglist[100] = "echo ";
 	system("clear");
 	printf("---------- 채팅방 생성 ----------\n");
 	printf("채팅방을 업로드 할 github 주소를 입력하세요 : ");
@@ -225,17 +229,33 @@ void make_chatting_room(void){
 		strcat(echo_string2, chatting_partner);
 		strcat(echo_string2, "_");
 		strcat(echo_string2, name);
+
+		strcat(chatting_room_name, chatting_partner);
+		strcat(chatting_room_name, "_");
+		strcat(chatting_room_name, name);
 	}
 	else if(strcmp(chatting_partner, name) > 0){//name_partner
 		strcat(echo_string2, ">");
 		strcat(echo_string2, name);
 		strcat(echo_string2, "_");
 		strcat(echo_string2, chatting_partner);
+
+		strcat(chatting_room_name, name);
+		strcat(chatting_room_name, "_");
+		strcat(chatting_room_name, chatting_partner);
 	}
 	else{
 		printf("자신과의 대화");
 	}
-	printf("%s", echo_string2);
 	system(echo_string2);
+	strcat(echo_chattinglist, chatting_room_name);
+	strcat(echo_chattinglist, ">>");
+	strcat(echo_chattinglist, "chattinglist");
+	system(echo_chattinglist);
+	printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
+	printf("채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
+	sleep(2);
+	system("clear");
 }
+
 
