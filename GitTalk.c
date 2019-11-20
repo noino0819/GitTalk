@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
+#include <termio.h>
 #define CLEAR_BUFFER() while(getchar() != '\n')
 
+int getch(void);
 void main_menu_print(void);
 void main_menu(void);
 void chatting_menu_print(void);
@@ -12,6 +15,8 @@ void sign_up(void);
 int log_in(void);
 void refresh(void);
 void make_chatting_room(void);
+void chatting(char *);
+void *refresh_routine(void *);
 char* show_list(void);
 
 int main(){
@@ -20,6 +25,19 @@ int main(){
 	return 0;
 }
 
+int getch(void){
+    int ch;
+    struct termios buf, save;
+    tcgetattr(0,&save);
+    buf = save;
+    buf.c_lflag &= ~(ICANON|ECHO);
+    buf.c_cc[VMIN] = 1;
+    buf.c_cc[VTIME] = 0;
+    tcsetattr(0, TCSAFLUSH, &buf);
+    ch = getchar();
+    tcsetattr(0, TCSAFLUSH, &save);
+    return ch;
+}
 void main_menu_print(void){
 	printf("1. 회원가입\n");
 	printf("2. 로그인\n");
@@ -80,7 +98,7 @@ void chatting_menu(void){
 				break;
 			// 본인이 포함된 채팅방 검색
 			case 2:
-				show_list();
+				chatting(show_list());
 				break;
 			// 로그아웃
 			case 3:
@@ -168,7 +186,7 @@ int log_in(void){
 	/* 성공적으로 로그인하였을 경우 1을 return하고 함수 종료 */
 	return 1;
 }
-void refresh(){
+void refresh(void){
 	FILE *name_fp, *pw_fp;
 	char name[30];
 	char pw[30];
@@ -177,11 +195,11 @@ void refresh(){
 	name_fp = fopen("./name.txt", "rt");
 	pw_fp = fopen("./password.txt", "rt");
 
-	//name.txt 파일이나 password.txt 파일이 없을 때
-	if (name_fp == NULL || pw_fp == NULL){
-		printf("회원가입이 제대로 진행되지 않았습니다.\n");
-		return;
-	}
+	// name.txt 파일이나 password.txt 파일이 없을 때
+	// if (name_fp == NULL || pw_fp == NULL){
+	// 	printf("회원가입이 제대로 진행되지 않았습니다.\n");
+	// 	return;
+	// }
 	fscanf(name_fp, "%s", name);
 	fscanf(pw_fp, "%s", pw);
 	
@@ -191,10 +209,10 @@ void refresh(){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk_Test master");
+	strcat(push_string, "@github.com/noino0819/GitTalk master 2> bin.txt");
 
 	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
-	system("git pull GitTalk master");
+	system("git pull GitTalk master 2> bin.txt");
 	system(push_string);
 }
 
@@ -275,4 +293,62 @@ char* show_list(void){
 	system("clear");
 	return select;
 }
+void chatting(char *chatting_file){
+	FILE *ifp, *ofp;
+	pthread_t refresh_thread;
+	char ch;
+	char *chatting_content;
+	char name[30], pw[30];
+	char push_string[100] = "git push https://";
+	char chatting_file_string[100] = "./Chatting/";
+	char msg[200];
 
+	strcat(chatting_file_string, chatting_file);
+
+	ifp = fopen("./name.txt", "rt");
+	fscanf(ifp, "%s", name);
+	fclose(ifp);
+	ifp = fopen("./password.txt", "rt");
+	fscanf(ifp, "%s", pw);
+	fclose(ifp);
+
+	strcat(push_string, name);
+	strcat(push_string, ":");
+	strcat(push_string, pw);
+	strcat(push_string, "@github.com/noino0819/GitTalk master 2> bin.txt");
+
+	pthread_create(&refresh_thread, NULL, refresh_routine, NULL);
+	sleep(1);
+	while(1){
+		ch = getch();
+		if (ch == 10){ //'\n' == 10, '\r' == 13
+			//Enter를 통해 채팅 입력
+			printf("보낼 메시지를 입력하세요. (200바이트 이내)\n");
+			//메시지 받고 pull
+			//메시지를 파일에 저장
+			//push 진행 (refresh)
+		} else if (ch == 27){ //ESC == 27
+			//채팅 끝
+			pthread_cancel(refresh_thread);
+			return;
+		}
+			pthread_cancel(refresh_thread);
+	}
+}
+void *refresh_routine(void *chatting_file_string){
+	FILE *ifp;
+	char ch;
+	while(1){
+		refresh();
+		system("clear");
+		if ((ifp = fopen(chatting_file_string, "rt")) == NULL){
+			printf("채팅방이 존재하지 않습니다.");
+			return NULL;
+		}
+		while ((ch = getc(ifp)) != EOF){
+			putchar(ch);
+		}
+		fclose(ifp);
+		sleep(10);
+	}
+}
