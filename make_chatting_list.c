@@ -10,8 +10,8 @@ int main() {
 
 void make_chatting_room() {
 	FILE *name_fp;
-	char echo_string[50] = "echo ";
-	char name[30]; 
+	char echo_string[50] = "echo Chatting/"
+	char name[30];
 	char chatting_partner[30];
 
 	printf("대화를 원하는 상대방의 Git 아이디를 입력해주세요 : ");
