@@ -7,6 +7,7 @@ void main_menu(void);
 void chatting_menu_print(void);
 void chatting_menu(void);
 void signIn(void);
+int login(void);
 int main(){
 	system("clear");
 	main_menu();
@@ -29,6 +30,9 @@ void main_menu(void){
 				signIn();
 				break;
 			case 2:
+				if(login()){
+					//로그인 안에 채팅 매뉴 실행.
+				}
 				break;
 			case 3:
 				exit(0);
@@ -93,4 +97,46 @@ void signIn(void){
 	sleep(2);
 	system("clear");
 }
+int login(void){
+	char ID[30];
+	char PW[30];
+	FILE *fp_ID;
+	FILE *fp_PW;
+	char buffer[20];
+	int result;
+
+	system("clear");
+	printf("---------- GitTalk 로그인 ----------\n");
+	printf("ID를 입력하세요 : ");
+	scanf("%s", ID);
+	fp_ID = fopen("name.txt", "rt");
+	fgets(buffer, sizeof(buffer), fp_ID);
+	printf("%s\n", buffer);
+	if(fp_ID == NULL){
+		printf("없는 ID입니다. 회원가입을 해주세요.");
+		sleep(2);
+	}
+	else{
+		if(!(strcmp(buffer, ID))){
+			printf("비밀번호를 입력하세요 : ");
+			scanf("%s", PW);
+			fp_PW = fopen("password.txt", "rt");
+			fgets(buffer, sizeof(buffer), fp_PW);
+			if(!(strcmp(buffer, ID))){
+				result = 1;
+				printf("로그인 성공!");
+				sleep(2);	
+			}
+			else{
+				result = 0;
+				printf("로그인 실패(잘못된 비밀번호입니다.)");
+				sleep(2);
+			}
+		}
+	}
+	system("clear");
+	return result;
+}
+		
+
 
