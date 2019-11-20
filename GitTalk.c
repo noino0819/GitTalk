@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #define CLEAR_BUFFER() while(getchar() != '\n')
 
 void main_menu_print(void);
@@ -10,6 +11,7 @@ void chatting_menu(void);
 void sign_up(void);
 int log_in(void);
 void refresh(void);
+void make_chatting_room(void);
 
 int main(){
 	system("clear");
@@ -36,6 +38,7 @@ void main_menu(void){
 				exit_code = log_in();
 				if (exit_code){
 					chatting_menu();
+					system("clear");
 				}
 				break;
 			case 3:
@@ -66,6 +69,7 @@ void chatting_menu(void){
 			case 2:
 				break;
 			case 3:
+				return;
 				break;
 			default:
 				printf("잘못된 번호입니다. 다시 입력하세요.");
@@ -95,6 +99,7 @@ void sign_up(void){
 	strcat(echo_string_PW, ">");
 	strcat(echo_string_PW, "password.txt");
 	system(echo_string_PW);
+	
 
 	// github의 유효한 ID인지 확인절차 필요.
 	
@@ -115,12 +120,13 @@ int log_in(void){
 		return -1;
 	}
 
-	if ((pw_fp = fopen("./name.txt", "rt")) == NULL){
+	if ((pw_fp = fopen("./password.txt", "rt")) == NULL){
 		printf("비밀번호 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
 		return -1;
 	}
 
 	/* 로그인을 다시 진행해야할 경우 오류 코드 0을 return하고 함수 종료 */
+	system("clear");
 	printf("---------- GitTalk 로그인 ----------\n");
 	printf("Github 아이디를 입력하세요 : ");
 	scanf("%s", string);
