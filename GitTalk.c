@@ -202,7 +202,7 @@ void refresh(){
 
 void make_chatting_room(void){
 	char Git_address[100];
-	char echo_string1[60] = "git remote add GitTalk "; //채팅방별로 remote 저장소 이름 다르게 수정 필요함.
+	char echo_string1[100] = "git remote add GitTalk "; //채팅방별로 remote 저장소 이름 다르게 수정 필요함.
 	FILE* name_fp;
 	char echo_string2[50] = "echo Chatting/";
 	char name[30];
@@ -238,8 +238,4 @@ void make_chatting_room(void){
 	printf("%s", echo_string2);
 	system(echo_string2);
 }
-
-
-
-
 
