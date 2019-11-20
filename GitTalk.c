@@ -34,6 +34,8 @@ void main_menu(void){
 				signIn();
 				break;
 			case 2:
+				if(login()){
+					//로그인 안에 채팅 매뉴 실행.
 				exit_code = log_in();
 				if (exit_code){
 					chatting_menu();
@@ -104,6 +106,7 @@ void sign_up(void){
 	sleep(2);
 	system("clear");
 }
+		
 int log_in(void){
 	FILE *id_fp, *pw_fp;
 	char string[30];
