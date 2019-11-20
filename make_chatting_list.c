@@ -34,5 +34,6 @@ void make_chatting_room() {
 	}else{
 		printf("자신과의 대화");
 	}
+	printf("%s", echo_string);
 	system(echo_string);
 }
