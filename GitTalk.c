@@ -60,8 +60,7 @@ void chatting_menu_print(void){
 void chatting_menu(void){
 	FILE *name_fp;
 	char name[30];
-	char push_string[100];	
-	
+	char push_string[100];		
 	if((name_fp = fopen("./name.txt", "rt")) == NULL){
 		printf("ID 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
 		return;
@@ -76,7 +75,7 @@ void chatting_menu(void){
 		switch(num){
 			// 채팅방 등록 
 			case 1:
-
+				make_chatting_room();
 				break;
 			// 본인이 포함된 채팅방 검색
 			case 2:
@@ -87,7 +86,6 @@ void chatting_menu(void){
 				break;
 			// 로그아웃
 			case 3:
-				exit(0);
 				return;
 				break;
 			default:
@@ -201,3 +199,47 @@ void refresh(){
 	system("git pull GitTalk master");
 	system(push_string);
 }
+
+void make_chatting_room(void){
+	char Git_address[100];
+	char echo_string1[60] = "git remote add GitTalk "; //채팅방별로 remote 저장소 이름 다르게 수정 필요함.
+	FILE* name_fp;
+	char echo_string2[50] = "echo Chatting/";
+	char name[30];
+	char chatting_partner[30];
+	system("clear");
+	printf("---------- 채팅방 생성 ----------\n");
+	printf("채팅방을 업로드 할 github 주소를 입력하세요 : ");
+	scanf("%s", Git_address);
+	strcat(echo_string1, Git_address);
+	system(echo_string1);
+
+	printf("대화를 원하는 상대방의 Git아이디를 입력하세요 : ");
+	scanf("%s", chatting_partner);
+
+	name_fp = fopen("./name.txt", "rt");
+	fscanf(name_fp, "%s", name);
+
+	if(strcmp(chatting_partner, name) < 0){//partner_name
+		strcat(echo_string2, ">");
+		strcat(echo_string2, chatting_partner);
+		strcat(echo_string2, "_");
+		strcat(echo_string2, name);
+	}
+	else if(strcmp(chatting_partner, name) > 0){//name_partner
+		strcat(echo_string2, ">");
+		strcat(echo_string2, name);
+		strcat(echo_string2, "_");
+		strcat(echo_string2, chatting_partner);
+	}
+	else{
+		printf("자신과의 대화");
+	}
+	printf("%s", echo_string2);
+	system(echo_string2);
+}
+
+
+
+
+
