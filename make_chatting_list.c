@@ -6,10 +6,16 @@ void check_where_make_room(); //채팅방을 만드는 위치 결정
 void make_chatting_room(); //채팅방 만들기
 void push_chatting_room(); //채팅방을 GIT에 업로드
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void check_where_make_room(); //채팅방을 만드는 위치 결정
+void make_chatting_room(); //채팅방 만들기
+
 int main() {
 	check_where_make_room();
 	make_chatting_room();
-	push_chatting_room();
 }
 
 void check_where_make_room() {
@@ -29,7 +35,6 @@ void make_chatting_room() {
 
 	printf("대화를 원하는 상대방의 Git 아이디를 입력해주세요 : ");
 	scanf("%s", chatting_partner);
-
 	name_fp = fopen("./name.txt", "rt");
 	fscanf(name_fp, "%s", name);
 
@@ -50,9 +55,13 @@ void make_chatting_room() {
 	}
 	printf("%s", echo_string);
 	system(echo_string);
-}
-
-void push_chatting_room(void) {
+	//git push를 위한 작업시작
+	char add_room[30] = "git add ";
+	char* ptr = strtok(echo_string, " ");
+	ptr = strtok(NULL, " ");
+	strcat(add_room, ptr);
+	system(add_room);
 	char push_room[30] = "git push GitTalk master"; //지금은 마스터로 사용하지만, 이후에 Git브랜치 이름을 정할 경우 수정
 	system(push_room);
+
 }

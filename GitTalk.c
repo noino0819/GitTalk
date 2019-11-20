@@ -15,6 +15,7 @@ void refresh(void);
 void make_chatting_room(void);
 void chatting(char *);
 void *refresh_routine(void *);
+char* show_list(void);
 
 int main(){
 	system("clear");
@@ -63,7 +64,7 @@ void chatting_menu_print(void){
 void chatting_menu(void){
 	FILE *name_fp;
 	char name[30];
-	char push_string[100];		
+	char push_string[100] = "";		
 	if((name_fp = fopen("./name.txt", "rt")) == NULL){
 		printf("ID 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
 		return;
@@ -82,10 +83,7 @@ void chatting_menu(void){
 				break;
 			// 본인이 포함된 채팅방 검색
 			case 2:
-				strcat(push_string, "find Chatting/ -name \"*");
-				strcat(push_string, name);
-				strcat(push_string, "*\"");
-				system(push_string);
+				show_list();
 				break;
 			// 로그아웃
 			case 3:
@@ -205,17 +203,17 @@ void refresh(void){
 
 void make_chatting_room(void){
 	char Git_address[100];
-	char echo_string1[100] = "git remote add GitTalk "; //채팅방별로 remote 저장소 이름 다르게 수정 필요함.
+	char echo_remote[100] = "git remote add "; //remote 저장소 이름은 채팅방 이름과 동일.
 	FILE* name_fp;
 	char echo_string2[50] = "echo Chatting/";
 	char name[30];
 	char chatting_partner[30];
+	char chatting_room_name[50] = "";
+	char echo_chattinglist[100] = "echo ";
 	system("clear");
 	printf("---------- 채팅방 생성 ----------\n");
 	printf("채팅방을 업로드 할 github 주소를 입력하세요 : ");
 	scanf("%s", Git_address);
-	strcat(echo_string1, Git_address);
-	system(echo_string1);
 
 	printf("대화를 원하는 상대방의 Git아이디를 입력하세요 : ");
 	scanf("%s", chatting_partner);
@@ -228,18 +226,57 @@ void make_chatting_room(void){
 		strcat(echo_string2, chatting_partner);
 		strcat(echo_string2, "_");
 		strcat(echo_string2, name);
+
+		strcat(chatting_room_name, chatting_partner);
+		strcat(chatting_room_name, "_");
+		strcat(chatting_room_name, name);
 	}
 	else if(strcmp(chatting_partner, name) > 0){//name_partner
 		strcat(echo_string2, ">");
 		strcat(echo_string2, name);
 		strcat(echo_string2, "_");
 		strcat(echo_string2, chatting_partner);
+
+		strcat(chatting_room_name, name);
+		strcat(chatting_room_name, "_");
+		strcat(chatting_room_name, chatting_partner);
 	}
 	else{
 		printf("자신과의 대화");
 	}
-	printf("%s", echo_string2);
+	//미리 검사해서 동일한 이름의 채팅방을 만들지 못하게 막아야됨.
 	system(echo_string2);
+	strcat(echo_remote, chatting_room_name);
+	strcat(echo_remote, " ");
+	strcat(echo_remote, Git_address);
+	system(echo_remote);
+
+	strcat(echo_chattinglist, chatting_room_name);
+	strcat(echo_chattinglist, ">>");
+	strcat(echo_chattinglist, "chattinglist");
+	system(echo_chattinglist);
+	printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
+	printf("채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
+	sleep(2);
+	system("clear");
+}
+char* show_list(void){
+	char cat[100] = "cat chattinglist";
+	char* select;
+	select = (char*)malloc(sizeof(char)*100);
+	system("clear");
+	printf("---------- 채팅방 목록 ----------\n");
+	sleep(1);
+	system(cat);
+	printf("\n원하는 채팅방의 이름을 입력하세요 : ");
+	scanf("%s", select);
+
+	//채팅방 이름이 없을 경우를 검사해서 예외처리 해야됨.
+	
+	printf("%s 채팅방이 선택되었습니다.\n", select);
+	sleep(2);
+	system("clear");
+	return select;
 }
 void chatting(char *chatting_file){
 	FILE *ifp, *ofp;
