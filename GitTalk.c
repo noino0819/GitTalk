@@ -254,7 +254,7 @@ void make_chatting_room(void){
 	system(echo_chattinglist);
 	printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
 	printf("채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
-	sleep(2);
+	sleep(30);
 	system("clear");
 }
 char* show_list(void){

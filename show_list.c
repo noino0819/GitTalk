@@ -8,7 +8,8 @@ int main(){
 }
 char* show_list(void){
 	char cat[100] = "cat chattinglist";
-	char select[100] = "";
+	char* select;
+	select = (char*)malloc(sizeof(char)*100);
 	system("clear");
 	printf("---------- 채팅방 목록 ----------\n");
 	sleep(1);
