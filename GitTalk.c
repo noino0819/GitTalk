@@ -9,6 +9,7 @@ void chatting_menu_print(void);
 void chatting_menu(void);
 void sign_up(void);
 int log_in(void);
+void refresh(void);
 
 int main(){
 	system("clear");
@@ -145,4 +146,33 @@ int log_in(void){
 
 	/* 성공적으로 로그인하였을 경우 1을 return하고 함수 종료 */
 	return 1;
+}
+void refresh(){
+	FILE *name_fp, *pw_fp;
+	char name[30];
+	char pw[30];
+	char push_string[100] = "git push https://";
+
+	name_fp = fopen("./name.txt", "rt");
+	pw_fp = fopen("./password.txt", "rt");
+
+	//name.txt 파일이나 password.txt 파일이 없을 때
+	if (name_fp == NULL || pw_fp == NULL){
+		printf("회원가입이 제대로 진행되지 않았습니다.\n");
+		return;
+	}
+	fscanf(name_fp, "%s", name);
+	fscanf(pw_fp, "%s", pw);
+	
+	fclose(name_fp);
+	fclose(pw_fp);
+
+	strcat(push_string, name);
+	strcat(push_string, ":");
+	strcat(push_string, pw);
+	strcat(push_string, "@github.com/noino0819/GitTalk_Test master");
+
+	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
+	system("git pull GitTalk master");
+	system(push_string);
 }

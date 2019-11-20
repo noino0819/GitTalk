@@ -33,8 +33,8 @@ void refresh(){
 	strcat(push_string, pw);
 	strcat(push_string, "@github.com/noino0819/GitTalk_Test master");
 
-	//https://github.com/noino0810/GitTalk을 git clone해서 만든 디렉토리라고 가정
-	system("git pull origin master");
+	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
+	system("git pull GitTalk master");
 	system(push_string);
 }
 
