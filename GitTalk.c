@@ -28,13 +28,10 @@ void main_menu(void){
 		main_menu_print();
 		scanf("%d", &num);
 		CLEAR_BUFFER();
-		switch(num){
-			case 1:
-				signIn();
+		switch(num){case 1:
+				sign_up();
 				break;
 			case 2:
-				if(login()){
-					//로그인 안에 채팅 매뉴 실행.
 				exit_code = log_in();
 				if (exit_code){
 					chatting_menu();
