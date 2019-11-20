@@ -55,17 +55,36 @@ void chatting_menu_print(void){
 	printf("\n 번호를 선택하세요 : ");
 }
 void chatting_menu(void){
+	FILE *name_fp;
+	char name[30];
+	char push_string[100];	
+	
+	if((name_fp = fopen("./name.txt", "rt")) == NULL){
+		printf("ID 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
+		return;
+	}
+	fscanf(name_fp,"%s",name);
+	fclose(name_fp);
 	int num;
 	while(1){
 		chatting_menu_print();
 		scanf("%d", &num);
 		CLEAR_BUFFER();
 		switch(num){
+			// 채팅방 등록 
 			case 1:
+
 				break;
+			// 본인이 포함된 채팅방 검색
 			case 2:
+				strcat(push_string, "find Chatting/ -name \"*");
+				strcat(push_string, name);
+				strcat(push_string, "*\"");
+				system(push_string);
 				break;
+			// 로그아웃
 			case 3:
+				exit(0);
 				break;
 			default:
 				printf("잘못된 번호입니다. 다시 입력하세요.");
