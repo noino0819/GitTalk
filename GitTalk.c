@@ -1,17 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define CLEAR_BUFFER while(getchar() != '\n')
+#define CLEAR_BUFFER() while(getchar() != '\n')
+
 void main_menu_print(void);
 void main_menu(void);
 void chatting_menu_print(void);
 void chatting_menu(void);
-void signIn(void);
+void sign_up(void);
+int log_in(void);
+
 int main(){
 	system("clear");
 	main_menu();
 	return 0;
 }
+
 void main_menu_print(void){
 	printf("1. 회원가입\n");
 	printf("2. 로그인\n");
@@ -19,16 +23,20 @@ void main_menu_print(void){
 	printf("\n번호를 선택하세요 : ");
 }
 void main_menu(void){
-	int num;
+	int num, exit_code;
 	while(1){
 		main_menu_print();
 		scanf("%d", &num);
-		CLEAR_BUFFER;
+		CLEAR_BUFFER();
 		switch(num){
 			case 1:
 				signIn();
 				break;
 			case 2:
+				exit_code = log_in();
+				if (exit_code){
+					chatting_menu();
+				}
 				break;
 			case 3:
 				exit(0);
@@ -51,7 +59,7 @@ void chatting_menu(void){
 	while(1){
 		chatting_menu_print();
 		scanf("%d", &num);
-		CLEAR_BUFFER;
+		CLEAR_BUFFER();
 		switch(num){
 			case 1:
 				break;
@@ -66,7 +74,7 @@ void chatting_menu(void){
 		}
 	}
 }
-void signIn(void){
+void sign_up(void){
 	char echo_string_ID[50] = "echo ";
 	char echo_string_PW[50] = "echo ";
 	char string[30];
@@ -74,6 +82,7 @@ void signIn(void){
 	printf("---------- GitTalk 회원가입 ----------\n");	
 	printf("Github 아이디를 입력하세요 : ");
 	scanf("%s", string);
+	CLEAR_BUFFER();
 	strcat(echo_string_ID, string);
 	strcat(echo_string_ID, ">");
 	strcat(echo_string_ID, "name.txt");
@@ -81,6 +90,7 @@ void signIn(void){
 	
 	printf("Github 비밀번호를 입력하세요 : ");
 	scanf("%s", string);
+	CLEAR_BUFFER();
 	strcat(echo_string_PW, string);
 	strcat(echo_string_PW, ">");
 	strcat(echo_string_PW, "password.txt");
@@ -93,4 +103,46 @@ void signIn(void){
 	sleep(2);
 	system("clear");
 }
+int log_in(void){
+	FILE *id_fp, *pw_fp;
+	char string[30];
+	char string_from_file[30];
 
+	/* 회원가입을 다시 진행해야할 경우 오류 코드 -1을 return하고 함수 종료 */
+	if ((id_fp = fopen("./name.txt", "rt")) == NULL){
+		printf("ID 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
+		return -1;
+	}
+
+	if ((pw_fp = fopen("./name.txt", "rt")) == NULL){
+		printf("비밀번호 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
+		return -1;
+	}
+
+	/* 로그인을 다시 진행해야할 경우 오류 코드 0을 return하고 함수 종료 */
+	printf("---------- GitTalk 로그인 ----------\n");
+	printf("Github 아이디를 입력하세요 : ");
+	scanf("%s", string);
+	CLEAR_BUFFER();
+	fscanf(id_fp, "%s", string_from_file);
+	if (strcmp(string, string_from_file)){
+		printf("ID가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
+		return 0;
+	}
+	printf("Github 비밀번호를 입력하세요 : ");
+	scanf("%s", string);
+	CLEAR_BUFFER();
+	fscanf(pw_fp, "%s", string_from_file);
+	if (strcmp(string, string_from_file)){
+		printf("비밀번호가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
+		return 0;
+	}
+
+	printf("로그인이 완료되었습니다.\n");
+	printf("GitTalk을 시작합니다.\n");
+	sleep(2);
+	system("clear");
+
+	/* 성공적으로 로그인하였을 경우 1을 return하고 함수 종료 */
+	return 1;
+}
