@@ -6,13 +6,6 @@ void check_where_make_room(); //채팅방을 만드는 위치 결정
 void make_chatting_room(); //채팅방 만들기
 void push_chatting_room(); //채팅방을 GIT에 업로드
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-void check_where_make_room(); //채팅방을 만드는 위치 결정
-void make_chatting_room(); //채팅방 만들기
-
 int main() {
 	check_where_make_room();
 	make_chatting_room();
