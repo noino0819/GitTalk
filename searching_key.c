@@ -18,7 +18,6 @@ void searching_word(char* chat_name)
 		strcat(grep_string, " -i --color=auto ");  
 		strcat(grep_string, chat_name)//chat_name이라는 이름의 채팅방에서 단어 검색
 		system(grep_string);
-		strcat(grep_count, "-c ");
 		strcat(grep_count, chat_name);
 		printf("검색된 개수 : ");
 		system(grep_count);
