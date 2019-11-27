@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <termio.h>
-#define CLEAR_BUFFER() while(getchar() != '\n')
+#define CLEAR_BUFFER() {int ch; while((ch = getchar()) != EOF && ch != '\n'){}}
 
 int getch(void);
 void main_menu_print(void);
@@ -228,10 +228,10 @@ void refresh(void){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master 2> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master > bin.txt 2> bin.txt");
 
 	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
-	system("git pull origin master 2> bin.txt");
+	system("git pull origin master > bin.txt 2> bin.txt");
 	// system(push_string);
 }
 
@@ -375,9 +375,13 @@ void chatting(char *chatting_file){
 	char name[30], pw[30];
 	char push_string[100] = "git push https://";
 	char chatting_file_string[100] = "./Chatting/";
+	// char echo_msg_string[300] = "echo ";
 	char msg[200];
+	char add_string[100] = "git add ";
 
 	strcat(chatting_file_string, chatting_file);
+	strcat(add_string, chatting_file_string);
+	strcat(add_string, "> bin.txt 2> bin.txt");
 
 	ifp = fopen("./name.txt", "rt");
 	fscanf(ifp, "%s", name);
@@ -389,21 +393,31 @@ void chatting(char *chatting_file){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master 2> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master > bin.txt 2> bin.txt");
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
+	CLEAR_BUFFER();
 	while(1){
-		CLEAR_BUFFER();
 		ch = getch();
-		if (ch == 10){ //'\n' == 10, '\r' == 13
-			//Enter를 통해 채팅 입력
+		if (ch == 10){ //'\n' == 10
+			//refresh_thread 중단 요청
 			printf("보낼 메시지를 입력하세요. (200바이트 이내)\n");
-			//메시지 받고 pull
-			//메시지를 파일에 저장
-			//push 진행 (refresh)
+			scanf("%s", msg);
+			CLEAR_BUFFER();
+			system("git pull origin master > bin.txt 2> bin.txt");
+			ofp = fopen(chatting_file_string, "at");
+			fprintf(ofp, "\n%s", msg);
+			fclose(ofp);
+			// strcat(echo_msg_string, msg);
+			// strcat(echo_msg_string, " >> ");
+			// strcat(echo_msg_string, chatting_file_string);
+			// printf("%s\n", echo_msg_string);
+			system(add_string);
+			system("git commit -a -m 'chatting_test_commit' > bin.txt 2> bin.txt"); //나중에 커밋 메시지 수정 예정
+			system("git pull origin master > bin.txt 2> bin.txt");
+			system(push_string);
 		} else if (ch == 27){ //ESC == 27
-			//채팅 끝
 			pthread_cancel(refresh_thread);
 			return;
 		}
@@ -413,8 +427,8 @@ void *refresh_routine(void *chatting_file_string){
 	FILE *ifp;
 	char ch;
 	while(1){
-		system("clear");
 		refresh();
+		system("clear");
 		if ((ifp = fopen((char *)chatting_file_string, "rt")) == NULL){
 			printf("채팅방이 존재하지 않습니다.");
 			return NULL;
@@ -423,6 +437,8 @@ void *refresh_routine(void *chatting_file_string){
 			putchar(ch);
 		}
 		fclose(ifp);
-		sleep(5);
+		printf("\n-----------채팅 내용----------\n");
+		printf("** 내용을 입력하려면 [Enter] 키를, 이전으로 돌아가려면 [Esc] 키를 눌러주세요.\n");
+		sleep(10);
 	}
 }
