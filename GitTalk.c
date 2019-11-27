@@ -334,7 +334,7 @@ void chatting(char *chatting_file){
 	char name[30], pw[30];
 	char push_string[100] = "git push https://";
 	char chatting_file_string[100] = "./Chatting/";
-	char echo_msg_string[300] = "echo ";
+	// char echo_msg_string[300] = "echo ";
 	char msg[200];
 	char add_string[100] = "git add ";
 
@@ -365,10 +365,13 @@ void chatting(char *chatting_file){
 			scanf("%s", msg);
 			CLEAR_BUFFER();
 			system("git pull origin master");
-			strcat(echo_msg_string, msg);
-			strcat(echo_msg_string, " >> ");
-			strcat(echo_msg_string, chatting_file_string);
-			printf("%s\n", echo_msg_string);
+			ofp = fopen(chatting_file_string, "wt");
+			fprintf(ofp, "\n%s", msg);
+			fclose(ofp);
+			// strcat(echo_msg_string, msg);
+			// strcat(echo_msg_string, " >> ");
+			// strcat(echo_msg_string, chatting_file_string);
+			// printf("%s\n", echo_msg_string);
 			system(add_string);
 			system("git commit -a -m 'chatting_test_commit'"); //나중에 커밋 메시지 수정 예정
 			system("git pull origin master");
