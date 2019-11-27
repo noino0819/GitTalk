@@ -195,11 +195,11 @@ void refresh(void){
 	name_fp = fopen("./name.txt", "rt");
 	pw_fp = fopen("./password.txt", "rt");
 
-	// name.txt 파일이나 password.txt 파일이 없을 때
-	// if (name_fp == NULL || pw_fp == NULL){
-	// 	printf("회원가입이 제대로 진행되지 않았습니다.\n");
-	// 	return;
-	// }
+	//name.txt 파일이나 password.txt 파일이 없을 때
+	if (name_fp == NULL || pw_fp == NULL){
+		printf("회원가입이 제대로 진행되지 않았습니다.\n");
+		return;
+	}
 	fscanf(name_fp, "%s", name);
 	fscanf(pw_fp, "%s", pw);
 	
@@ -212,8 +212,8 @@ void refresh(void){
 	strcat(push_string, "@github.com/noino0819/GitTalk master 2> bin.txt");
 
 	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
-	system("git pull GitTalk master 2> bin.txt");
-	system(push_string);
+	system("git pull origin master 2> bin.txt");
+	// system(push_string);
 }
 
 void make_chatting_room(void){
@@ -317,9 +317,10 @@ void chatting(char *chatting_file){
 	strcat(push_string, pw);
 	strcat(push_string, "@github.com/noino0819/GitTalk master 2> bin.txt");
 
-	pthread_create(&refresh_thread, NULL, refresh_routine, NULL);
+	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
 	while(1){
+		CLEAR_BUFFER();
 		ch = getch();
 		if (ch == 10){ //'\n' == 10, '\r' == 13
 			//Enter를 통해 채팅 입력
@@ -332,16 +333,15 @@ void chatting(char *chatting_file){
 			pthread_cancel(refresh_thread);
 			return;
 		}
-			pthread_cancel(refresh_thread);
 	}
 }
 void *refresh_routine(void *chatting_file_string){
 	FILE *ifp;
 	char ch;
 	while(1){
-		refresh();
 		system("clear");
-		if ((ifp = fopen(chatting_file_string, "rt")) == NULL){
+		refresh();
+		if ((ifp = fopen((char *)chatting_file_string, "rt")) == NULL){
 			printf("채팅방이 존재하지 않습니다.");
 			return NULL;
 		}
@@ -349,6 +349,6 @@ void *refresh_routine(void *chatting_file_string){
 			putchar(ch);
 		}
 		fclose(ifp);
-		sleep(10);
+		sleep(5);
 	}
 }
