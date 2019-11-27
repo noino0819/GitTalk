@@ -355,7 +355,7 @@ void chatting(char *chatting_file){
 			strcat(echo_msg_string, " >> ");
 			strcat(echo_msg_string, chatting_file_string);
 			system(add_string);
-			system("git commit -m 'chatting_commit'"); //나중에 커밋 메시지 수정 예정
+			system("git commit -a -m 'chatting_test_commit'"); //나중에 커밋 메시지 수정 예정
 			system("git pull origin master");
 			system(push_string);
 		} else if (ch == 27){ //ESC == 27
