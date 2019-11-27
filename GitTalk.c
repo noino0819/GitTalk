@@ -297,9 +297,9 @@ void make_chatting_room(void){
 	
 	//미리 검사해서 동일한 이름의 채팅방을 만들지 못하게 막아야됨.
 	system(echo_string2);
-	strcat(echo_remote, chatting_room_name);
-	strcat(echo_remote, " ");
-	strcat(echo_remote, Git_address);
+	strcat(echo_remote, chatting_room_name); //git remote add 채팅방이름
+	strcat(echo_remote, " "); 
+	strcat(echo_remote, Git_address); //git remote add 채팅방이름 주소
 	system(echo_remote);
 
 	printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
@@ -311,20 +311,61 @@ void make_chatting_room(void){
 char* show_list(void){
 	char ls_string[100] = "ls -1 --format=single-column ./Chatting"; //한줄에 한개씩 세로로 출력
 	char* select;
+	char* select2;
+	char select_arr[100] = "";
+	char* nothing = "";
+	char rm_string[50] = "git rm -f ";
+	char remote_rm_string[50] = "git remote rm ";
+	int option;
+	char yn;
 	select = (char*)malloc(sizeof(char)*100);
+	select2 = (char*)malloc(sizeof(char)*100);
 	system("clear");
 	printf("---------- 채팅방 목록 ----------\n");
 	sleep(1);
 	system(ls_string);
-	printf("\n원하는 채팅방의 이름을 입력하세요 : ");
-	scanf("%s", select);
+	printf("옵션을 선택하세요. 1.채팅 시작 2.채팅방 삭제 : ");
+	scanf("%d", &option);
+	CLEAR_BUFFER();
+	if(option == 1){ //채팅시작
+		printf("\n원하는 채팅방의 이름을 입력하세요 : ");
+		scanf("%s", select);
+		CLEAR_BUFFER();
+		//채팅방 이름이 없을 경우를 검사해서 예외처리 해야됨.
+		printf("%s 채팅방이 선택되었습니다.\n", select);
+		sleep(2);
+		system("clear");
+		return select;
+	}
 
-	//채팅방 이름이 없을 경우를 검사해서 예외처리 해야됨.
+	if(option == 2){ //채팅방 삭제
+		printf("\n삭제할 채팅방의 이름을 입력하세요 : ");
+		scanf("%s", select2);
+		CLEAR_BUFFER();
+		strcpy(select_arr, select2);
+		strcat(rm_string, "./Chatting/");
+		strcat(rm_string, select_arr);
+		strcat(remote_rm_string, select_arr);
+		printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", select2);
+		scanf("%c", &yn);
+		if(yn == 'y'){
+			("%s 채팅방을 삭제합니다. \n", select_arr);
+			system(rm_string);
+			system(remote_rm_string);
+			printf("이전메뉴로 돌아갑니다.\n");
+			sleep(2);
+			system("clear");
+			return nothing;
+			
+		}
+		else if(yn == 'n'){
+			("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
+			sleep(2);
+			system("clear");
+			return nothing;
+		}
+	}
 	
-	printf("%s 채팅방이 선택되었습니다.\n", select);
-	sleep(2);
-	system("clear");
-	return select;
 }
 void chatting(char *chatting_file){
 	FILE *ifp, *ofp;
