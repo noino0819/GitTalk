@@ -352,7 +352,7 @@ void chatting(char *chatting_file){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master");
+	strcat(push_string, "@github.com/noino0819/GitTalk master > bin.txt 2> bin.txt");
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
@@ -365,7 +365,7 @@ void chatting(char *chatting_file){
 			scanf("%s", msg);
 			CLEAR_BUFFER();
 			system("git pull origin master");
-			ofp = fopen(chatting_file_string, "wt");
+			ofp = fopen(chatting_file_string, "at");
 			fprintf(ofp, "\n%s", msg);
 			fclose(ofp);
 			// strcat(echo_msg_string, msg);
@@ -373,8 +373,8 @@ void chatting(char *chatting_file){
 			// strcat(echo_msg_string, chatting_file_string);
 			// printf("%s\n", echo_msg_string);
 			system(add_string);
-			system("git commit -a -m 'chatting_test_commit'"); //나중에 커밋 메시지 수정 예정
-			system("git pull origin master");
+			system("git commit -a -m 'chatting_test_commit > bin.txt 2> bin.txt'"); //나중에 커밋 메시지 수정 예정
+			system("git pull origin master > bin.txt 2> bin.txt");
 			system(push_string);
 		} else if (ch == 27){ //ESC == 27
 			pthread_cancel(refresh_thread);
