@@ -364,7 +364,7 @@ void chatting(char *chatting_file){
 			printf("보낼 메시지를 입력하세요. (200바이트 이내)\n");
 			scanf("%s", msg);
 			CLEAR_BUFFER();
-			system("git pull origin master");
+			system("git pull origin master > bin.txt 2> bin.txt");
 			ofp = fopen(chatting_file_string, "at");
 			fprintf(ofp, "\n%s", msg);
 			fclose(ofp);
