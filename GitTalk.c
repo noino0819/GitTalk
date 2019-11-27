@@ -239,16 +239,22 @@ void make_chatting_room(void){
 	char Git_address[100];
 	char echo_remote[100] = "git remote add "; //remote 저장소 이름은 채팅방 이름과 동일.
 	FILE* name_fp;
-	char echo_string2[50] = "echo Chatting/";
+	char echo_string2[50] = "echo  ";
 	char name[30];
 	char chatting_partner[30];
 	char chatting_room_name[50] = "";
 	char echo_chattinglist[100] = "echo ";
+	int option;
 	system("clear");
 	printf("---------- 채팅방 생성 ----------\n");
+	printf("채팅방 옵션을 선택하세요. 1. 개인채팅방 2. 단체채팅방 : ");
+	scanf("%d", &option);
+	
+	
 	printf("채팅방을 업로드 할 github 주소를 입력하세요 : ");
 	scanf("%s", Git_address);
-
+	
+	if(option == 1){
 	printf("대화를 원하는 상대방의 Git아이디를 입력하세요 : ");
 	scanf("%s", chatting_partner);
 
@@ -256,28 +262,39 @@ void make_chatting_room(void){
 	fscanf(name_fp, "%s", name);
 
 	if(strcmp(chatting_partner, name) < 0){//partner_name
-		strcat(echo_string2, ">");
-		strcat(echo_string2, chatting_partner);
-		strcat(echo_string2, "_");
-		strcat(echo_string2, name);
-
+		strcat(echo_string2, ">"); //echo  >
+		strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
+		strcat(echo_string2, chatting_partner); //echo  >./Chatting/chatting_partner
+		strcat(echo_string2, "_"); //echo >./Chatting/chatting_partner_
+		strcat(echo_string2, name); //echo >./Chatting/chatting_partner_name
+		
 		strcat(chatting_room_name, chatting_partner);
 		strcat(chatting_room_name, "_");
-		strcat(chatting_room_name, name);
+		strcat(chatting_room_name, name); //chatting_room_name = chatting_partner_name
 	}
 	else if(strcmp(chatting_partner, name) > 0){//name_partner
-		strcat(echo_string2, ">");
-		strcat(echo_string2, name);
-		strcat(echo_string2, "_");
-		strcat(echo_string2, chatting_partner);
+		strcat(echo_string2, ">"); //echo  >
+		strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
+		strcat(echo_string2, name); //echo  >./Chatting/name
+		strcat(echo_string2, "_"); //echo  >./Chatting/name_
+		strcat(echo_string2, chatting_partner); //echo  >./Chatting/name_chatting_partner
 
 		strcat(chatting_room_name, name);
 		strcat(chatting_room_name, "_");
-		strcat(chatting_room_name, chatting_partner);
+		strcat(chatting_room_name, chatting_partner);//chatting_room_name = name_chatting_partner
 	}
 	else{
 		printf("자신과의 대화");
 	}
+	}
+	else if(option == 2){
+		printf("생성할 채팅방의 이름을 입력하세요 : ");
+		scanf("%s", chatting_room_name);
+		strcat(echo_string2, ">"); //echo  >
+		strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
+		strcat(echo_string2, chatting_room_name); //echo  >./Chatting/chatting_room_name
+	}
+	
 	//미리 검사해서 동일한 이름의 채팅방을 만들지 못하게 막아야됨.
 	system(echo_string2);
 	strcat(echo_remote, chatting_room_name);
@@ -285,23 +302,20 @@ void make_chatting_room(void){
 	strcat(echo_remote, Git_address);
 	system(echo_remote);
 
-	strcat(echo_chattinglist, chatting_room_name);
-	strcat(echo_chattinglist, ">>");
-	strcat(echo_chattinglist, "chattinglist");
-	system(echo_chattinglist);
 	printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
 	printf("채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
-	sleep(30);
+	sleep(2);
 	system("clear");
+	
 }
 char* show_list(void){
-	char cat[100] = "cat chattinglist";
+	char ls_string[100] = "ls -1 --format=single-column ./Chatting"; //한줄에 한개씩 세로로 출력
 	char* select;
 	select = (char*)malloc(sizeof(char)*100);
 	system("clear");
 	printf("---------- 채팅방 목록 ----------\n");
 	sleep(1);
-	system(cat);
+	system(ls_string);
 	printf("\n원하는 채팅방의 이름을 입력하세요 : ");
 	scanf("%s", select);
 
