@@ -114,32 +114,51 @@ void chatting_menu(void){
 void sign_up(void){
 	char echo_string_ID[50] = "echo ";
 	char echo_string_PW[50] = "echo ";
-	char string[30];
+	char ID[30];
+	char PW[30];
+	char string_push[100] = "git push https://";
+	char check_string[100] = "";
+	char check_compare[100] = "remote: Invalid username or password.\n";
+	FILE *pFile;
 	system("clear");
 	printf("---------- GitTalk 회원가입 ----------\n");	
 	printf("Github 아이디를 입력하세요 : ");
-	scanf("%s", string);
+	scanf("%s", ID);
 	CLEAR_BUFFER();
-	strcat(echo_string_ID, string);
-	strcat(echo_string_ID, ">");
-	strcat(echo_string_ID, "name.txt");
-	system(echo_string_ID);
-	
-	printf("Github 비밀번호를 입력하세요 : ");
-	scanf("%s", string);
-	CLEAR_BUFFER();
-	strcat(echo_string_PW, string);
-	strcat(echo_string_PW, ">");
-	strcat(echo_string_PW, "password.txt");
-	system(echo_string_PW);
-	
 
-	// github의 유효한 ID인지 확인절차 필요.
-	
+	printf("Github 비밀번호를 입력하세요 : ");
+	scanf("%s", PW);
+	CLEAR_BUFFER();
+
+	strcat(string_push, ID); //git push https://ID
+	strcat(string_push, ":"); //git push https://ID:
+	strcat(string_push, PW); //git push https://name:PW
+	strcat(string_push, "@github.com/noino0819/GitTalk_Test master 2> check.txt");
+	system(string_push);
+
+	pFile = fopen("check.txt", "r");
+	fgets(check_string, 100, pFile);
+	if(strcmp(check_string, check_compare) == 0){ //유효한 ID가 아닐 경우	
+		printf("유효한 ID와 비밀번호가 아닙니다.\n");
+		printf("이전메뉴로 돌아갑니다.\n");
+		sleep(2);
+		system("clear");
+	}
+	else{
+	strcat(echo_string_ID, ID); //echo ID 
+	strcat(echo_string_ID, ">"); //echo ID>
+	strcat(echo_string_ID, "name.txt"); //echo ID>name.txt
+	system(echo_string_ID);
+	strcat(echo_string_PW, PW); //echo PW
+	strcat(echo_string_PW, ">"); //echo PW>
+	strcat(echo_string_PW, "password.txt"); //echo PW>password.txt
+	system(echo_string_PW);
+
 	printf("회원가입 성공!\n");
 	printf("이전 메뉴로 돌아갑니다.\n");
 	sleep(2);
 	system("clear");
+	}
 }
 		
 int log_in(void){
@@ -272,7 +291,7 @@ void make_chatting_room(void){
 	system(echo_chattinglist);
 	printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
 	printf("채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
-	sleep(2);
+	sleep(30);
 	system("clear");
 }
 char* show_list(void){
