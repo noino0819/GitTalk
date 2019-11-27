@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <termio.h>
-#define CLEAR_BUFFER() while(getchar() != '\n')
+#define CLEAR_BUFFER() {int ch; while((ch = getchar()) != EOF && ch != '\n'){}}
 
 int getch(void);
 void main_menu_print(void);
@@ -352,12 +352,12 @@ void chatting(char *chatting_file){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master > bin.txt 2> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master");
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
+	CLEAR_BUFFER();
 	while(1){
-		CLEAR_BUFFER();
 		ch = getch();
 		if (ch == 10){ //'\n' == 10
 			//refresh_thread 중단 요청
