@@ -420,13 +420,17 @@ void chatting(char *chatting_file){
 			strcat(total_msg, msg);			
 			CLEAR_BUFFER();
 			system("git pull origin master > bin.txt 2> bin.txt");
+			printf("git pull 실행 중...\n");
 			ofp = fopen(chatting_file_string, "at");
 			fprintf(ofp, "\n%s", total_msg);
 			fclose(ofp);
 			system(add_string);
 			system("git commit -a -m 'chatting_test_commit' > bin.txt 2> bin.txt"); //나중에 커밋 메시지 수정 예정
+			printf("git commit 실행 중...\n");
 			system("git pull origin master > bin.txt 2> bin.txt");
+			printf("git pull 실행 중...\n");
 			system(push_string);
+			printf("git push 실행 중...\n");
 			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
 			sleep(1);
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
