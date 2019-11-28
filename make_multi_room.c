@@ -43,11 +43,7 @@ void make_multi_room(int num)
 				printf("%d번째 참여자 >>", num);
 				scanf("%s", chatting_partner[i]);	//직접 쓰지는 않았지만 우선 톡방 chatting_partner들의 깃허브 주소들을 받아두었습니다.
 		}
-		printf("채팅방 이름을 적으시오.\n");
-		scanf("%s", chatting_title);
-		strcat(echo_string, chatting_title);
-		printf("%s\n", echo_string);
-		system(echo_string);
+		overlap_title_check();	 //overlap.c의 함수, 톡방이름이 겹치는지 확인 후 톡방 생성 
 
 		char* ptr = strtok(echo_string, " ");
 		ptr = strtok(NULL, " ");
