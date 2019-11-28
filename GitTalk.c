@@ -428,7 +428,7 @@ void chatting(char *chatting_file){
 			system("git pull origin master > bin.txt 2> bin.txt");
 			system(push_string);
 			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
-			sleep(2);
+			sleep(1);
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 		} else if (ch == 27){ //ESC == 27
 			pthread_cancel(refresh_thread);
@@ -452,6 +452,6 @@ void *refresh_routine(void *chatting_file_string){
 		fclose(ifp);
 		printf("\n-----------채팅 내용----------\n");
 		printf("** 내용을 입력하려면 [Enter] 키를, 이전으로 돌아가려면 [Esc] 키를 눌러주세요.\n");
-		sleep(15);
+		sleep(12);
 	}
 }
