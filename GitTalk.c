@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 #include <pthread.h>
 #include <termio.h>
 #define CLEAR_BUFFER() {int ch; while((ch = getchar()) != EOF && ch != '\n'){}}
@@ -329,13 +330,16 @@ char* show_list(void){
 void chatting(char *chatting_file){
 	FILE *ifp, *ofp;
 	pthread_t refresh_thread;
-	char ch;
-	char *chatting_content;
+	struct tm* tm_ptr;
+	time_t timer;
+
+	char ch
+	char* AM_PM[2] = {"오전", "오후"};
 	char name[30], pw[30];
 	char push_string[100] = "git push https://";
 	char chatting_file_string[100] = "./Chatting/";
-	// char echo_msg_string[300] = "echo ";
 	char msg[200];
+	char total_msg[300];
 	char add_string[100] = "git add ";
 
 	strcat(chatting_file_string, chatting_file);
@@ -360,22 +364,45 @@ void chatting(char *chatting_file){
 	while(1){
 		ch = getch();
 		if (ch == 10){ //'\n' == 10
-			//refresh_thread 중단 요청
+			pthread_cancel(refresh_routine);
+			strcpy(total_msg, "[");
+			strcat(total_msg, name);
+			strcat(total_msg, "] [");
 			printf("보낼 메시지를 입력하세요. (200바이트 이내)\n");
-			scanf("%s", msg);
+			scanf("%[^\n]", msg);
+			timer = time(NULL);
+			tm_ptr = localtime(&timer);
+			if (tm_ptr -> tm_hour > 12){ //오후
+				strcat(total_msg, AM_PM[1]);
+				strcat(total_msg, " ");
+				strcat(total_msg, tm_ptr -> tm_hour - 12);
+				strcat(total_msg, ":");
+			} else if (tm_ptr -> tm_hour == 12){ //오후 12시
+				strcat(total_msg, AM_PM[1]);
+				strcat(total_msg, " ");
+				strcat(total_msg, tm_ptr -> tm_hour);
+				strcat(total_msg, ":");
+			} else { //오전
+				strcat(total_msg, AM_PM[0]);
+				strcat(total_msg, " ");
+				strcat(total_msg, tm_ptr -> tm_hour);
+				strcat(total_msg, ":");
+			}
+			strcat(total_msg, tm_ptr -> tm_min);
+			strcat(total_msg, "] ");
+			strcat(total_msg, msg);			
 			CLEAR_BUFFER();
 			system("git pull origin master > bin.txt 2> bin.txt");
 			ofp = fopen(chatting_file_string, "at");
-			fprintf(ofp, "\n%s", msg);
+			fprintf(ofp, "\n%s", total_msg);
 			fclose(ofp);
-			// strcat(echo_msg_string, msg);
-			// strcat(echo_msg_string, " >> ");
-			// strcat(echo_msg_string, chatting_file_string);
-			// printf("%s\n", echo_msg_string);
 			system(add_string);
 			system("git commit -a -m 'chatting_test_commit' > bin.txt 2> bin.txt"); //나중에 커밋 메시지 수정 예정
 			system("git pull origin master > bin.txt 2> bin.txt");
 			system(push_string);
+			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
+			sleep(2);
+			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 		} else if (ch == 27){ //ESC == 27
 			pthread_cancel(refresh_thread);
 			return;
@@ -398,6 +425,6 @@ void *refresh_routine(void *chatting_file_string){
 		fclose(ifp);
 		printf("\n-----------채팅 내용----------\n");
 		printf("** 내용을 입력하려면 [Enter] 키를, 이전으로 돌아가려면 [Esc] 키를 눌러주세요.\n");
-		sleep(10);
+		sleep(15);
 	}
 }
