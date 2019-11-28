@@ -349,6 +349,7 @@ char* show_list(void){
 		strcat(remote_rm_string, select_arr);
 		printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", select2);
 		scanf("%c", &yn);
+		CLEAR_BUFFER();
 		if(yn == 'y'){
 			("%s 채팅방을 삭제합니다. \n", select_arr);
 			system(rm_string);
@@ -401,7 +402,6 @@ void chatting(char *chatting_file){
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
-	CLEAR_BUFFER();
 	while(1){
 		ch = getch();
 		if (ch == 10){ //'\n' == 10
@@ -411,11 +411,23 @@ void chatting(char *chatting_file){
 			timer = time(NULL);
 			tm_ptr = localtime(&timer);
 			if (tm_ptr -> tm_hour > 12){ //오후
-				sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
+				if (tm_ptr -> tm_min < 10){
+					sprintf(total_msg, "[%s] [%s %d:0%d] ", name, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
+				} else {	
+					sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
+				}
 			} else if (tm_ptr -> tm_hour == 12){ //오후 12시
-				sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[1], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+				if (tm_ptr -> tm_min < 10){
+					sprintf(total_msg, "[%s] [%s %d:0%d] ", name, AM_PM[1], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+				} else {
+					sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[1], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+				}
 			} else { //오전
-				sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[0], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+				if (tm_ptr -> tm_min < 10){
+					sprintf(total_msg, "[%s] [%s %d:0%d] ", name, AM_PM[0], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+				} else {
+					sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[0], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+				}
 			}
 			strcat(total_msg, msg);			
 			CLEAR_BUFFER();
