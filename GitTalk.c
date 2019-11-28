@@ -374,7 +374,7 @@ void chatting(char *chatting_file){
 	struct tm* tm_ptr;
 	time_t timer;
 
-	char ch
+	char ch;
 	char* AM_PM[2] = {"오전", "오후"};
 	char name[30], pw[30];
 	char push_string[100] = "git push https://";
@@ -405,32 +405,18 @@ void chatting(char *chatting_file){
 	while(1){
 		ch = getch();
 		if (ch == 10){ //'\n' == 10
-			pthread_cancel(refresh_routine);
-			strcpy(total_msg, "[");
-			strcat(total_msg, name);
-			strcat(total_msg, "] [");
+			pthread_cancel(refresh_thread);
 			printf("보낼 메시지를 입력하세요. (200바이트 이내)\n");
 			scanf("%[^\n]", msg);
 			timer = time(NULL);
 			tm_ptr = localtime(&timer);
 			if (tm_ptr -> tm_hour > 12){ //오후
-				strcat(total_msg, AM_PM[1]);
-				strcat(total_msg, " ");
-				strcat(total_msg, tm_ptr -> tm_hour - 12);
-				strcat(total_msg, ":");
+				sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
 			} else if (tm_ptr -> tm_hour == 12){ //오후 12시
-				strcat(total_msg, AM_PM[1]);
-				strcat(total_msg, " ");
-				strcat(total_msg, tm_ptr -> tm_hour);
-				strcat(total_msg, ":");
+				sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[1], tm_ptr -> tm_hour, tm_ptr -> tm_min);
 			} else { //오전
-				strcat(total_msg, AM_PM[0]);
-				strcat(total_msg, " ");
-				strcat(total_msg, tm_ptr -> tm_hour);
-				strcat(total_msg, ":");
+				sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[0], tm_ptr -> tm_hour, tm_ptr -> tm_min);
 			}
-			strcat(total_msg, tm_ptr -> tm_min);
-			strcat(total_msg, "] ");
 			strcat(total_msg, msg);			
 			CLEAR_BUFFER();
 			system("git pull origin master > bin.txt 2> bin.txt");
