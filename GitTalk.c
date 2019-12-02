@@ -412,21 +412,21 @@ void chatting(char *chatting_file){
 			tm_ptr = localtime(&timer);
 			if (tm_ptr -> tm_hour > 12){ //오후
 				if (tm_ptr -> tm_min < 10){
-					sprintf(total_msg, "[%s] [%s %d:0%d] ", name, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
+					sprintf(total_msg, "[%s] [%d/%d %s %d:0%d] ", name, tm_ptr -> tm_mon, tm_ptr -> tm_mday, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
 				} else {	
-					sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
+					sprintf(total_msg, "[%s] [%d/%d %s %d:%d] ", name, tm_ptr -> tm_mon, tm_ptr -> tm_mday, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
 				}
 			} else if (tm_ptr -> tm_hour == 12){ //오후 12시
 				if (tm_ptr -> tm_min < 10){
-					sprintf(total_msg, "[%s] [%s %d:0%d] ", name, AM_PM[1], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+					sprintf(total_msg, "[%s] [%d/%d %s %d:0%d] ", name, tm_ptr -> tm_mon, tm_ptr -> tm_mday, AM_PM[1], tm_ptr -> tm_hour, tm_ptr -> tm_min);
 				} else {
-					sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[1], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+					sprintf(total_msg, "[%s] [%d/%d %s %d:%d] ", name, tm_ptr -> tm_mon, tm_ptr -> tm_mday, tm_ptr -> tm_hour, tm_ptr -> tm_min);
 				}
 			} else { //오전
 				if (tm_ptr -> tm_min < 10){
-					sprintf(total_msg, "[%s] [%s %d:0%d] ", name, AM_PM[0], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+					sprintf(total_msg, "[%s] [%d/%d %s %d:0%d] ", name, tm_ptr -> tm_mon, tm_ptr -> tm_mday, AM_PM[0], tm_ptr -> tm_hour, tm_ptr -> tm_min);
 				} else {
-					sprintf(total_msg, "[%s] [%s %d:%d] ", name, AM_PM[0], tm_ptr -> tm_hour, tm_ptr -> tm_min);
+					sprintf(total_msg, "[%s] [%d/%d %s %d:%d] ", name, tm_ptr -> tm_mon, tm_ptr -> tm_mday, AM_PM[0], tm_ptr -> tm_hour, tm_ptr -> tm_min);
 				}
 			}
 			strcat(total_msg, msg);			
