@@ -6,14 +6,15 @@ struct chatting_list{
 	char chatting_room[100];
 	int unread;
 	bool is_it_multi_room;
-}list[100];
+};
 int main(){
 	FILE *chatting_fp;
+	struct chatting_list list[100];
 	char chatting_room[100];
 	int unread;
-	bool is_it_multi_room;
+	int is_it_multi_room;
 	
-	fopen("./chatting_list.txt","rt");
+	chatting_fp = fopen("./chatting_list.txt","rt");
 	int i = 0;
 	while(fscanf(chatting_fp, "%s%d%d",
 	chatting_room, &unread, &is_it_multi_room) != EOF){
@@ -22,6 +23,6 @@ int main(){
 		list[i].is_it_multi_room = is_it_multi_room;
 		i++; 
 	}
-	for(i=0;i<2;i++)
-	printf("%s %d %d\n",list[i].chatting_room , list[i].unread, list[i].is_it_multi_room);
+	for(i=0;i<3;i++)
+		printf("%s %d %d\n", list[i].chatting_room, list[i].unread, list[i].is_it_multi_room);
 }
