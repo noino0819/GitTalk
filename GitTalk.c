@@ -464,6 +464,7 @@ void chatting(char *chatting_file){
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 		} else if (ch == 27){ //ESC == 27
 			pthread_cancel(refresh_thread);
+			CLEAR_BUFFER();
 			return;
 		}
 	}
