@@ -20,6 +20,8 @@ void *refresh_routine(void *);
 char* show_list(void);
 int getch(void);
 void password_look_star(char[]);
+void scanf_int(int*, int, int);
+void scanf_str(char*);
 
 int main(){
 	system("clear");
@@ -58,9 +60,9 @@ void main_menu(void){
 	int num, exit_code;
 	while(1){
 		main_menu_print();
-		scanf("%d", &num);
-		CLEAR_BUFFER();
-		switch(num){case 1:
+		scanf_int(&num, 1, 3);
+		switch(num){
+			case 1:
 				sign_up();
 				break;
 			case 2:
@@ -73,10 +75,10 @@ void main_menu(void){
 			case 3:
 				exit(0);
 				break;
-			default :
-				printf("잘못된 번호입니다. 다시 입력하세요.");
-				sleep(2);
-				system("clear");
+			// default :
+			// 	printf("잘못된 번호입니다. 다시 입력하세요.");
+			// 	sleep(2);
+			// 	system("clear");
 		}
 	}
 }
@@ -105,10 +107,10 @@ void chatting_menu(void){
 	fscanf(name_fp,"%s",name);
 	fclose(name_fp);
 	int num;
+
 	while(1){
 		chatting_menu_print();
-		scanf("%d", &num);
-		CLEAR_BUFFER();
+		scanf_int(&num, 1, 3);
 		switch(num){
 			// 채팅방 등록 
 			case 1:
@@ -146,12 +148,10 @@ void sign_up(void){
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");	
 	printf(" Github 아이디를 입력하세요 : ");
-	scanf("%s", ID);
-	CLEAR_BUFFER();
+	scanf_str(ID);
 
 	printf(" Github 비밀번호를 입력하세요 : ");
-	scanf("%s", PW);
-	CLEAR_BUFFER();
+	scanf_str(PW);
 
 	strcat(string_push, ID); //git push https://ID
 	strcat(string_push, ":"); //git push https://ID:
@@ -228,7 +228,7 @@ int log_in(void){
 		return 0;
 	}
 
-	printf("\n로그인이 완료되었습니다.\n");
+	printf("\n\n로그인이 완료되었습니다.\n");
 	printf("GitTalk을 시작합니다.\n");
 	sleep(1);
 	system("clear");
@@ -284,14 +284,14 @@ void make_chatting_room(void){
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	printf(" 채팅방 옵션을 선택하세요. (1. 개인채팅방 2. 단체채팅방) : ");
-	scanf("%d", &option);
+	scanf_int(&option, 1, 2);
 	
 	printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
-	scanf("%s", Git_address);
+	scanf_str(Git_address);
 	
 	if(option == 1){
 		printf("대화를 원하는 상대방의 Git아이디를 입력하세요 : ");
-		scanf("%s", chatting_partner);
+		scanf_str(chatting_partner);
 
 		name_fp = fopen("./name.txt", "rt");
 		fscanf(name_fp, "%s", name);
@@ -324,7 +324,7 @@ void make_chatting_room(void){
 	}
 	else if(option == 2){
 		printf("생성할 채팅방의 이름을 입력하세요 : ");
-		scanf("%s", chatting_room_name);
+		scanf_str(chatting_room_name);
 		strcat(echo_string2, ">"); //echo  >
 		strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
 		strcat(echo_string2, chatting_room_name); //echo  >./Chatting/chatting_room_name
@@ -361,16 +361,13 @@ char* show_list(void){
 	printf("│                                 채팅방 목록                                 │\n");
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
-	sleep(1);
 	putchar('\n');
 	system(ls_string);
 	printf("\n옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제 3. 이전으로 돌아가기) : ");
-	scanf("%d", &option);
-	CLEAR_BUFFER();
+	scanf_int(&option, 1, 3);
 	if(option == 1){ //채팅시작
 		printf("\n원하는 채팅방의 이름을 입력하세요 : ");
-		scanf("%s", select);
-		CLEAR_BUFFER();
+		scanf_str(select);
 		//채팅방 이름이 없을 경우를 검사해서 예외처리 해야됨.
 		printf("%s 채팅방이 선택되었습니다.\n", select);
 		sleep(2);
@@ -380,8 +377,7 @@ char* show_list(void){
 
 	if(option == 2){ //채팅방 삭제
 		printf("\n삭제할 채팅방의 이름을 입력하세요 : ");
-		scanf("%s", select2);
-		CLEAR_BUFFER();
+		scanf_str(select2);
 		strcpy(select_arr, select2);
 		strcat(rm_string, "./Chatting/");
 		strcat(rm_string, select_arr);
@@ -397,7 +393,6 @@ char* show_list(void){
 			sleep(2);
 			system("clear");
 			return nothing;
-			
 		}
 		else if(yn == 'n'){
 			("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
@@ -408,8 +403,7 @@ char* show_list(void){
 	}
 	if(option == 3){ //이전으로 돌아가기
 		return nothing;
-	}
-	
+	}	
 }
 void chatting(char *chatting_file){
 	FILE *ifp, *ofp;
@@ -456,6 +450,7 @@ void chatting(char *chatting_file){
 			pthread_cancel(refresh_thread);
 			printf("보낼 메시지를 입력하세요. (200바이트 이내)\n");
 			scanf("%[^\n]", msg);
+			CLEAR_BUFFER();
 			timer = time(NULL);
 			tm_ptr = localtime(&timer);
 			if (tm_ptr -> tm_hour > 12){ //오후
@@ -478,7 +473,6 @@ void chatting(char *chatting_file){
 				}
 			}
 			strcat(total_msg, msg);			
-			CLEAR_BUFFER();
 			system("git pull origin master > bin.txt 2> bin.txt");
 			printf("git pull 실행 중...\n");
 			ofp = fopen(chatting_file_string, "at");
@@ -496,7 +490,9 @@ void chatting(char *chatting_file){
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 		} else if (ch == 27){ //ESC == 27
 			pthread_cancel(refresh_thread);
-			CLEAR_BUFFER();
+			printf("이전 메뉴로 돌아갑니다.\n");
+			sleep(1);
+			system("clear");
 			return;
 		}
 	}
@@ -515,12 +511,11 @@ void *refresh_routine(void *chatting_file_string){
 			putchar(ch);
 		}
 		fclose(ifp);
-		printf("\n-----------채팅 내용----------\n");
+		printf("\n────────────────────────────────────채팅 내용────────────────────────────────────\n");
 		printf("** 내용을 입력하려면 [Enter] 키를, 이전으로 돌아가려면 [Esc] 키를 눌러주세요.\n");
 		sleep(12);
 	}
 }
-
 
 void password_look_star(char password[30]){
 	int i = 0;
@@ -539,3 +534,20 @@ void password_look_star(char password[30]){
 		printf("*");
 	}
 }
+
+/* start_range <= int값 <= end_range일 때까지 입력하게 해주는 입력 함수 */
+void scanf_int(int* ap, int start_range, int end_range){
+	scanf("%d", ap);
+	CLEAR_BUFFER();
+	while (*ap < start_range || *ap > end_range){
+		printf("\n잘못된 값을 입력했습니다. %d부터 %d까지의 값을 입력해주세요.\n", start_range, end_range);
+		printf("번호를 선택하세요 : ");
+		scanf("%d", ap);
+		CLEAR_BUFFER();
+	}
+}
+void scanf_str(char* ap){
+	scanf("%s", ap);
+	CLEAR_BUFFER();
+}
+
