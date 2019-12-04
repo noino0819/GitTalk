@@ -288,7 +288,7 @@ void make_chatting_room(void){
 	list_fp = fopen("./chatting_list.txt","rt");
 	int list_num = 0;
 	char slash;
-	while(fscanf("%c",&slash) != EOF)
+	while(fscanf(list_fp, "%c",&slash) != EOF)
 		if(slash == '\\') list_num++;
 	list_num++;
 	fclose(list_fp);
@@ -344,7 +344,7 @@ void make_chatting_room(void){
 		strcpy(list[list_num].chatting_room, chatting_room_name);
 		list[list_num].unread = 0;
 		list[list_num].individual_or_group = option;
-		list[list_num].key = 0;			// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
+		list[list_num].key = {0000000000};			// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
 		fprintf(list_fp, "%s %d %d %s;\n",
 				list[list_num].chatting_room,
 				list[list_num].unread,
