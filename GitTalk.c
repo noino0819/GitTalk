@@ -285,7 +285,10 @@ void make_chatting_room(void){
 	}list[100];				// 채팅방 리스트 100개 까지 
 	FILE *list_fp;
 	
-	list_fp = fopen("./chatting_list.txt","rt");
+	if((list_fp = fopen("./chatting_list.txt","rt")) == NULL){
+		system("touch chatting_list.txt");
+		list_fp = fopen("./chatting_list.txt","rt");
+	}
 	int list_num = 0;
 	char slash;
 	while(fscanf(list_fp, "%c",&slash) != EOF)
@@ -350,6 +353,7 @@ void make_chatting_room(void){
 				list[list_num].unread,
 				list[list_num].individual_or_group,
 				list[list_num].key);
+		fclose(list_fp);
 		//chatting_list
 		
 	}
