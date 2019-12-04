@@ -51,7 +51,7 @@ void main_menu_print(void){
 	printf("│                                3. 프로그램 종료                             │\n");
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
-	printf("번호를 선택하세요 : ");
+	printf(" 번호를 선택하세요 : ");
 }
 void main_menu(void){
 	int num, exit_code;
@@ -91,7 +91,7 @@ void chatting_menu_print(void){
 	printf("│                                3. 로그아웃                                  │\n");
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
-	printf("\n 번호를 선택하세요 : ");
+	printf(" 번호를 선택하세요 : ");
 }
 void chatting_menu(void){
 	FILE *name_fp;
@@ -139,12 +139,16 @@ void sign_up(void){
 	FILE *pFile;
 	
 	system("clear");
-	printf("---------- GitTalk 회원가입 ----------\n");	
-	printf("Github 아이디를 입력하세요 : ");
+	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
+	printf("│                                                                             │\n");
+	printf("│                               GitTalk 회원가입                              │\n");
+	printf("│                                                                             │\n");
+	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");	
+	printf(" Github 아이디를 입력하세요 : ");
 	scanf("%s", ID);
 	CLEAR_BUFFER();
 
-	printf("Github 비밀번호를 입력하세요 : ");
+	printf(" Github 비밀번호를 입력하세요 : ");
 	scanf("%s", PW);
 	CLEAR_BUFFER();
 
@@ -197,8 +201,12 @@ int log_in(void){
 
 	/* 로그인을 다시 진행해야할 경우 오류 코드 0을 return하고 함수 종료 */
 	system("clear");
-	printf("---------- GitTalk 로그인 ----------\n");
-	printf("Github 아이디를 입력하세요 : ");
+	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
+	printf("│                                                                             │\n");
+	printf("│                               GitTalk 로그인                                │\n");
+	printf("│                                                                             │\n");
+	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
+	printf(" Github 아이디를 입력하세요 : ");
 	scanf("%s", string);
 	CLEAR_BUFFER();
 	fscanf(id_fp, "%s", string_from_file);
@@ -206,7 +214,7 @@ int log_in(void){
 		printf("ID가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
 		return 0;
 	}
-	printf("Github 비밀번호를 입력하세요 : ");
+	printf(" Github 비밀번호를 입력하세요 : ");
 	scanf("%s", string);
 	CLEAR_BUFFER();
 	fscanf(pw_fp, "%s", string_from_file);
@@ -215,9 +223,9 @@ int log_in(void){
 		return 0;
 	}
 
-	printf("로그인이 완료되었습니다.\n");
+	printf("\n로그인이 완료되었습니다.\n");
 	printf("GitTalk을 시작합니다.\n");
-	sleep(2);
+	sleep(1);
 	system("clear");
 
 	/* 성공적으로 로그인하였을 경우 1을 return하고 함수 종료 */
@@ -339,10 +347,15 @@ char* show_list(void){
 	select = (char*)malloc(sizeof(char)*100);
 	select2 = (char*)malloc(sizeof(char)*100);
 	system("clear");
-	printf("---------- 채팅방 목록 ----------\n");
+	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
+	printf("│                                                                             │\n");
+	printf("│                                 채팅방 목록                                 │\n");
+	printf("│                                                                             │\n");
+	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	sleep(1);
+	putchar('\n');
 	system(ls_string);
-	printf("옵션을 선택하세요. 1.채팅 시작 2.채팅방 삭제 : ");
+	printf("\n옵션을 선택해주세요.\n1. 채팅 시작 2. 채팅방 삭제 : ");
 	scanf("%d", &option);
 	CLEAR_BUFFER();
 	if(option == 1){ //채팅시작
