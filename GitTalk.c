@@ -518,7 +518,7 @@ void *refresh_routine(void *chatting_file_string){
 		fclose(ifp);
 		printf("\n────────────────────────────────────채팅 내용────────────────────────────────────\n");
 		printf("** 내용을 입력하려면 [Enter] 키를, 이전으로 돌아가려면 [Esc] 키를 눌러주세요.\n");
-		sleep(12);
+		sleep(5);
 	}
 }
 
