@@ -23,7 +23,7 @@ void password_look_star(char[]);
 int overlap_title_check(char[]);
 void scanf_int(int*, int, int);
 void scanf_str(char*);
-void scan_char(char*, char, char);
+void scanf_char(char*, char, char);
 
 int main(){
 	system("clear");
@@ -210,10 +210,10 @@ int log_in(void){
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	printf(" Github 아이디를 입력하세요 : ");
-	scanf(string);
+	scanf_str(string);
 	fscanf(id_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
-		printf("ID가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
+		printf("\nID가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
 		sleep(1);
 		system("clear");
 		return 0;
@@ -222,7 +222,7 @@ int log_in(void){
 	password_look_star(string);
 	fscanf(pw_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
-		printf("비밀번호가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
+		printf("\n비밀번호가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
 		sleep(1);
 		system("clear");
 		return 0;
@@ -387,7 +387,7 @@ char* show_list(void){
 		strcat(rm_string, select_arr);
 		strcat(remote_rm_string, select_arr);
 		printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", select2);
-		scan_char(&yn, y, n);
+		scanf_char(&yn, 'y', 'n');
 		if(yn == 'y'){
 			("%s 채팅방을 삭제합니다. \n", select_arr);
 			system(rm_string);
@@ -526,10 +526,17 @@ void password_look_star(char password[30]){
 	int i = 0;
 	
 	while(1){
-		password [i] = getch();
+		password[i] = getch();
 		if(password[i] == '\n'){
 			password[i] = '\0';
 			break;
+		} else if(password[i] == 127 || password[i] == 8){
+			password[i] = '\0';
+			if (i != 0){
+				i--;
+				printf("\b \b");
+			}
+			continue;
 		}
 		if(i == 29){
 			printf("비밀번호 제한을 초과하셨습니다.");
