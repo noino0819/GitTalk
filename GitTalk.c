@@ -212,6 +212,8 @@ int log_in(void){
 	fscanf(id_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
 		printf("ID가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
+		sleep(1);
+		system("clear");
 		return 0;
 	}
 	printf(" Github 비밀번호를 입력하세요 : ");
@@ -220,6 +222,8 @@ int log_in(void){
 	fscanf(pw_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
 		printf("비밀번호가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
+		sleep(1);
+		system("clear");
 		return 0;
 	}
 
@@ -273,11 +277,15 @@ void make_chatting_room(void){
 	int option;
 
 	system("clear");
-	printf("---------- 채팅방 생성 ----------\n");
-	printf("채팅방 옵션을 선택하세요. 1. 개인채팅방 2. 단체채팅방 : ");
+	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
+	printf("│                                                                             │\n");
+	printf("│                                 채팅방 생성                                 │\n");
+	printf("│                                                                             │\n");
+	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
+	printf(" 채팅방 옵션을 선택하세요. (1. 개인채팅방 2. 단체채팅방) : ");
 	scanf("%d", &option);
 	
-	printf("채팅방을 업로드 할 github 주소를 입력하세요 : ");
+	printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
 	scanf("%s", Git_address);
 	
 	if(option == 1){
@@ -355,7 +363,7 @@ char* show_list(void){
 	sleep(1);
 	putchar('\n');
 	system(ls_string);
-	printf("\n옵션을 선택해주세요.\n1. 채팅 시작 2. 채팅방 삭제 : ");
+	printf("\n옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제) : ");
 	scanf("%d", &option);
 	CLEAR_BUFFER();
 	if(option == 1){ //채팅시작
