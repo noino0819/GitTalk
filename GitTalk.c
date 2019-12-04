@@ -7,7 +7,6 @@
 #include <termio.h>
 #define CLEAR_BUFFER() {int ch; while((ch = getchar()) != EOF && ch != '\n'){}}
 
-int getch(void);
 void main_menu_print(void);
 void main_menu(void);
 void chatting_menu_print(void);
@@ -19,6 +18,8 @@ void make_chatting_room(void);
 void chatting(char *);
 void *refresh_routine(void *);
 char* show_list(void);
+int getch(void);
+void password_look_star(char[]);
 
 int main(){
 	system("clear");
@@ -215,8 +216,8 @@ int log_in(void){
 		return 0;
 	}
 	printf(" Github 비밀번호를 입력하세요 : ");
-	scanf("%s", string);
-	CLEAR_BUFFER();
+	password_look_star(string);
+	//scanf("%s", string);
 	fscanf(pw_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
 		printf("비밀번호가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
@@ -500,5 +501,24 @@ void *refresh_routine(void *chatting_file_string){
 		printf("\n-----------채팅 내용----------\n");
 		printf("** 내용을 입력하려면 [Enter] 키를, 이전으로 돌아가려면 [Esc] 키를 눌러주세요.\n");
 		sleep(12);
+	}
+}
+
+
+void password_look_star(char password[30]){
+	int i = 0;
+	
+	while(1){
+		password [i] = getch();
+		if(password[i] == '\n'){
+			password[i] = '\0';
+			break;
+		}
+		if(i == 29){
+			printf("비밀번호 제한을 초과하셨습니다.");
+			break;
+		}
+		i++;
+		printf("*");
 	}
 }
