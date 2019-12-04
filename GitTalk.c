@@ -549,7 +549,7 @@ int overlap_title_check(char chatting_room_name[50]){
 	pFile = fopen("title_check.txt", "r");
 	while(!feof(pFile)){
 		fgets(title, 30, pFile);
-		
+		strcat(chatting_room_name, "\n");
 		if(strcmp(title, chatting_room_name) == 0){
 			printf("이미 존재하는 이름의 채팅방입니다.\n");
 			return 0;
