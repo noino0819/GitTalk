@@ -353,7 +353,6 @@ char* show_list(void){
 	char* select;
 	char* select2;
 	char select_arr[100] = "";
-	char* nothing = "";
 	char rm_string[50] = "rm ";
 	char remote_rm_string[50] = "git remote rm ";
 	int option;
@@ -397,17 +396,17 @@ char* show_list(void){
 			printf("이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
-			return nothing;
+			return NULL;
 		}
 		else if(yn == 'n'){
-			("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
+			printf("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
-			return nothing;
+			return NULL;
 		}
 	}
 	if(option == 3){ //이전으로 돌아가기
-		return nothing;
+		return NULL;
 	}	
 }
 void chatting(char *chatting_file){
@@ -543,12 +542,13 @@ void password_look_star(char password[30]){
 
 int overlap_title_check(char chatting_room_name[50]){
 	FILE *pFile;
-	char echo_string[100] = "echo ls -1 --format=single-column ./Chatting >title_check.txt";
+	char ls_string[100] = "ls -1 --format=single-column ./Chatting >title_check.txt";
 	char title[30] = "";
-	system(echo_string);
+	system(ls_string);
 	pFile = fopen("title_check.txt", "r");
 	while(!feof(pFile)){
 		fgets(title, 30, pFile);
+		
 		if(strcmp(title, chatting_room_name) == 0){
 			printf("이미 존재하는 이름의 채팅방입니다.\n");
 			return 0;
