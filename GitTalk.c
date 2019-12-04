@@ -259,10 +259,10 @@ void refresh(void){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master > bin.txt 2> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master >> bin.txt 2>> bin.txt");
 
 	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
-	system("git pull origin master > bin.txt 2> bin.txt");
+	system("git pull origin master >> bin.txt 2>> bin.txt");
 	// system(push_string);
 }
 
