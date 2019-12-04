@@ -428,12 +428,11 @@ void chatting(char *chatting_file){
 		return;
 	}
 	
-	
 	strcat(chatting_file_string, chatting_file);
 	strcat(add_string, chatting_file_string);
 	strcat(add_string, "> bin.txt 2> bin.txt");
 
-	if ((ifp = fopen((char *)chatting_file_string, "rt")) == NULL){
+	if ((ifp = fopen(chatting_file_string, "rt")) == NULL){
 			printf("채팅방이 존재하지 않습니다.");
 			system("clear");
 			return;
@@ -507,7 +506,7 @@ void chatting(char *chatting_file){
 	}
 }
 void *refresh_routine(void *chatting_file_string){
-	FILE *ifp;
+	FILE *ifp = fopen(chatting_file_string, "rt");
 	char ch;
 	while(1){
 		refresh();
