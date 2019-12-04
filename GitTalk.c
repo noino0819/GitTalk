@@ -506,11 +506,12 @@ void chatting(char *chatting_file){
 	}
 }
 void *refresh_routine(void *chatting_file_string){
-	FILE *ifp = fopen(chatting_file_string, "rt");
+	FILE *ifp;
 	char ch;
 	while(1){
 		refresh();
 		system("clear");
+		ifp = fopen(chatting_file_string, "rt");
 		while ((ch = getc(ifp)) != EOF){
 			putchar(ch);
 		}
