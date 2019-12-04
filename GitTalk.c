@@ -20,6 +20,7 @@ void *refresh_routine(void *);
 char* show_list(void);
 int getch(void);
 void password_look_star(char[]);
+int overlap_title_check(char[]);
 void scanf_int(int*, int, int);
 void scanf_str(char*);
 
@@ -330,18 +331,22 @@ void make_chatting_room(void){
 		strcat(echo_string2, chatting_room_name); //echo  >./Chatting/chatting_room_name
 	}
 	
-	//미리 검사해서 동일한 이름의 채팅방을 만들지 못하게 막아야됨.
-	system(echo_string2);
-	strcat(echo_remote, chatting_room_name); //git remote add 채팅방이름
-	strcat(echo_remote, " "); 
-	strcat(echo_remote, Git_address); //git remote add 채팅방이름 주소
-	system(echo_remote);
-
-	printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
-	printf("채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
-	sleep(2);
-	system("clear");
-	
+	if(overlap_title_check(chatting_room_name) == 0){
+		printf("이전 메뉴로 돌아갑니다.\n");
+		sleep(2);
+		system("clear");
+	}
+	else{
+		system(echo_string2);
+		strcat(echo_remote, chatting_room_name); //git remote add 채팅방이름
+		strcat(echo_remote, " "); 
+		strcat(echo_remote, Git_address); //git remote add 채팅방이름 주소
+		system(echo_remote);
+		printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
+		printf("채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
+		sleep(2);
+		system("clear");
+	}
 }
 char* show_list(void){
 	char ls_string[100] = "ls -1 --format=single-column ./Chatting"; //한줄에 한개씩 세로로 출력
@@ -395,7 +400,7 @@ char* show_list(void){
 			return NULL;
 		}
 		else if(yn == 'n'){
-			("채팅방 삭제가 취소되었습니다. 이전 메뉴로 돌아갑니다.\n");
+			printf("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
 			return NULL;
@@ -536,6 +541,24 @@ void password_look_star(char password[30]){
 	}
 }
 
+
+int overlap_title_check(char chatting_room_name[50]){
+	FILE *pFile;
+	char ls_string[100] = "ls -1 --format=single-column ./Chatting >title_check.txt";
+	char title[30] = "";
+	system(ls_string);
+	pFile = fopen("title_check.txt", "r");
+	while(!feof(pFile)){
+		fgets(title, 30, pFile);
+		
+		if(strcmp(title, chatting_room_name) == 0){
+			printf("이미 존재하는 이름의 채팅방입니다.\n");
+			return 0;
+		}
+		
+	}
+	return 1;
+}
 /* start_range <= int값 <= end_range일 때까지 입력하게 해주는 입력 함수 */
 void scanf_int(int* ap, int start_range, int end_range){
 	scanf("%d", ap);
