@@ -23,6 +23,7 @@ void password_look_star(char[]);
 int overlap_title_check(char[]);
 void scanf_int(int*, int, int);
 void scanf_str(char*);
+void scan_char(char*, char, char);
 
 int main(){
 	system("clear");
@@ -209,8 +210,7 @@ int log_in(void){
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	printf(" Github 아이디를 입력하세요 : ");
-	scanf("%s", string);
-	CLEAR_BUFFER();
+	scanf(string);
 	fscanf(id_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
 		printf("ID가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
@@ -220,7 +220,6 @@ int log_in(void){
 	}
 	printf(" Github 비밀번호를 입력하세요 : ");
 	password_look_star(string);
-	//scanf("%s", string);
 	fscanf(pw_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
 		printf("비밀번호가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
@@ -388,8 +387,7 @@ char* show_list(void){
 		strcat(rm_string, select_arr);
 		strcat(remote_rm_string, select_arr);
 		printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", select2);
-		scanf("%c", &yn);
-		CLEAR_BUFFER();
+		scan_char(&yn, y, n);
 		if(yn == 'y'){
 			("%s 채팅방을 삭제합니다. \n", select_arr);
 			system(rm_string);
@@ -437,6 +435,7 @@ void chatting(char *chatting_file){
 
 	if ((ifp = fopen((char *)chatting_file_string, "rt")) == NULL){
 			printf("채팅방이 존재하지 않습니다.");
+			system("clear");
 			return;
 	}
 	
@@ -575,5 +574,15 @@ void scanf_int(int* ap, int start_range, int end_range){
 void scanf_str(char* ap){
 	scanf("%s", ap);
 	CLEAR_BUFFER();
+}
+void scanf_char(char* ap, char choice1, char choice2){
+	scanf("%c", ap);
+	CLEAR_BUFFER();
+	while (*ap != choice1 || *ap != choice2){
+		printf("\n잘못된 값을 입력했습니다. %c혹은 %c를 입력해주세요.\n", choice1, choice2);
+		printf("번호를 선택하세요 : ");
+		scanf("%c", ap);
+		CLEAR_BUFFER();
+	}
 }
 
