@@ -348,11 +348,11 @@ char* show_list(void){
 	char* select;
 	char* select2;
 	char select_arr[100] = "";
-	char* nothing = "";
 	char rm_string[50] = "rm ";
 	char remote_rm_string[50] = "git remote rm ";
 	int option;
 	char yn;
+
 	select = (char*)malloc(sizeof(char)*100);
 	select2 = (char*)malloc(sizeof(char)*100);
 	system("clear");
@@ -392,17 +392,18 @@ char* show_list(void){
 			printf("이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
-			return nothing;
+			return NULL;
 		}
 		else if(yn == 'n'){
-			("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
+			("채팅방 삭제가 취소되었습니다. 이전 메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
-			return nothing;
+			return NULL;
 		}
 	}
 	if(option == 3){ //이전으로 돌아가기
-		return nothing;
+		printf("이전 메뉴로 돌아갑니다.\n");
+		return NULL;
 	}	
 }
 void chatting(char *chatting_file){
@@ -419,17 +420,21 @@ void chatting(char *chatting_file){
 	char msg[200];
 	char total_msg[300];
 	char add_string[100] = "git add ";
-	char nothing[1] = "";
 
-	if(!strcmp(chatting_file, nothing)){
-		system("clear");
+	if (chatting_file == NULL){
 		return;
 	}
+	
 	
 	strcat(chatting_file_string, chatting_file);
 	strcat(add_string, chatting_file_string);
 	strcat(add_string, "> bin.txt 2> bin.txt");
 
+	if ((ifp = fopen((char *)chatting_file_string, "rt")) == NULL){
+			printf("채팅방이 존재하지 않습니다.");
+			return;
+	}
+	
 	ifp = fopen("./name.txt", "rt");
 	fscanf(ifp, "%s", name);
 	fclose(ifp);
@@ -503,10 +508,6 @@ void *refresh_routine(void *chatting_file_string){
 	while(1){
 		refresh();
 		system("clear");
-		if ((ifp = fopen((char *)chatting_file_string, "rt")) == NULL){
-			printf("채팅방이 존재하지 않습니다.");
-			return NULL;
-		}
 		while ((ch = getc(ifp)) != EOF){
 			putchar(ch);
 		}
