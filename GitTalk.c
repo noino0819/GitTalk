@@ -281,7 +281,7 @@ void make_chatting_room(void){
 		char chatting_room[100];	// 채팅방 이름
 		int unread;			// 안읽은 메시지
 		int individual_or_group;	// 개인톡/단톡
-		int key[20];			// 암호화 키
+		char key[20];			// 암호화 키
 	}list[100];				// 채팅방 리스트 100개 까지 
 	FILE *list_fp;
 	
@@ -344,7 +344,7 @@ void make_chatting_room(void){
 		strcpy(list[list_num].chatting_room, chatting_room_name);
 		list[list_num].unread = 0;
 		list[list_num].individual_or_group = option;
-		strcpy(list[list_num].key,"0000000000");			// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
+		strcpy(list[list_num].key,"random");			// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
 		fprintf(list_fp, "%s %d %d %s;\n",
 				list[list_num].chatting_room,
 				list[list_num].unread,
