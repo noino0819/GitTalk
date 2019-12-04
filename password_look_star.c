@@ -9,6 +9,7 @@ int main(void) {
 	while (20180825) {
 		password [i] = getch();
 		if (password[i] == '\n') {
+			password[i] = '\0';
 			break;
 		}
 		if (i == 29) {
