@@ -417,7 +417,13 @@ void chatting(char *chatting_file){
 	char msg[200];
 	char total_msg[300];
 	char add_string[100] = "git add ";
+	char nothing[1] = "";
 
+	if(!strcmp(chatting_file, nothing)){
+		system("clear");
+		return;
+	}
+	
 	strcat(chatting_file_string, chatting_file);
 	strcat(add_string, chatting_file_string);
 	strcat(add_string, "> bin.txt 2> bin.txt");
