@@ -349,7 +349,7 @@ char* show_list(void){
 	char* select2;
 	char select_arr[100] = "";
 	char* nothing = "";
-	char rm_string[50] = "git rm -f ";
+	char rm_string[50] = "rm ";
 	char remote_rm_string[50] = "git remote rm ";
 	int option;
 	char yn;
@@ -364,7 +364,7 @@ char* show_list(void){
 	sleep(1);
 	putchar('\n');
 	system(ls_string);
-	printf("\n옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제) : ");
+	printf("\n옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제 3. 이전으로 돌아가기) : ");
 	scanf("%d", &option);
 	CLEAR_BUFFER();
 	if(option == 1){ //채팅시작
@@ -406,6 +406,9 @@ char* show_list(void){
 			return nothing;
 		}
 	}
+	if(option == 3){ //이전으로 돌아가기
+		return nothing;
+	}
 	
 }
 void chatting(char *chatting_file){
@@ -422,7 +425,13 @@ void chatting(char *chatting_file){
 	char msg[200];
 	char total_msg[300];
 	char add_string[100] = "git add ";
+	char nothing[1] = "";
 
+	if(!strcmp(chatting_file, nothing)){
+		system("clear");
+		return;
+	}
+	
 	strcat(chatting_file_string, chatting_file);
 	strcat(add_string, chatting_file_string);
 	strcat(add_string, "> bin.txt 2> bin.txt");
