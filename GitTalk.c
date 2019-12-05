@@ -259,10 +259,10 @@ void refresh(void){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master > bin.txt 2> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master >> bin.txt 2>> bin.txt");
 
 	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
-	system("git pull origin master > bin.txt 2> bin.txt");
+	system("git pull origin master >> bin.txt 2>> bin.txt");
 	// system(push_string);
 }
 
@@ -276,6 +276,7 @@ void make_chatting_room(void){
 	char chatting_room_name[50] = "";
 	char echo_chattinglist[100] = "echo ";
 	int option;
+	
 	//chatting_list 구조체 선언 및 list_num 체크
 	struct chatting_list{
 		char chatting_room[100];	// 채팅방 이름
@@ -285,7 +286,10 @@ void make_chatting_room(void){
 	}list[100];				// 채팅방 리스트 100개 까지 
 	FILE *list_fp;
 	
-	list_fp = fopen("./chatting_list.txt","rt");
+	if((list_fp = fopen("./chatting_list.txt","rt")) == NULL){
+		system("touch chatting_list.txt");
+		list_fp = fopen("./chatting_list.txt","rt");
+	}
 	int list_num = 0;
 	char slash;
 	while(fscanf(list_fp, "%c",&slash) != EOF)
@@ -346,19 +350,26 @@ void make_chatting_room(void){
 		strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
 		strcat(echo_string2, chatting_room_name); //echo  >./Chatting/chatting_room_name
 	}
+	
 	// chatting_list 파일에 지정된 형식대로 입력
-		list_fp = fopen("./chatting_list.txt","at");
+	list_fp = fopen("./chatting_list.txt","at");
 
-		strcpy(list[list_num].chatting_room, chatting_room_name);
-		list[list_num].unread = 0;
-		list[list_num].individual_or_group = option;
-		strcpy(list[list_num].key,"random");			// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
-		fprintf(list_fp, "%s %d %d %s;\n",
-				list[list_num].chatting_room,
-				list[list_num].unread,
-				list[list_num].individual_or_group,
-				list[list_num].key);
+	strcpy(list[list_num].chatting_room, chatting_room_name);
+	list[list_num].unread = 0;
+	list[list_num].individual_or_group = option;
+	strcpy(list[list_num].key,"random");			
+	// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
+		
+	fprintf(list_fp, "%s %d %d %s;\n",
+			list[list_num].chatting_room,
+			list[list_num].unread,
+			list[list_num].individual_or_group,
+			list[list_num].key);
+	fclose(list_fp);
 	// chatting_list
+		
+	}
+	
 	if(overlap_title_check(chatting_room_name) == 0){
 		printf("이전 메뉴로 돌아갑니다.\n");
 		sleep(2);
@@ -459,7 +470,7 @@ void chatting(char *chatting_file){
 	
 	strcat(chatting_file_string, chatting_file);
 	strcat(add_string, chatting_file_string);
-	strcat(add_string, "> bin.txt 2> bin.txt");
+	strcat(add_string, ">> bin.txt 2>> bin.txt");
 
 	if ((ifp = fopen(chatting_file_string, "rt")) == NULL){
 			printf("채팅방이 존재하지 않습니다.");
@@ -477,7 +488,7 @@ void chatting(char *chatting_file){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master > bin.txt 2> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master >> bin.txt 2>> bin.txt");
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
@@ -514,9 +525,9 @@ void chatting(char *chatting_file){
 			fprintf(ofp, "\n%s", total_msg);
 			fclose(ofp);
 			system(add_string);
-			system("git commit -m 'chatting_test_commit' > bin.txt 2> bin.txt"); //나중에 커밋 메시지 수정 예정
+			system("git commit -m 'chatting_test_commit' >> bin.txt 2>> bin.txt"); //나중에 커밋 메시지 수정 예정
 			printf("git commit 실행 중...\n");
-			system("git pull origin master > bin.txt 2> bin.txt");
+			system("git pull origin master >> bin.txt 2>> bin.txt");
 			printf("git pull 실행 중...\n");
 			system(push_string);
 			printf("git push 실행 중...\n");
