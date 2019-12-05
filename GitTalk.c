@@ -338,7 +338,15 @@ void make_chatting_room(void){
 		else{
 			printf("자신과의 대화");
 		}
-		// chatting_list 파일에 지정된 형식대로 입력
+	}
+	else if(option == 2){
+		printf("생성할 채팅방의 이름을 입력하세요 : ");
+		scanf_str(chatting_room_name);
+		strcat(echo_string2, ">"); //echo  >
+		strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
+		strcat(echo_string2, chatting_room_name); //echo  >./Chatting/chatting_room_name
+	}
+	// chatting_list 파일에 지정된 형식대로 입력
 		list_fp = fopen("./chatting_list.txt","at");
 
 		strcpy(list[list_num].chatting_room, chatting_room_name);
@@ -350,17 +358,7 @@ void make_chatting_room(void){
 				list[list_num].unread,
 				list[list_num].individual_or_group,
 				list[list_num].key);
-		//chatting_list
-		
-	}
-	else if(option == 2){
-		printf("생성할 채팅방의 이름을 입력하세요 : ");
-		scanf_str(chatting_room_name);
-		strcat(echo_string2, ">"); //echo  >
-		strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
-		strcat(echo_string2, chatting_room_name); //echo  >./Chatting/chatting_room_name
-	}
-	
+	// chatting_list
 	if(overlap_title_check(chatting_room_name) == 0){
 		printf("이전 메뉴로 돌아갑니다.\n");
 		sleep(2);
