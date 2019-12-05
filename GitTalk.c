@@ -279,6 +279,7 @@ void make_chatting_room(void){
 	
 	//chatting_list 구조체 선언 및 list_num 체크
 	struct chatting_list{
+		int num;
 		char chatting_room[100];	// 채팅방 이름
 		int unread;			// 안읽은 메시지
 		int individual_or_group;	// 개인톡/단톡
@@ -290,11 +291,10 @@ void make_chatting_room(void){
 		system("touch chatting_list.txt");
 		list_fp = fopen("./chatting_list.txt","rt");
 	}
-	int list_num = 0;
+	int list_num = 1;
 	char slash;
 	while(fscanf(list_fp, "%c",&slash) != EOF)
 		if(slash == '\\') list_num++;
-	list_num++;
 	fclose(list_fp);
 	//chatting_list
 
@@ -353,14 +353,16 @@ void make_chatting_room(void){
 	
 	// chatting_list 파일에 지정된 형식대로 입력
 	list_fp = fopen("./chatting_list.txt","at");
-
+	
+	list[list_num].num = list_num;
 	strcpy(list[list_num].chatting_room, chatting_room_name);
 	list[list_num].unread = 0;
 	list[list_num].individual_or_group = option;
 	strcpy(list[list_num].key,"random");			
 	// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
 		
-	fprintf(list_fp, "%s %d %d %s;\n",
+	fprintf(list_fp, "%d %s %d %d %s;\n",
+			list[list_num].num,
 			list[list_num].chatting_room,
 			list[list_num].unread,
 			list[list_num].individual_or_group,
