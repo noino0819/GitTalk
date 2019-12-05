@@ -276,6 +276,26 @@ void make_chatting_room(void){
 	char chatting_room_name[50] = "";
 	char echo_chattinglist[100] = "echo ";
 	int option;
+	//chatting_list 구조체 선언 및 list_num 체크
+	struct chatting_list{
+		char chatting_room[100];	// 채팅방 이름
+		int unread;			// 안읽은 메시지
+		int individual_or_group;	// 개인톡/단톡
+		char key[20];			// 암호화 키
+	}list[100];				// 채팅방 리스트 100개 까지 
+	FILE *list_fp;
+	
+	if((list_fp = fopen("./chatting_list.txt","rt")) == NULL){
+		system("touch chatting_list.txt");
+		list_fp = fopen("./chatting_list.txt","rt");
+	}
+	int list_num = 0;
+	char slash;
+	while(fscanf(list_fp, "%c",&slash) != EOF)
+		if(slash == '\\') list_num++;
+	list_num++;
+	fclose(list_fp);
+	//chatting_list
 
 	system("clear");
 	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
@@ -295,7 +315,7 @@ void make_chatting_room(void){
 
 		name_fp = fopen("./name.txt", "rt");
 		fscanf(name_fp, "%s", name);
-
+		
 		if(strcmp(chatting_partner, name) < 0){//partner_name
 			strcat(echo_string2, ">"); //echo  >
 			strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
@@ -321,6 +341,21 @@ void make_chatting_room(void){
 		else{
 			printf("자신과의 대화");
 		}
+		// chatting_list 파일에 지정된 형식대로 입력
+		list_fp = fopen("./chatting_list.txt","at");
+
+		strcpy(list[list_num].chatting_room, chatting_room_name);
+		list[list_num].unread = 0;
+		list[list_num].individual_or_group = option;
+		strcpy(list[list_num].key,"random");			// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
+		fprintf(list_fp, "%s %d %d %s;\n",
+				list[list_num].chatting_room,
+				list[list_num].unread,
+				list[list_num].individual_or_group,
+				list[list_num].key);
+		fclose(list_fp);
+		//chatting_list
+		
 	}
 	else if(option == 2){
 		printf("생성할 채팅방의 이름을 입력하세요 : ");
