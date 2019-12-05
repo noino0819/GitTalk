@@ -367,8 +367,6 @@ void make_chatting_room(void){
 			list[list_num].key);
 	fclose(list_fp);
 	// chatting_list
-		
-	}
 	
 	if(overlap_title_check(chatting_room_name) == 0){
 		printf("이전 메뉴로 돌아갑니다.\n");
