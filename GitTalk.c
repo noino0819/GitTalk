@@ -446,6 +446,8 @@ char* show_list(void){
 	}
 	if(option == 3){ //이전으로 돌아가기
 		printf("이전 메뉴로 돌아갑니다.\n");
+		sleep(2);
+		system("clear");
 		return NULL;
 	}	
 }
