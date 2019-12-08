@@ -24,6 +24,7 @@ int overlap_title_check(char[]);
 void scanf_int(int*, int, int);
 void scanf_str(char*);
 void scanf_char(char*, char, char);
+int getTotalLine(char *name);		// 파일의 총 Line 수 리턴하는 함수 
 
 int main(){
 	system("clear");
@@ -265,7 +266,7 @@ void refresh(void){
 	system("git pull origin master >> bin.txt 2>> bin.txt");
 	// system(push_string);
 }
-
+s
 void make_chatting_room(void){
 	char Git_address[100];
 	char echo_remote[100] = "git remote add "; //remote 저장소 이름은 채팅방 이름과 동일.
@@ -632,4 +633,15 @@ void scanf_char(char* ap, char choice1, char choice2){
 		CLEAR_BUFFER();
 	}
 }
-
+int getTotalLine(char *name){
+	FILE *fp;
+	int line = 0;
+	char c;
+	char chatting_room[30] = "./Chatting/";
+	strcat(chatting_room, name);
+	fp = fopen(chatting_room, "rt");	// ./Chatting/name
+	while((c = fgetc(fp) != EOF)
+		if(c == '\n') line++;
+	fclose(fp);
+	return line;
+}
