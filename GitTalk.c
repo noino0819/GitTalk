@@ -266,7 +266,7 @@ void refresh(void){
 	system("git pull origin master >> bin.txt 2>> bin.txt");
 	// system(push_string);
 }
-s
+
 void make_chatting_room(void){
 	char Git_address[100];
 	char echo_remote[100] = "git remote add "; //remote 저장소 이름은 채팅방 이름과 동일.
@@ -640,7 +640,7 @@ int getTotalLine(char *name){
 	char chatting_room[30] = "./Chatting/";
 	strcat(chatting_room, name);
 	fp = fopen(chatting_room, "rt");	// ./Chatting/name
-	while((c = fgetc(fp) != EOF)
+	while((c = fgetc(fp)) != EOF)
 		if(c == '\n') line++;
 	fclose(fp);
 	return line;
