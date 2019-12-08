@@ -24,6 +24,7 @@ int overlap_title_check(char[]);
 void scanf_int(int*, int, int);
 void scanf_str(char*);
 void scanf_char(char*, char, char);
+int getTotalLine(char *name);	// 파일의 라인 수 리턴하는 함수
 
 int main(){
 	system("clear");
@@ -631,5 +632,15 @@ void scanf_char(char* ap, char choice1, char choice2){
 		scanf("%c", ap);
 		CLEAR_BUFFER();
 	}
+}
+int getTotalLine(char *name){
+  FILE *fp;
+  int line=0;
+  char c;
+  fp=fopen(name,"r");
+  while((c=fgetc(fp))!=EOF)
+    if(c=='\n') line++;
+  fclose(fp);
+  return(line);
 }
 
