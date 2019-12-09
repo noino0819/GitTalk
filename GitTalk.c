@@ -408,7 +408,36 @@ char* show_list(void){
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	putchar('\n');
-	system(ls_string);
+	// system(ls_string);
+	//
+	// print chatting_list
+	struct chatting_list list[100] = {};
+	FILE *list_fp;
+
+		// chatting_list.txt exceoption
+	if((list_fp = fopen("/chatting_list.txt","rt")) == NULL){
+		system("touch chatting_list.txt");
+		list_fp = fopen("./chatting_list.txt","rt");
+	}
+	int list_num = 0;
+	char new_line;
+	char chatting_room[100];
+	
+	printf("chatting_numm\tchatting_room_name\tunread message\n");
+	while(fscanf(list_fp, "%s%d%d%s",
+			list[list_num].chatting_room,
+			&list[list_num].last_line,
+			&list[list_num].individual_or_group,
+			list[list_num].key) != EOF){
+		printf("%-15d\t%-20s\t%d\n",
+			list_num + 1,
+			list[list_num].chatting_room,
+			getTotalLine(list[list_num].chatting_room) - list[list_num].last_line);
+		list_num++;
+	}
+	fclose(list_fp);
+	// chatting_list
+
 	printf("\n옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제 3. 이전으로 돌아가기) : ");
 	scanf_int(&option, 1, 3);
 	if(option == 1){ //채팅시작
@@ -636,13 +665,14 @@ void scanf_char(int* ap, char choice1, char choice2){
 }
 int getTotalLine(char *name){
 	FILE *fp;
-	int line = 0;
-	char c;
+	int line_num = 0;
+	char line[200] = "";
 	char chatting_room[30] = "./Chatting/";
 	strcat(chatting_room, name);
+	
 	fp = fopen(chatting_room, "rt");	// ./Chatting/name
-	while((c = fgetc(fp)) != EOF)
-		if(c == '\n') line++;
+	while(fgets(line, 200, fp) != NULL)
+		if(!strcmp(line,"")) line_num++;
 	fclose(fp);
-	return line;
+	return line_num;
 }
