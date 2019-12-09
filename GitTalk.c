@@ -446,9 +446,9 @@ char* show_list(void){
 		int chat_num;
 		scanf_int(&chat_num,1,list_num);
 		
-		char* select = list[chat_num].chatting_room;
+		char* select = list[chat_num - 1].chatting_room;
 
-		printf("%s 채팅방이 선택되었습니다.\n", list[chat_num].chatting_room);
+		printf("%s 채팅방이 선택되었습니다.\n", list[chat_num - 1].chatting_room);
 
 		sleep(2);
 		system("clear");
