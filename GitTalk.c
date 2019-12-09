@@ -458,7 +458,7 @@ void chatting(char *chatting_file){
 	struct tm* tm_ptr;
 	time_t timer;
 
-	char ch;
+	int ch;
 	char* AM_PM[2] = {"오전", "오후"};
 	char name[30], pw[30];
 	char push_string[100] = "git push https://";
@@ -548,7 +548,7 @@ void chatting(char *chatting_file){
 }
 void *refresh_routine(void *chatting_file_string){
 	FILE *ifp;
-	char ch;
+	int ch;
 	while(1){
 		refresh();
 		system("clear");
