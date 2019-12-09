@@ -408,6 +408,7 @@ char* show_list(void){
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	putchar('\n');
+	
 	// system(ls_string);
 	//
 	// print chatting_list
@@ -421,9 +422,8 @@ char* show_list(void){
 	}
 	int list_num = 0;
 	char new_line;
-	char chatting_room[100];
 	
-	printf("chatting_numm\tchatting_room_name\tunread message\n");
+	printf("chatting_num\tchatting_room_name\tunread message\n");
 	while(fscanf(list_fp, "%s%d%d%s",
 			list[list_num].chatting_room,
 			&list[list_num].last_line,
@@ -436,17 +436,23 @@ char* show_list(void){
 		list_num++;
 	}
 	fclose(list_fp);
-	// chatting_list
+	// end chatting_list
 
 	printf("\n옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제 3. 이전으로 돌아가기) : ");
 	scanf_int(&option, 1, 3);
 	if(option == 1){ //채팅시작
-		printf("\n원하는 채팅방의 이름을 입력하세요 : ");
-		scanf_str(select);
-		//채팅방 이름이 없을 경우를 검사해서 예외처리 해야됨.
-		printf("%s 채팅방이 선택되었습니다.\n", select);
+		printf("\n원하는 채팅방의 num을 입력하세요 : ");
+
+		int chat_num;
+		scanf_int(&chat_num,1,list_num);
+		
+		char* select = list[chat_num].chatting_room;
+
+		printf("%s 채팅방이 선택되었습니다.\n", list[chat_num].chatting_room);
+
 		sleep(2);
 		system("clear");
+
 		return select;
 	}
 
