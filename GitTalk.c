@@ -28,7 +28,7 @@ int getTotalLine(char *name);		// 파일의 총 Line 수 리턴하는 함수
 
 struct chatting_list		// 채팅방 구조체 선언
 {
-	char chating_room[100];	// 채팅방 이름
+	char chatting_room[100];// 채팅방 이름
 	int last_line;		// 마지막으로 확인한 Line 수
 	int individual_or_group;// 개인톡 / 단톡 옵션
 	char key[20];		// 암호화 키
@@ -355,17 +355,18 @@ void make_chatting_room(void){
 	}
 	
 	// chatting_list 파일에 지정된 형식대로 입력
-	list_fp = fopen("./chatting_list.txt","at");
 	
+	list_fp = fopen("./chatting_list.txt","at");
+		
 	strcpy(list[list_num].chatting_room, chatting_room_name);
-	list[list_num].unread = 0;
+	list[list_num].last_line = 0;
 	list[list_num].individual_or_group = option;
 	strcpy(list[list_num].key,"random");			
 	// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
 		
 	fprintf(list_fp, "%s %d %d %s;\n",
 			list[list_num].chatting_room,
-			list[list_num].unread,
+			list[list_num].last_line,
 			list[list_num].individual_or_group,
 			list[list_num].key);
 	fclose(list_fp);
