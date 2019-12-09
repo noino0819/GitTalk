@@ -26,6 +26,14 @@ void scanf_str(char*);
 void scanf_char(char*, char, char);
 int getTotalLine(char *name);		// 파일의 총 Line 수 리턴하는 함수 
 
+struct chatting_list		// 채팅방 구조체 선언
+{
+	char chating_room[100];	// 채팅방 이름
+	int last_line;		// 마지막으로 확인한 Line 수
+	int individual_or_group;// 개인톡 / 단톡 옵션
+	char key[20];		// 암호화 키
+}
+
 int main(){
 	system("clear");
 	main_menu();
@@ -278,14 +286,8 @@ void make_chatting_room(void){
 	char echo_chattinglist[100] = "echo ";
 	int option;
 	
-	//chatting_list 구조체 선언 및 list_num 체크
-	struct chatting_list{
-		int num;
-		char chatting_room[100];	// 채팅방 이름
-		int unread;			// 안읽은 메시지
-		int individual_or_group;	// 개인톡/단톡
-		char key[20];			// 암호화 키
-	}list[100];				// 채팅방 리스트 100개 까지 
+	// chatting_list
+	struct chatting_list list[100];	// 채팅방 리스트 100개 까지 
 	FILE *list_fp;
 	
 	if((list_fp = fopen("./chatting_list.txt","rt")) == NULL){
@@ -293,9 +295,9 @@ void make_chatting_room(void){
 		list_fp = fopen("./chatting_list.txt","rt");
 	}
 	int list_num = 1;
-	char slash;
-	while(fscanf(list_fp, "%c",&slash) != EOF)
-		if(slash == '\\') list_num++;
+	char new_line;
+	while(fscanf(list_fp, "%c",&new_line) != EOF)
+		if(new_line == '\n') list_num++;
 	fclose(list_fp);
 	//chatting_list
 
@@ -355,7 +357,6 @@ void make_chatting_room(void){
 	// chatting_list 파일에 지정된 형식대로 입력
 	list_fp = fopen("./chatting_list.txt","at");
 	
-	list[list_num].num = list_num;
 	strcpy(list[list_num].chatting_room, chatting_room_name);
 	list[list_num].unread = 0;
 	list[list_num].individual_or_group = option;
