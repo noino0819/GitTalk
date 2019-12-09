@@ -396,7 +396,7 @@ char* show_list(void){
 	char rm_string[50] = "rm ";
 	char remote_rm_string[50] = "git remote rm ";
 	int option;
-	char yn;
+	int yn;
 
 	select = (char*)malloc(sizeof(char)*100);
 	select2 = (char*)malloc(sizeof(char)*100);
