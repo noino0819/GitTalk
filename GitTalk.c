@@ -553,6 +553,7 @@ void chatting(char *chatting_file){
 	time_t timer;
 
 	char ch;
+	char buf[200];
 	char* AM_PM[2] = {"오전", "오후"};
 	char name[30], pw[30];
 	char push_string[100] = "git push https://";
@@ -636,6 +637,7 @@ void chatting(char *chatting_file){
 			printf("git pull 실행 중...\n");
 			system(push_string);
 			printf("git push 실행 중...\n");
+			ifp = fopen("push_err_log.txt", "rt");
 			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
 			sleep(1);
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
