@@ -425,12 +425,12 @@ char* show_list(void){
 	//
 	// print chatting_list
 	struct chatting_list list[100] = {};
-	FILE *list_fp;
+	FILE *list_fp = NULL;
 
 		// chatting_list.txt exceoption
-	if((list_fp = fopen("/chatting_list.txt","rt")) == NULL){
+	if((list_fp = fopen("chatting_list.txt","rt")) == NULL){
 		system("touch chatting_list.txt");
-		list_fp = fopen("./chatting_list.txt","rt");
+		list_fp = fopen("chatting_list.txt","rt");
 	}
 
 	int list_num = 0;
