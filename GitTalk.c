@@ -198,7 +198,7 @@ void sign_up(void){
 	strcat(echo_string_PW, "password.txt"); //echo PW>password.txt
 	system(echo_string_PW);
 
-	printf("\n\n 회원가입 성공!\n");
+	printf("\n 회원가입 성공!\n");
 	printf(" 이전 메뉴로 돌아갑니다.\n");
 	sleep(2);
 	system("clear");
@@ -402,7 +402,7 @@ void make_chatting_room(void){
 char* show_list(void){
 	char ls_string[100] = "ls -1 --format=single-column ./Chatting"; //한줄에 한개씩 세로로 출력
 	char* select;
-	char* select2;
+	int select2;
 	char select_arr[100] = "";
 	char rm_string[50] = "rm ";
 	char remote_rm_string[50] = "git remote rm ";
@@ -412,7 +412,7 @@ char* show_list(void){
 	char check_string[10] = "";
 
 	select = (char*)malloc(sizeof(char)*100);
-	select2 = (char*)malloc(sizeof(char)*100);
+	//select2 = (char*)malloc(sizeof(char)*100);
 	system("clear");
 	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
 	printf("│                                                                             │\n");
@@ -461,6 +461,7 @@ char* show_list(void){
 		char* select = list[chat_num - 1].chatting_room;
 
 		printf("%s 채팅방이 선택되었습니다.\n", list[chat_num - 1].chatting_room);
+		list[chat_num - 1].last_line = getTotalLine(list[list_num - 1].chatting_room);
 
 		sleep(2);
 		system("clear");
@@ -469,7 +470,7 @@ char* show_list(void){
 	}
 
 	if(option == 2){ //채팅방 삭제
-		printf("\n삭제할 채팅방의 이름을 입력하세요 : ");
+		/*printf("\n삭제할 채팅방의 이름을 입력하세요 : ");
 		scanf_str(select2);
 		strcpy(select_arr, select2);
 		strcat(rm_string, "./Chatting/"); //rm ./Chatting/
@@ -480,29 +481,62 @@ char* show_list(void){
 		pFILE = fopen("check_delete.txt", "r");
 		fgets(check_string, 10, pFILE);
 		if(strcmp(check_string, "")){ //check_string 안에 오류메세지가 들어가있을 경우
-			printf("없는 채팅방 이름입니다. 이전메뉴로 돌아갑니다.\n");
-			sleep(2);
-			system("clear");
-			return NULL;
-		}
-		else{
-			printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", select2);
-			scanf_char(&yn, 'y', 'n');
-			if(yn == 'y' || yn == 'Y'){
-				printf("%s 채팅방을 삭제합니다. \n", select_arr);
-				system(rm_string);
-				system(remote_rm_string);
-				printf("이전메뉴로 돌아갑니다.\n");
-				sleep(2);
-				system("clear");
-				return NULL;
+			printf("없는 채팅방 이름입니다. 이전메뉴로 돌아갑니다.\n");*/
+		printf("\n삭제할 채팅방의 num을 입력하세요 : ");
+		scanf_int(&select2, 1, list_num);
+		
+		strcpy(select_arr, list[select2 - 1].chatting_room);
+		strcat(rm_string, "./Chatting/");
+		strcat(rm_string, select_arr);
+		strcat(remote_rm_string, select_arr);
+		
+		printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", list[select2].chatting_room);
+		scanf_char(&yn, 'y', 'n');
+		if(yn == 'y' || yn == 'Y'){
+			printf("%s 채팅방을 삭제합니다. \n", select_arr);
+			// delete in chatting_list.txt
+			char chatting_room[100] = "";
+			int last_line;
+			int individual_or_group;
+			char key[100] = "";
+			list_num = 0;
+
+			list_fp = fopen("./chatting_list.txt","rt");
+			while(fscanf(list_fp, "%s%d%d%s",
+			chatting_room, &last_line, &individual_or_group, key) != EOF){
+				if(strcmp(chatting_room, list[list_num].chatting_room)){
+					strcpy(list[list_num].chatting_room, chatting_room);
+					list[list_num].last_line = last_line;
+					list[list_num].individual_or_group = individual_or_group;
+					strcpy(list[list_num].key, key);
+
+					list_num ++;
+				}
 			}
-			else if(yn == 'n' || yn == 'N'){
+		fclose(list_fp);			
+		// rewrite chatting_list.txt
+		list_fp = fopen("./chatting_list.txt","wt");
+		int line = 0;
+		for(; line < list_num; line++)
+			fprintf(list_fp, "%s %d %d %s\n",
+					list[line].chatting_room,
+					list[line].last_line,
+					list[line].individual_or_group,
+					list[line].key);
+			
+		system(rm_string);
+		system(remote_rm_string);
+		printf("이전메뉴로 돌아갑니다.\n");
+		sleep(2);
+		system("clear");
+		return NULL;
+		}
+		else if(yn == 'n' || yn == 'N'){
 				printf("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
 				sleep(2);
 				system("clear");
 				return NULL;
-			}
+		
 		}
 	}
 	if(option == 3){ //이전으로 돌아가기
