@@ -408,6 +408,8 @@ char* show_list(void){
 	char remote_rm_string[50] = "git remote rm ";
 	int option;
 	char yn;
+	FILE *pFIlE;
+	char check_string[10] = "";
 
 	select = (char*)malloc(sizeof(char)*100);
 	select2 = (char*)malloc(sizeof(char)*100);
@@ -470,25 +472,37 @@ char* show_list(void){
 		printf("\n삭제할 채팅방의 이름을 입력하세요 : ");
 		scanf_str(select2);
 		strcpy(select_arr, select2);
-		strcat(rm_string, "./Chatting/");
-		strcat(rm_string, select_arr);
-		strcat(remote_rm_string, select_arr);
-		printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", select2);
-		scanf_char(&yn, 'y', 'n');
-		if(yn == 'y' || yn == 'Y'){
-			printf("%s 채팅방을 삭제합니다. \n", select_arr);
-			system(rm_string);
-			system(remote_rm_string);
-			printf("이전메뉴로 돌아갑니다.\n");
+		strcat(rm_string, "./Chatting/"); //rm ./Chatting/
+		strcat(rm_string, select_arr); //rm ./Chatting/채팅방이름 2> check_delete.txt
+		strcat(rm_string, " 2> check_delete.txt");
+		strcat(remote_rm_string, select_arr); //git remote rm 채팅방이름 2> check_delete_remote.txt
+		strcat(remote_rm_string, " 2> check_delete_remote.txt");
+		pFile = fopen("check_delete.txt", "r");
+		fgets(check_string, 10, pFile);
+		if(strcmp(check_string, NULL)){ //check_string 안에 오류메세지가 들어가있을 경우
+			printf("없는 채팅방 이름입니다. 이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
 			return NULL;
 		}
-		else if(yn == 'n' || yn == 'N'){
-			printf("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
-			sleep(2);
-			system("clear");
-			return NULL;
+		else{
+			printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", select2);
+			scanf_char(&yn, 'y', 'n');
+			if(yn == 'y' || yn == 'Y'){
+				printf("%s 채팅방을 삭제합니다. \n", select_arr);
+				system(rm_string);
+				system(remote_rm_string);
+				printf("이전메뉴로 돌아갑니다.\n");
+				sleep(2);
+				system("clear");
+				return NULL;
+			}
+			else if(yn == 'n' || yn == 'N'){
+				printf("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
+				sleep(2);
+				system("clear");
+				return NULL;
+			}
 		}
 	}
 	if(option == 3){ //이전으로 돌아가기
