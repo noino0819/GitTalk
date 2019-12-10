@@ -459,6 +459,7 @@ char* show_list(void){
 		char* select = list[chat_num - 1].chatting_room;
 
 		printf("%s 채팅방이 선택되었습니다.\n", list[chat_num - 1].chatting_room);
+		list[chat_num - 1].last_line = getTotalLine(list[list_num - 1].chatting_room);
 
 		sleep(2);
 		system("clear");
@@ -470,7 +471,7 @@ char* show_list(void){
 		printf("\n삭제할 채팅방의 num을 입력하세요 : ");
 		scanf_int(&select2, 1, list_num);
 		
-		strcpy(select_arr, list[select2].chatting_room);
+		strcpy(select_arr, list[select2 - 1].chatting_room);
 		strcat(rm_string, "./Chatting/");
 		strcat(rm_string, select_arr);
 		strcat(remote_rm_string, select_arr);
