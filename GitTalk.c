@@ -374,7 +374,7 @@ void make_chatting_room(void){
 	strcpy(list[list_num].key,"random");			
 	// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
 		
-	fprintf(list_fp, "%s %d %d %s;\n",
+	fprintf(list_fp, "%s %d %d %s\n",
 			list[list_num].chatting_room,
 			list[list_num].last_line,
 			list[list_num].individual_or_group,
@@ -432,6 +432,7 @@ char* show_list(void){
 		system("touch chatting_list.txt");
 		list_fp = fopen("./chatting_list.txt","rt");
 	}
+
 	int list_num = 0;
 	char new_line;
 	
@@ -494,6 +495,7 @@ char* show_list(void){
 		scanf_char(&yn, 'y', 'n');
 		if(yn == 'y' || yn == 'Y'){
 			printf("\n%s 채팅방을 삭제합니다. \n", select_arr);
+			
 			// delete in chatting_list.txt
 			char chatting_room[100] = "";
 			int last_line;
@@ -513,23 +515,23 @@ char* show_list(void){
 					list_num ++;
 				}
 			}
-		fclose(list_fp);			
-		// rewrite chatting_list.txt
-		list_fp = fopen("./chatting_list.txt","wt");
-		int line = 0;
-		for(; line < list_num; line++)
-			fprintf(list_fp, "%s %d %d %s\n",
+			fclose(list_fp);			
+			
+			// rewrite chatting_list.txt
+			list_fp = fopen("./chatting_list.txt","wt");
+			for(int line = 0; line < list_num; line++)
+				fprintf(list_fp, "%s %d %d %s\n",
 					list[line].chatting_room,
 					list[line].last_line,
 					list[line].individual_or_group,
 					list[line].key);
-			
-		system(rm_string);
-		system(remote_rm_string);
-		printf("이전메뉴로 돌아갑니다.\n");
-		sleep(2);
-		system("clear");
-		return NULL;
+			fclose(list_fp);
+			system(rm_string);
+			system(remote_rm_string);
+			printf("이전메뉴로 돌아갑니다.\n");
+			sleep(2);
+			system("clear");
+			return NULL;
 		}
 		else if(yn == 'n' || yn == 'N'){
 				printf("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
