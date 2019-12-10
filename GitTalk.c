@@ -475,8 +475,8 @@ char* show_list(void){
 		strcat(remote_rm_string, select_arr);
 		printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", select2);
 		scanf_char(&yn, 'y', 'n');
-		if(yn == 'y'){
-			("%s 채팅방을 삭제합니다. \n", select_arr);
+		if(yn == 'y' || yn == 'Y'){
+			printf("%s 채팅방을 삭제합니다. \n", select_arr);
 			system(rm_string);
 			system(remote_rm_string);
 			printf("이전메뉴로 돌아갑니다.\n");
@@ -484,7 +484,7 @@ char* show_list(void){
 			system("clear");
 			return NULL;
 		}
-		else if(yn == 'n'){
+		else if(yn == 'n' || yn == 'N'){
 			printf("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
@@ -680,12 +680,12 @@ void scanf_str(char* ap){
 void scanf_char(char* ap, char choice1, char choice2){
 	scanf("%c", ap);
 	CLEAR_BUFFER();
-	while (*ap != choice1 && *ap != choice2){
+	while (*ap != choice1 && *ap != choice2 && *ap != (choice1 - ('a' - 'A')) && *ap != (choice2 - ('a' - 'A'))){
 		printf("\n잘못된 값을 입력했습니다. %c 또는 %c를 입력해주세요.\n", choice1, choice2);
 		printf("번호를 선택하세요 : ");
 		scanf("%c", ap);
 		CLEAR_BUFFER();
-	}
+		}
 }
 int getTotalLine(char *name){
 	FILE *fp;
