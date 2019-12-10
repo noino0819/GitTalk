@@ -503,7 +503,7 @@ char* show_list(void){
 			char key[100] = "";
 			list_num = 0;
 
-			list_fp = fopen("./chatting_list.txt","rt");
+			list_fp = fopen("chatting_list.txt","rt");
 			while(fscanf(list_fp, "%s%d%d%s",
 			chatting_room, &last_line, &individual_or_group, key) != EOF){
 				if(strcmp(chatting_room, list[list_num].chatting_room)){
@@ -518,13 +518,14 @@ char* show_list(void){
 			fclose(list_fp);			
 			
 			// rewrite chatting_list.txt
-			list_fp = fopen("./chatting_list.txt","wt");
-			for(int line = 0; line < list_num; line++)
+			list_fp = fopen("chatting_list.txt","wt");
+			for(int line = 0; line < list_num; line++) {
 				fprintf(list_fp, "%s %d %d %s\n",
 					list[line].chatting_room,
 					list[line].last_line,
 					list[line].individual_or_group,
 					list[line].key);
+			}
 			fclose(list_fp);
 			system(rm_string);
 			system(remote_rm_string);
