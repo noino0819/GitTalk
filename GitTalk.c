@@ -408,7 +408,7 @@ char* show_list(void){
 	char remote_rm_string[50] = "git remote rm ";
 	int option;
 	char yn;
-	FILE *pFIlE;
+	FILE *pFILE;
 	char check_string[10] = "";
 
 	select = (char*)malloc(sizeof(char)*100);
@@ -477,9 +477,9 @@ char* show_list(void){
 		strcat(rm_string, " 2> check_delete.txt");
 		strcat(remote_rm_string, select_arr); //git remote rm 채팅방이름 2> check_delete_remote.txt
 		strcat(remote_rm_string, " 2> check_delete_remote.txt");
-		pFile = fopen("check_delete.txt", "r");
-		fgets(check_string, 10, pFile);
-		if(strcmp(check_string, NULL)){ //check_string 안에 오류메세지가 들어가있을 경우
+		pFILE = fopen("check_delete.txt", "r");
+		fgets(check_string, 10, pFILE);
+		if(strcmp(check_string, "")){ //check_string 안에 오류메세지가 들어가있을 경우
 			printf("없는 채팅방 이름입니다. 이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
