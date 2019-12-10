@@ -662,7 +662,7 @@ void scanf_str(char* ap){
 void scanf_char(int* ap, char choice1, char choice2){
 	scanf("%d", ap);
 	CLEAR_BUFFER();
-	while (*ap != choice1 || *ap != choice2){
+	while (*ap != choice1 && *ap != choice2){
 		printf("\n잘못된 값을 입력했습니다. %c혹은 %c를 입력해주세요.\n", choice1, choice2);
 		printf("번호를 선택하세요 : ");
 		scanf("%d", ap);
