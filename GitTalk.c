@@ -198,7 +198,7 @@ void sign_up(void){
 	strcat(echo_string_PW, "password.txt"); //echo PW>password.txt
 	system(echo_string_PW);
 
-	printf("\n\n 회원가입 성공!\n");
+	printf("\n 회원가입 성공!\n");
 	printf(" 이전 메뉴로 돌아갑니다.\n");
 	sleep(2);
 	system("clear");
