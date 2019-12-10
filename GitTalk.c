@@ -23,7 +23,7 @@ void password_look_star(char[]);
 int overlap_title_check(char[]);
 void scanf_int(int*, int, int);
 void scanf_str(char*);
-void scanf_char(int*, char, char);
+void scanf_char(char*, char, char);
 int getTotalLine(char *name);		// 파일의 총 Line 수 리턴하는 함수 
 
 struct chatting_list		// 채팅방 구조체 선언
@@ -407,7 +407,7 @@ char* show_list(void){
 	char rm_string[50] = "rm ";
 	char remote_rm_string[50] = "git remote rm ";
 	int option;
-	int yn;
+	char yn;
 
 	select = (char*)malloc(sizeof(char)*100);
 	select2 = (char*)malloc(sizeof(char)*100);
@@ -669,13 +669,13 @@ void scanf_str(char* ap){
 	scanf("%s", ap);
 	CLEAR_BUFFER();
 }
-void scanf_char(int* ap, char choice1, char choice2){
-	scanf("%d", ap);
+void scanf_char(char* ap, char choice1, char choice2){
+	scanf("%c", ap);
 	CLEAR_BUFFER();
 	while (*ap != choice1 && *ap != choice2){
-		printf("\n잘못된 값을 입력했습니다. %c혹은 %c를 입력해주세요.\n", choice1, choice2);
+		printf("\n잘못된 값을 입력했습니다. %c 또는 %c를 입력해주세요.\n", choice1, choice2);
 		printf("번호를 선택하세요 : ");
-		scanf("%d", ap);
+		scanf("%c", ap);
 		CLEAR_BUFFER();
 	}
 }
