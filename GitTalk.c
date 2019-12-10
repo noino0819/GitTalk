@@ -550,14 +550,14 @@ void chatting(char *chatting_file){
 			CLEAR_BUFFER();
 			printf("채팅을 보내시겠습니까? (y/n) : ");
 			scanf_char(&ch, 'y', 'n');
+			timer = time(NULL);
+			tm_ptr = localtime(&timer);
 			if (ch == 'n' || ch == 'N'){
 				printf("채팅 입력을 취소합니다.\n");
 				sleep(1);
 				pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 				continue;
 			}
-			timer = time(NULL);
-			tm_ptr = localtime(&timer);
 			if (tm_ptr -> tm_hour > 12){ //오후
 				if (tm_ptr -> tm_min < 10){
 					sprintf(total_msg, "[%s] [%d/%d %s %d:0%d] ", name, tm_ptr -> tm_mon, tm_ptr -> tm_mday, AM_PM[1], tm_ptr -> tm_hour - 12, tm_ptr -> tm_min);
