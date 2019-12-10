@@ -278,10 +278,10 @@ void refresh(void){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master >> bin.txt 2>> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master > /dev/null 2> /dev/null");
 
 	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
-	system("git pull origin master >> bin.txt 2>> bin.txt");
+	system("git pull origin master > /dev/null 2> /dev/null");
 	// system(push_string);
 }
 
@@ -567,7 +567,7 @@ void chatting(char *chatting_file){
 	
 	strcat(chatting_file_string, chatting_file);
 	strcat(add_string, chatting_file_string);
-	strcat(add_string, ">> bin.txt 2>> bin.txt");
+	strcat(add_string, "> /dev/null 2> /dev/null");
 
 	if ((ifp = fopen(chatting_file_string, "rt")) == NULL){
 			printf("채팅방이 존재하지 않습니다.");
@@ -585,7 +585,7 @@ void chatting(char *chatting_file){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master >> bin.txt 2>> bin.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk master > /dev/null 2> push_err_log.txt");
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
@@ -630,9 +630,9 @@ void chatting(char *chatting_file){
 			fprintf(ofp, "\n%s", total_msg);
 			fclose(ofp);
 			system(add_string);
-			system("git commit -m 'chatting_test_commit' >> bin.txt 2>> bin.txt"); //나중에 커밋 메시지 수정 예정
+			system("git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
 			printf("git commit 실행 중...\n");
-			system("git pull origin master >> bin.txt 2>> bin.txt");
+			system("git pull origin master > /dev/null 2> /dev/null");
 			printf("git pull 실행 중...\n");
 			system(push_string);
 			printf("git push 실행 중...\n");
