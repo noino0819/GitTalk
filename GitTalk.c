@@ -645,7 +645,7 @@ void chatting(char *chatting_file){
 			// printf("buf2 : %s\n", buf);
 			if (buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
 				printf("git push 오류 발생!\n");
-				system("git pull origin master > /dev/null 2> /dev/null");
+				system("git pull origin master > pull_log.txt 2> /dev/null");
 			}
 			fclose(ifp);
 			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
