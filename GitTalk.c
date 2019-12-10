@@ -152,6 +152,7 @@ void sign_up(void){
 	char check_string[100] = "";
 	char check_compare[100] = "remote: Invalid username or password.\n";
 	FILE *pFile;
+	int check = 0;
 	
 	system("clear");
 	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
@@ -166,8 +167,9 @@ void sign_up(void){
 	password_look_star(string);
 	printf("\n 재확인 비밀번호를 재입력하세요 : ");
 	password_look_star(PW);
-	if (strcmp(string, PW!=0) {
-		printf("\n 비밀번호와 재확인비밀번호가 일치하지 않습니다. 회원가입을 다시 진행해주세요.\n");
+	if (strcmp(string, PW)!=0) {
+		check = 1;
+		printf("\n 비밀번호와 재확인비밀번호가 일치하지 않습니다.\n 이전메뉴로 돌아갑니다\n");
 		sleep(1);
 		system("clear");
 	}
@@ -180,13 +182,13 @@ void sign_up(void){
 
 	pFile = fopen("check.txt", "r");
 	fgets(check_string, 100, pFile);
-	if(strcmp(check_string, check_compare) == 0){ //유효한 ID가 아닐 경우	
-		printf("유효한 ID와 비밀번호가 아닙니다.\n");
-		printf("이전메뉴로 돌아갑니다.\n");
+	if(strcmp(check_string, check_compare) == 0 && check ==0){ //유효한 ID가 아닐 경우	
+		printf("\n 유효한 ID와 비밀번호가 아닙니다.\n");
+		printf(" 이전메뉴로 돌아갑니다.\n");
 		sleep(2);
 		system("clear");
 	}
-	else{
+	else if (check == 0){
 	strcat(echo_string_ID, ID); //echo ID 
 	strcat(echo_string_ID, ">"); //echo ID>
 	strcat(echo_string_ID, "name.txt"); //echo ID>name.txt
