@@ -160,12 +160,12 @@ void sign_up(void){
 	printf("│                               GitTalk 회원가입                              │\n");
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");	
-	printf(" Github 아이디를 입력하세요 : ");
+	printf(" Github 아이디를 입력하세요	: ");
 	scanf_str(ID);
 
-	printf(" Github 비밀번호를 입력하세요 : ");
+	printf(" Github 비밀번호를 입력하세요	: ");
 	password_look_star(string);
-	printf("\n 재확인 비밀번호를 재입력하세요 : ");
+	printf("\n 재확인 비밀번호를 재입력하세요	: ");
 	password_look_star(PW);
 	if (strcmp(string, PW)!=0) {
 		check = 1;
@@ -198,8 +198,8 @@ void sign_up(void){
 	strcat(echo_string_PW, "password.txt"); //echo PW>password.txt
 	system(echo_string_PW);
 
-	printf("회원가입 성공!\n");
-	printf("이전 메뉴로 돌아갑니다.\n");
+	printf("\n\n 회원가입 성공!\n");
+	printf(" 이전 메뉴로 돌아갑니다.\n");
 	sleep(2);
 	system("clear");
 	}
