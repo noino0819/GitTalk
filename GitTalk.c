@@ -509,8 +509,8 @@ void chatting(char *chatting_file){
 	char name[30], pw[30];
 	char push_string[100] = "git push https://";
 	char chatting_file_string[100] = "./Chatting/";
-	char msg[200];
-	char total_msg[300];
+	char msg[2000];
+	char total_msg[2100];
 	char add_string[100] = "git add ";
 
 	if (chatting_file == NULL){
@@ -545,7 +545,7 @@ void chatting(char *chatting_file){
 		ch = getch();
 		if (ch == 10){ //'\n' == 10
 			pthread_cancel(refresh_thread);
-			printf("보낼 메시지를 입력하세요. (200바이트 이내)\n");
+			printf("보낼 메시지를 입력하세요. (2000바이트 이내)\n");
 			scanf("%[^\n]", msg);
 			CLEAR_BUFFER();
 			timer = time(NULL);
