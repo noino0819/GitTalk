@@ -504,7 +504,7 @@ void chatting(char *chatting_file){
 	struct tm* tm_ptr;
 	time_t timer;
 
-	int ch;
+	char ch;
 	char* AM_PM[2] = {"오전", "오후"};
 	char name[30], pw[30];
 	char push_string[100] = "git push https://";
@@ -548,6 +548,14 @@ void chatting(char *chatting_file){
 			printf("보낼 메시지를 입력하세요. (2000바이트 이내)\n");
 			scanf("%[^\n]", msg);
 			CLEAR_BUFFER();
+			printf("채팅을 보내시겠습니까? (y/n) : ");
+			scanf_char(&ch, 'y', 'n');
+			if (ch == 'n' || ch == 'N'){
+				printf("채팅 입력을 취소합니다.\n");
+				sleep(1);
+				pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
+				continue;
+			}
 			timer = time(NULL);
 			tm_ptr = localtime(&timer);
 			if (tm_ptr -> tm_hour > 12){ //오후
