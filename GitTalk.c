@@ -638,6 +638,16 @@ void chatting(char *chatting_file){
 			system(push_string);
 			printf("git push 실행 중...\n");
 			ifp = fopen("push_err_log.txt", "rt");
+			/* buf 내용 디버깅용 코드 */
+			// fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 첫 줄
+			// printf("buf1 : %s\n", buf);
+			// fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 두번째 줄
+			// printf("buf2 : %s\n", buf);
+			if (buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
+				printf("git push 오류 발생!\n");
+				system("git pull origin master > /dev/null 2> /dev/null");
+			}
+			fclose(ifp);
 			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
 			sleep(1);
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
