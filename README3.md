@@ -6,7 +6,7 @@ GitTalk은 약 2개월 동안 준비한 숭실대학교 오픈소스및 기초�
 ### 1.2 GitTalk의 장-단점
 * 장점
   * 웹파싱에 비해 빠른 속도
- > ScreenShots
+   -ScreenShots
   -----------
   <div>
   > ![image](https://user-images.githubusercontent.com/54929503/70640501-60485980-1c7f-11ea-9f6a-3839a4b3b997.png)
