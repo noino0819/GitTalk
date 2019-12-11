@@ -734,7 +734,7 @@ void password_look_star(char password[30]){
 }
 
 
-int overlap_title_check(char chatting_room_name[50]){
+int overlap_title_check(char* chatting_room_name){
 	FILE *pFile;
 	char ls_string[100] = "ls -1 --format=single-column ./Chatting >title_check.txt";
 	char title[30] = "";
@@ -743,8 +743,7 @@ int overlap_title_check(char chatting_room_name[50]){
 	system(ls_string);
 	pFile = fopen("title_check.txt", "r");
 	while(!feof(pFile)){
-		fgets(title, 30, pFile);
-		strcat(chatting_room, "\n");
+		fscanf(pFile, "%s\n", title)
 		if(strcmp(title, chatting_room) == 0){
 			printf(" 이미 존재하는 이름의 채팅방입니다.\n");
 			return 0;
