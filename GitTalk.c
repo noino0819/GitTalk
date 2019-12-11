@@ -429,6 +429,7 @@ char* show_list(void){
 
 	select = (char*)malloc(sizeof(char)*100);
 	//select2 = (char*)malloc(sizeof(char)*100);
+	refresh();
 	system("clear");
 	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
 	printf("│                                                                             │\n");
@@ -438,7 +439,8 @@ char* show_list(void){
 	putchar('\n');
 	
 	//ls_string
-	//system(ls_string);
+	
+	system(ls_string);
 	
 	// print chatting_list
 	struct chatting_list list[100] = {};
@@ -452,13 +454,15 @@ char* show_list(void){
 
 	int list_num = 0;
 	char new_line;
-
+	/*
 	// print chatting_list func
 	while(fscanf(list_fp, "%s%d%d%s",
 			list[list_num].chatting_room,
 			&list[list_num].last_line,
 			&list[list_num].individual_or_group,
 			list[list_num].url) != EOF) list_num++;
+	*/
+	while(fscanf(list_fp, "%s", list[list_num].chatting_room) != EOF) list_num++;
 
 	if(strcmp(list[0].chatting_room, ""))	// when there is chatting_room
 			printf(" 채팅방 번호\t채팅방 이름\t\t읽지 않은 메시지\n");
@@ -469,10 +473,12 @@ char* show_list(void){
 		return NULL;
 	}	
 	for(int line = 0; line < list_num; line++){
-		printf(" %-10d\t%-20s\t%d\n",
+		/*printf(" %-10d\t%-20s\*%d\n",
+		*/
+		printf("%-10d\t%-20s\n",
 			line + 1,
-			list[line].chatting_room,
-			getTotalLine(list[line].chatting_room) - list[line].last_line);
+			list[line].chatting_room);
+			//getTotalLine(list[line].chatting_room) - list[line].last_line);
 	}
 	fclose(list_fp);
 
