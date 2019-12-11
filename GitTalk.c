@@ -448,21 +448,29 @@ char* show_list(void){
 
 	int list_num = 0;
 	char new_line;
-	
-	printf("chatting_num\tchatting_room_name\tunread message\n");
+
+	// print chatting_list func
 	while(fscanf(list_fp, "%s%d%d%s",
 			list[list_num].chatting_room,
 			&list[list_num].last_line,
 			&list[list_num].individual_or_group,
-			list[list_num].key) != EOF){
+			list[list_num].key) != EOF) list_num++;
+
+	if(strcmp(list[0].chatting_room, ""))	// when there is chatting_room
+			printf("chatting_num\tchatting_room_name\tunread message\n");
+	else{
+		printf("there is no chatting room\nreturn to menu\n");
+		sleep(2);
+		system("clear");
+		return NULL;
+	}	
+	for(int line = 0; line < list_num; line++){
 		printf("%-15d\t%-20s\t%d\n",
-			list_num + 1,
-			list[list_num].chatting_room,
-			getTotalLine(list[list_num].chatting_room) - list[list_num].last_line);
-		list_num++;
+			line + 1,
+			list[line].chatting_room,
+			getTotalLine(list[line].chatting_room) - list[line].last_line);
 	}
 	fclose(list_fp);
-	// end chatting_list
 
 	printf("\n옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제 3. 이전으로 돌아가기) : ");
 	scanf_int(&option, 1, 3);
