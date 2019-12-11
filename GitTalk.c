@@ -519,7 +519,7 @@ char* show_list(void){
 		printf("%s 채팅방을 삭제하시겠습니까?(y/n) : ", list[select2 - 1].chatting_room);
 		scanf_char(&yn, 'y', 'n');
 		if(yn == 'y' || yn == 'Y'){
-			printf("\n%s 채팅방을 삭제합니다. \n", select_arr);
+			printf("\n %s 채팅방을 삭제합니다. \n", select_arr);
 			
 			// delete in chatting_list.txt
 			char chatting_room[100] = "";
@@ -546,11 +546,12 @@ char* show_list(void){
 			// rewrite chatting_list.txt
 			list_fp = fopen("chatting_list.txt","wt");
 			for(int line = 0; line < list_num; line++) {
-				fprintf(list_fp, "%s %d %d %s\n",
+				fprintf(list_fp, "%s %d %d %s %s\n",
 					list[line].chatting_room,
 					list[line].last_line,
 					list[line].individual_or_group,
-					list[line].key);
+					list[line].key,
+					list[line].url);
 			}
 			fclose(list_fp);
 			system(rm_string);
