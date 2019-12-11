@@ -318,7 +318,7 @@ void make_chatting_room(void){
 	printf("│                                                                             │\n");
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	printf(" 채팅방 옵션을 선택하세요. (1. 개인채팅방 2. 단체채팅방) 3. 이전으로 돌아가기 : ");
-	scanf_int(&option, 1, 2);
+	scanf_int(&option, 1, 3);
 	/*
 	printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
 	scanf_str(Git_address);
@@ -360,18 +360,19 @@ void make_chatting_room(void){
 		}
 	}
 	else if(option == 2){
-		printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
+		printf("\n 채팅방을 업로드 할 github 주소를 입력하세요 : ");
 		scanf_str(Git_address);
 
-		printf("생성할 채팅방의 이름을 입력하세요 : ");
+		printf(" 생성할 채팅방의 이름을 입력하세요 : ");
 		scanf_str(chatting_room_name);
 		strcat(echo_string2, ">"); //echo  >
 		strcat(echo_string2, "./Chatting/"); //echo  >./Chatting/
 		strcat(echo_string2, chatting_room_name); //echo  >./Chatting/chatting_room_name
 	}
 	else if(option == 3){
-		printf("이전 메뉴로 돌아갑니다.");
+		printf(" 이전 메뉴로 돌아갑니다.\n");
 		sleep(2);
+		system("clear");
 		return;
 	}
 	
