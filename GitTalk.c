@@ -457,15 +457,15 @@ char* show_list(void){
 			list[list_num].key) != EOF) list_num++;
 
 	if(strcmp(list[0].chatting_room, ""))	// when there is chatting_room
-			printf("chatting_num\tchatting_room_name\tunread message\n");
+			printf(" 채팅방 번호\t채팅방 이름\t읽지 않은 메시지\n");
 	else{
-		printf("there is no chatting room\nreturn to menu\n");
+		printf(" 채팅방이 없습니다.\n 이전 메뉴로 돌아갑니다.\n");
 		sleep(2);
 		system("clear");
 		return NULL;
 	}	
 	for(int line = 0; line < list_num; line++){
-		printf("%-15d\t%-20s\t%d\n",
+		printf(" %-15d\t%-20s\t%d\n",
 			line + 1,
 			list[line].chatting_room,
 			getTotalLine(list[line].chatting_room) - list[line].last_line);
