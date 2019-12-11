@@ -618,15 +618,15 @@ void chatting(char *chatting_file){
 		ch = getch();
 		if (ch == 10){ //'\n' == 10
 			pthread_cancel(refresh_thread);
-			printf(" 보낼 메시지를 입력하세요. (2000바이트 이내)\n");
+			printf("보낼 메시지를 입력하세요. (2000바이트 이내)\n");
 			scanf("%[^\n]", msg);
 			CLEAR_BUFFER();
-			printf(" 채팅을 보내시겠습니까? (y/n) : ");
+			printf("채팅을 보내시겠습니까? (y/n) : ");
 			scanf_char(&ch, 'y', 'n');
 			timer = time(NULL);
 			tm_ptr = localtime(&timer);
 			if (ch == 'n' || ch == 'N'){
-				printf(" 채팅 입력을 취소합니다.\n");
+				printf("채팅 입력을 취소합니다.\n");
 				sleep(1);
 				pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 				continue;
@@ -655,36 +655,36 @@ void chatting(char *chatting_file){
 			fprintf(ofp, "%s\n", total_msg);
 			fclose(ofp);
 			system(add_string);
-			system(" git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
-			printf(" git commit 실행 중...\n");
-			system(" git pull origin master > /dev/null 2> /dev/null");
-			printf(" git pull 실행 중...\n");
+			system("git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
+			printf("git commit 실행 중...\n");
+			system("git pull origin master > /dev/null 2> /dev/null");
+			printf("git pull 실행 중...\n");
 			system(push_string);
-			printf(" git push 실행 중...\n");
+			printf("git push 실행 중...\n");
 			ifp = fopen("push_err_log.txt", "rt");
 			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 첫 줄
 			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 두번째 줄
 			fclose(ifp);
 			if (buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
-				printf(" git push 오류 발생!\n");
-				system(" git pull origin master > pull_log.txt 2> /dev/null");
-				printf(" git pull 재시도 중...\n");
+				printf("git push 오류 발생!\n");
+				system("git pull origin master > pull_log.txt 2> /dev/null");
+				printf("git pull 재시도 중...\n");
 				ifp = fopen("pull_log.txt", "rt");
 				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 첫 줄
 				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 두번째 줄
 				fclose(ifp);
 				if (buf[0] == 'C'){ //merge conflict 발생 (conflict 제거 후 다시 commit & push 필요)
-					printf(" merge conflict 발생!\n");
+					printf("merge conflict 발생!\n");
 					/* merge conflict를 해결하기 위해 |로 채팅 구분하도록 구현, 그리고 merge conflict 해결하는 것 구현 필요*/
 				}
 				system(push_string); //merge conflict 혹은 push 오류 해결 후 다시 push!
 			}
-			printf(" 메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
+			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
 			sleep(1);
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 		} else if (ch == 27){ //ESC == 27
 			pthread_cancel(refresh_thread);
-			printf(" 이전 메뉴로 돌아갑니다.\n");
+			printf("이전 메뉴로 돌아갑니다.\n");
 			sleep(1);
 			system("clear");
 			return;
