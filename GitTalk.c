@@ -32,6 +32,7 @@ struct chatting_list		// 채팅방 구조체 선언
 	int last_line;		// 마지막으로 확인한 Line 수
 	int individual_or_group;// 개인톡 / 단톡 옵션
 	char key[20];		// 암호화 키
+	char url[100];		// repository url
 };
 
 int main(){
@@ -384,14 +385,16 @@ void make_chatting_room(void){
 	strcpy(list[list_num].chatting_room, chatting_room_name);
 	list[list_num].last_line = 0;
 	list[list_num].individual_or_group = option;
-	strcpy(list[list_num].key,"random");			
+	strcpy(list[list_num].key,"random");
+	strcpy(list[list_num].key,Git_address);	
 	// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
 		
-	fprintf(list_fp, "%s %d %d %s\n",
+	fprintf(list_fp, "%s %d %d %s %s\n",
 			list[list_num].chatting_room,
 			list[list_num].last_line,
 			list[list_num].individual_or_group,
-			list[list_num].key);
+			list[list_num].key,
+			list[list_num].url);
 	fclose(list_fp);
 	// chatting_list
 	
@@ -450,10 +453,11 @@ char* show_list(void){
 	char new_line;
 
 	// print chatting_list func
-	while(fscanf(list_fp, "%s%d%d%s",
+	while(fscanf(list_fp, "%s%d%d%s%s",
 			list[list_num].chatting_room,
 			&list[list_num].last_line,
 			&list[list_num].individual_or_group,
+			list[list_num].key,
 			list[list_num].key) != EOF) list_num++;
 
 	if(strcmp(list[0].chatting_room, ""))	// when there is chatting_room
@@ -492,7 +496,7 @@ char* show_list(void){
 	}
 
 	if(option == 2){ //채팅방 삭제
-		/*printf("\n삭제할 채팅방의 이름을 입력하세요 : ");
+		/*printf("\n 삭제할 채팅방의 이름을 입력하세요 : ");
 		scanf_str(select2);
 		strcpy(select_arr, select2);
 		strcat(rm_string, "./Chatting/"); //rm ./Chatting/
@@ -522,17 +526,18 @@ char* show_list(void){
 			int last_line;
 			int individual_or_group;
 			char key[100] = "";
+			char url[100] = "";
 			list_num = 0;
 
 			list_fp = fopen("chatting_list.txt","rt");
-			while(fscanf(list_fp, "%s%d%d%s",
+			while(fscanf(list_fp, "%s%d%d%s%s",
 			chatting_room, &last_line, &individual_or_group, key) != EOF){
 				if(strcmp(chatting_room, list[list_num].chatting_room)){
 					strcpy(list[list_num].chatting_room, chatting_room);
 					list[list_num].last_line = last_line;
 					list[list_num].individual_or_group = individual_or_group;
-					strcpy(list[list_num].key, key);
-
+					strcpy(list[list_num].key, key,
+					strcpy(list[list_num].url, url);
 					list_num ++;
 				}
 			}
