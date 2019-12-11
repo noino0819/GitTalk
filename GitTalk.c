@@ -611,7 +611,7 @@ void chatting(char *chatting_file){
 	strcat(push_string, ":");
 	strcat(push_string, pw);
 	// strcat(push_string, "@github.com/noino0819/GitTalk chatting_fix > /dev/null 2> push_err_log.txt");
-	strcat(push_string, "@github.com/noino0819/GitTalk chatting_fix");
+	strcat(push_string, "@github.com/noino0819/GitTalk chatting_fix 2> push_err_log.txt");
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
@@ -662,7 +662,7 @@ void chatting(char *chatting_file){
 			printf(" git pull 실행 중...\n");
 			system(push_string);
 			printf(" git push 실행 중...\n");
-			ifp = fopen(" push_err_log.txt", "rt");
+			ifp = fopen("push_err_log.txt", "rt");
 			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 첫 줄
 			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 두번째 줄
 			fclose(ifp);
