@@ -319,11 +319,14 @@ void make_chatting_room(void){
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	printf(" 채팅방 옵션을 선택하세요. (1. 개인채팅방 2. 단체채팅방) 3. 이전으로 돌아가기 : ");
 	scanf_int(&option, 1, 2);
-	
+	/*
 	printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
 	scanf_str(Git_address);
-	
+	*/
 	if(option == 1){
+		printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
+		scanf_str(Git_address);
+
 		printf("대화를 원하는 상대방의 Git아이디를 입력하세요 : ");
 		scanf_str(chatting_partner);
 
@@ -357,6 +360,9 @@ void make_chatting_room(void){
 		}
 	}
 	else if(option == 2){
+		printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
+		scanf_str(Git_address);
+
 		printf("생성할 채팅방의 이름을 입력하세요 : ");
 		scanf_str(chatting_room_name);
 		strcat(echo_string2, ">"); //echo  >
