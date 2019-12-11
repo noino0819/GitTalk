@@ -531,12 +531,12 @@ char* show_list(void){
 
 			list_fp = fopen("chatting_list.txt","rt");
 			while(fscanf(list_fp, "%s%d%d%s%s",
-			chatting_room, &last_line, &individual_or_group, key) != EOF){
+			chatting_room, &last_line, &individual_or_group, key, url) != EOF){
 				if(strcmp(chatting_room, list[list_num].chatting_room)){
 					strcpy(list[list_num].chatting_room, chatting_room);
 					list[list_num].last_line = last_line;
 					list[list_num].individual_or_group = individual_or_group;
-					strcpy(list[list_num].key, key,
+					strcpy(list[list_num].key, key);
 					strcpy(list[list_num].url, url);
 					list_num ++;
 				}
