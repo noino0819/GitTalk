@@ -213,12 +213,12 @@ int log_in(void){
 
 	/* 회원가입을 다시 진행해야할 경우 오류 코드 -1을 return하고 함수 종료 */
 	if ((id_fp = fopen("./name.txt", "rt")) == NULL){
-		printf("ID 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
+		printf(" ID 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
 		return -1;
 	}
 
 	if ((pw_fp = fopen("./password.txt", "rt")) == NULL){
-		printf("비밀번호 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
+		printf(" 비밀번호 파일이 존재하지 않습니다. 회원가입을 다시 진행해주세요.\n");
 		return -1;
 	}
 
@@ -233,7 +233,7 @@ int log_in(void){
 	scanf_str(string);
 	fscanf(id_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
-		printf("\nID가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
+		printf("\n ID가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
 		sleep(1);
 		system("clear");
 		return 0;
@@ -242,14 +242,14 @@ int log_in(void){
 	password_look_star(string);
 	fscanf(pw_fp, "%s", string_from_file);
 	if (strcmp(string, string_from_file)){
-		printf("\n비밀번호가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
+		printf("\n 비밀번호가 일치하지 않습니다. 로그인을 다시 진행해주세요.\n");
 		sleep(1);
 		system("clear");
 		return 0;
 	}
 
-	printf("\n\n로그인이 완료되었습니다.\n");
-	printf("GitTalk을 시작합니다.\n");
+	printf("\n\n 로그인이 완료되었습니다.\n");
+	printf(" GitTalk을 시작합니다.\n");
 	sleep(1);
 	system("clear");
 
@@ -267,7 +267,7 @@ void refresh(void){
 
 	//name.txt 파일이나 password.txt 파일이 없을 때
 	if (name_fp == NULL || pw_fp == NULL){
-		printf("회원가입이 제대로 진행되지 않았습니다.\n");
+		printf(" 회원가입이 제대로 진행되지 않았습니다.\n");
 		return;
 	}
 	fscanf(name_fp, "%s", name);
@@ -321,14 +321,14 @@ void make_chatting_room(void){
 	printf(" 채팅방 옵션을 선택하세요. (1. 개인채팅방 2. 단체채팅방) 3. 이전으로 돌아가기 : ");
 	scanf_int(&option, 1, 3);
 	/*
-	printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
+	printf("\n 채팅방을 업로드 할 github 주소를 입력하세요 : ");
 	scanf_str(Git_address);
 	*/
 	if(option == 1){
-		printf("\n채팅방을 업로드 할 github 주소를 입력하세요 : ");
+		printf("\n 채팅방을 업로드 할 github 주소를 입력하세요 : ");
 		scanf_str(Git_address);
 
-		printf("대화를 원하는 상대방의 Git아이디를 입력하세요 : ");
+		printf(" 대화를 원하는 상대방의 Git아이디를 입력하세요 : ");
 		scanf_str(chatting_partner);
 
 		name_fp = fopen("./name.txt", "rt");
@@ -396,7 +396,7 @@ void make_chatting_room(void){
 	// chatting_list
 	
 	if(overlap_title_check(chatting_room_name) == 0){
-		printf("이전 메뉴로 돌아갑니다.\n");
+		printf(" 이전 메뉴로 돌아갑니다.\n");
 		sleep(2);
 		system("clear");
 	}
@@ -406,8 +406,8 @@ void make_chatting_room(void){
 		strcat(echo_remote, " "); 
 		strcat(echo_remote, Git_address); //git remote add 채팅방이름 주소
 		system(echo_remote);
-		printf("%s  채팅방이 생성되었습니다.\n", chatting_room_name);
-		printf("채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
+		printf(" %s  채팅방이 생성되었습니다.\n", chatting_room_name);
+		printf(" 채팅을 원하시면 채팅방 목록에서 채팅방을 선택해주세요.\n");
 		sleep(2);
 		system("clear");
 	}
@@ -472,10 +472,10 @@ char* show_list(void){
 	}
 	fclose(list_fp);
 
-	printf("\n옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제 3. 이전으로 돌아가기) : ");
+	printf("\n 옵션을 선택해주세요. (1. 채팅 시작 2. 채팅방 삭제 3. 이전으로 돌아가기) : ");
 	scanf_int(&option, 1, 3);
 	if(option == 1){ //채팅시작
-		printf("\n원하는 채팅방의 num을 입력하세요 : ");
+		printf("\n 원하는 채팅방의 num을 입력하세요 : ");
 
 		int chat_num;
 		scanf_int(&chat_num,1,list_num);
@@ -504,7 +504,7 @@ char* show_list(void){
 		fgets(check_string, 10, pFILE);
 		if(strcmp(check_string, "")){ //check_string 안에 오류메세지가 들어가있을 경우
 			printf("없는 채팅방 이름입니다. 이전메뉴로 돌아갑니다.\n");*/
-		printf("\n삭제할 채팅방의 num을 입력하세요 : ");
+		printf("\n 삭제할 채팅방의 num을 입력하세요 : ");
 		scanf_int(&select2, 1, list_num);
 		
 		strcpy(select_arr, list[select2 - 1].chatting_room);
@@ -550,13 +550,13 @@ char* show_list(void){
 			fclose(list_fp);
 			system(rm_string);
 			system(remote_rm_string);
-			printf("이전메뉴로 돌아갑니다.\n");
+			printf(" 이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
 			return NULL;
 		}
 		else if(yn == 'n' || yn == 'N'){
-				printf("채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
+				printf(" 채팅방 삭제가 취소되었습니다. 이전메뉴로 돌아갑니다.\n");
 				sleep(2);
 				system("clear");
 				return NULL;
@@ -564,7 +564,7 @@ char* show_list(void){
 		}
 	}
 	if(option == 3){ //이전으로 돌아가기
-		printf("이전 메뉴로 돌아갑니다.\n");
+		printf(" 이전 메뉴로 돌아갑니다.\n");
 		sleep(2);
 		system("clear");
 		return NULL;
@@ -595,7 +595,7 @@ void chatting(char *chatting_file){
 	strcat(add_string, "> /dev/null 2> /dev/null");
 
 	if ((ifp = fopen(chatting_file_string, "rt")) == NULL){
-			printf("채팅방이 존재하지 않습니다.");
+			printf(" 채팅방이 존재하지 않습니다.");
 			system("clear");
 			return;
 	}
@@ -618,15 +618,15 @@ void chatting(char *chatting_file){
 		ch = getch();
 		if (ch == 10){ //'\n' == 10
 			pthread_cancel(refresh_thread);
-			printf("보낼 메시지를 입력하세요. (2000바이트 이내)\n");
+			printf(" 보낼 메시지를 입력하세요. (2000바이트 이내)\n");
 			scanf("%[^\n]", msg);
 			CLEAR_BUFFER();
-			printf("채팅을 보내시겠습니까? (y/n) : ");
+			printf(" 채팅을 보내시겠습니까? (y/n) : ");
 			scanf_char(&ch, 'y', 'n');
 			timer = time(NULL);
 			tm_ptr = localtime(&timer);
 			if (ch == 'n' || ch == 'N'){
-				printf("채팅 입력을 취소합니다.\n");
+				printf(" 채팅 입력을 취소합니다.\n");
 				sleep(1);
 				pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 				continue;
@@ -655,20 +655,20 @@ void chatting(char *chatting_file){
 			fprintf(ofp, "\n%s", total_msg);
 			fclose(ofp);
 			system(add_string);
-			system("git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
-			printf("git commit 실행 중...\n");
-			system("git pull origin master > /dev/null 2> /dev/null");
-			printf("git pull 실행 중...\n");
+			system(" git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
+			printf(" git commit 실행 중...\n");
+			system(" git pull origin master > /dev/null 2> /dev/null");
+			printf(" git pull 실행 중...\n");
 			system(push_string);
-			printf("git push 실행 중...\n");
-			ifp = fopen("push_err_log.txt", "rt");
+			printf(" git push 실행 중...\n");
+			ifp = fopen(" push_err_log.txt", "rt");
 			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 첫 줄
 			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 두번째 줄
 			fclose(ifp);
 			if (buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
-				printf("git push 오류 발생!\n");
-				system("git pull origin master > pull_log.txt 2> /dev/null");
-				printf("git pull 재시도 중...\n");
+				printf(" git push 오류 발생!\n");
+				system(" git pull origin master > pull_log.txt 2> /dev/null");
+				printf(" git pull 재시도 중...\n");
 				ifp = fopen("pull_log.txt", "rt");
 				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 첫 줄
 				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 두번째 줄
@@ -679,12 +679,12 @@ void chatting(char *chatting_file){
 				}
 				system(push_string); //merge conflict 혹은 push 오류 해결 후 다시 push!
 			}
-			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
+			printf(" 메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
 			sleep(1);
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 		} else if (ch == 27){ //ESC == 27
 			pthread_cancel(refresh_thread);
-			printf("이전 메뉴로 돌아갑니다.\n");
+			printf(" 이전 메뉴로 돌아갑니다.\n");
 			sleep(1);
 			system("clear");
 			return;
@@ -725,7 +725,7 @@ void password_look_star(char password[30]){
 			continue;
 		}
 		if(i == 29){
-			printf("비밀번호 제한을 초과하셨습니다.");
+			printf(" 비밀번호 제한을 초과하셨습니다.");
 			break;
 		}
 		i++;
@@ -746,7 +746,7 @@ int overlap_title_check(char chatting_room_name[50]){
 		fgets(title, 30, pFile);
 		strcat(chatting_room, "\n");
 		if(strcmp(title, chatting_room) == 0){
-			printf("이미 존재하는 이름의 채팅방입니다.\n");
+			printf(" 이미 존재하는 이름의 채팅방입니다.\n");
 			return 0;
 		}
 		
