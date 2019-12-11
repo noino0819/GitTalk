@@ -84,6 +84,7 @@ void main_menu(void){
 				}
 				break;
 			case 3:
+				system("clear");
 				exit(0);
 				break;
 			// default :
