@@ -652,7 +652,7 @@ void chatting(char *chatting_file){
 			}
 			strcat(total_msg, msg);			
 			ofp = fopen(chatting_file_string, "at");
-			fprintf(ofp, "\n%s", total_msg);
+			fprintf(ofp, "%s\n", total_msg);
 			fclose(ofp);
 			system(add_string);
 			system(" git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
@@ -661,7 +661,7 @@ void chatting(char *chatting_file){
 			printf(" git pull 실행 중...\n");
 			system(push_string);
 			printf(" git push 실행 중...\n");
-			ifp = fopen(" push_err_log.txt", "rt");
+			ifp = fopen("push_err_log.txt", "rt");
 			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 첫 줄
 			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 두번째 줄
 			fclose(ifp);
@@ -674,7 +674,7 @@ void chatting(char *chatting_file){
 				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 두번째 줄
 				fclose(ifp);
 				if (buf[0] == 'C'){ //merge conflict 발생 (conflict 제거 후 다시 commit & push 필요)
-					printf("merge conflict 발생!\n");
+					printf(" merge conflict 발생!\n");
 					/* merge conflict를 해결하기 위해 |로 채팅 구분하도록 구현, 그리고 merge conflict 해결하는 것 구현 필요*/
 				}
 				system(push_string); //merge conflict 혹은 push 오류 해결 후 다시 push!
