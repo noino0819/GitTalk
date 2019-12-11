@@ -743,7 +743,7 @@ int overlap_title_check(char* chatting_room_name){
 	system(ls_string);
 	pFile = fopen("title_check.txt", "r");
 	while(!feof(pFile)){
-		fscanf(pFile, "%s\n", title)
+		fscanf(pFile, "%s\n", title);
 		if(strcmp(title, chatting_room) == 0){
 			printf(" 이미 존재하는 이름의 채팅방입니다.\n");
 			return 0;
