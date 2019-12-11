@@ -679,12 +679,12 @@ void chatting(char *chatting_file){
 				}
 				system(push_string); //merge conflict 혹은 push 오류 해결 후 다시 push!
 			}
-			printf(" 메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
+			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
 			sleep(1);
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 		} else if (ch == 27){ //ESC == 27
 			pthread_cancel(refresh_thread);
-			printf(" 이전 메뉴로 돌아갑니다.\n");
+			printf("이전 메뉴로 돌아갑니다.\n");
 			sleep(1);
 			system("clear");
 			return;
