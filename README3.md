@@ -9,8 +9,8 @@ GitTalk은 약 2개월 동안 준비한 숭실대학교 오픈소스및 기초�
  > ScreenShots
   -----------
   <div>
- > ![image](https://user-images.githubusercontent.com/54929503/70640501-60485980-1c7f-11ea-9f6a-3839a4b3b997.png)
- > ![image](https://user-images.githubusercontent.com/54929503/70640550-72c29300-1c7f-11ea-9db4-e50d25f17f0f.png)
+  > ![image](https://user-images.githubusercontent.com/54929503/70640501-60485980-1c7f-11ea-9f6a-3839a4b3b997.png)
+  > ![image](https://user-images.githubusercontent.com/54929503/70640550-72c29300-1c7f-11ea-9db4-e50d25f17f0f.png)
   </div>
   
 | 종류 | 속도 |
