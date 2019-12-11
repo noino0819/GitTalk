@@ -178,7 +178,7 @@ void sign_up(void){
 	strcat(string_push, ID); //git push https://ID
 	strcat(string_push, ":"); //git push https://ID:
 	strcat(string_push, PW); //git push https://name:PW
-	strcat(string_push, "@github.com/noino0819/GitTalk_Test master 2> check.txt");
+	strcat(string_push, "@github.com/noino0819/GitTalk_Test chatting_fix 2> check.txt");
 	system(string_push);
 
 	pFile = fopen("check.txt", "r");
@@ -279,10 +279,10 @@ void refresh(void){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master > /dev/null 2> /dev/null");
+	strcat(push_string, "@github.com/noino0819/GitTalk chatting_fix");
 
 	//https://github.com/noino0810/GitTalk_Test를 리모트 저장소 GitTalk에 추가했다고 가정
-	system("git pull origin master > /dev/null 2> /dev/null");
+	system("git pull origin chatting_fix");
 	// system(push_string);
 }
 
@@ -610,7 +610,8 @@ void chatting(char *chatting_file){
 	strcat(push_string, name);
 	strcat(push_string, ":");
 	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master > /dev/null 2> push_err_log.txt");
+	// strcat(push_string, "@github.com/noino0819/GitTalk chatting_fix > /dev/null 2> push_err_log.txt");
+	strcat(push_string, "@github.com/noino0819/GitTalk chatting_fix");
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
@@ -657,7 +658,7 @@ void chatting(char *chatting_file){
 			system(add_string);
 			system(" git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
 			printf(" git commit 실행 중...\n");
-			system(" git pull origin master > /dev/null 2> /dev/null");
+			system(" git pull origin chatting_fix");
 			printf(" git pull 실행 중...\n");
 			system(push_string);
 			printf(" git push 실행 중...\n");
@@ -667,7 +668,7 @@ void chatting(char *chatting_file){
 			fclose(ifp);
 			if (buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
 				printf(" git push 오류 발생!\n");
-				system(" git pull origin master > pull_log.txt 2> /dev/null");
+				system(" git pull origin chatting_fix");
 				printf(" git pull 재시도 중...\n");
 				ifp = fopen("pull_log.txt", "rt");
 				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 첫 줄
