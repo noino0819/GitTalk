@@ -26,6 +26,7 @@ GitTalk은 약 2개월 동안 준비한 숭실대학교 오픈소스및 기초�
 ## 2. 사용 전 환경설정
 GitTalk은 현재 나의 프로젝트에 참여하고 있는 협업자들이 함께 사용하도록 개발된 프로그램입니다. 이용자는 GitTalk 프로젝트에 대해 **collaborator**로 등록이 되어 있어야 합니다.
 ### 2.1 Colaborator 등록과정
+
 <div>
 * 1.
 > ![col1](https://user-images.githubusercontent.com/54929503/70641702-5f182c00-1c81-11ea-980c-e16822d39bb0.JPG)
@@ -38,6 +39,7 @@ GitTalk은 현재 나의 프로젝트에 참여하고 있는 협업자들이 함
 * 5.
 > ![col5](https://user-images.githubusercontent.com/54929503/70642258-3d6b7480-1c82-11ea-9f4e-d0a599b4a532.JPG)
 </div>
+
 ## 3. GitTalk의 기능
 ### 3.1 개인채팅 및 단체채팅
 ### 3.2 미확인 채팅메시지 개수 확인
