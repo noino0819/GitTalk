@@ -696,7 +696,7 @@ void chatting(char *chatting_file){
 					system("git merge --abort");
 					printf("git reset --hard HEAD~ 실행 중...\n");
 					system("git reset --hard HEAD~ > /dev/null 2> /dev/null");
-					printf("git pull 재실행 중\n");
+					printf("git pull 재실행 중...\n");
 					system("git pull > pull_log.txt 2> /dev/null");
 					printf("merge conflict 해결 완료!\n");
 				}
