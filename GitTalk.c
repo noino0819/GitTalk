@@ -589,8 +589,8 @@ void chatting(char *chatting_file){
 	char ch;
 	char buf[200];
 	char* AM_PM[2] = {"오전", "오후"};
-	char name[30], pw[30];
-	char push_string[100] = "git push https://";
+	char name[30], pw[30], link[60];
+	char push_string[120];
 	char chatting_file_string[100] = "./Chatting/";
 	char msg[2000];
 	char total_msg[2100];
@@ -616,11 +616,18 @@ void chatting(char *chatting_file){
 	ifp = fopen("./password.txt", "rt");
 	fscanf(ifp, "%s", pw);
 	fclose(ifp);
+	/* chatting_list에 url 추가됐을 때 받아오는 코드 */
+	// ifp = fopen("./chatting_list.txt", "rt");
+	// while(1){
+	// 	fscanf(ifp, "%s %*d %*d %*s %s", buf, link);
+	// 	if (!strcmp(buf, chatting_file)){
+	// 		break;
+	// 	} 
+	// }
+	// fclose(ifp);
+	strcpy(link, "noino0819/GitTalk");
 
-	strcat(push_string, name);
-	strcat(push_string, ":");
-	strcat(push_string, pw);
-	strcat(push_string, "@github.com/noino0819/GitTalk master > /dev/null 2> push_err_log.txt");
+	sprintf(push_string, "git push https://%s:%s@github.com/%s > /dev/null 2> push_err_log.txt", name, pw, link);
 
 	pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
 	sleep(1);
@@ -667,7 +674,7 @@ void chatting(char *chatting_file){
 			system(add_string);
 			system("git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
 			printf("git commit 실행 중...\n");
-			system("git pull origin master > /dev/null 2> /dev/null");
+			system("git pull > /dev/null 2> /dev/null");
 			printf("git pull 실행 중...\n");
 			system(push_string);
 			printf("git push 실행 중...\n");
@@ -677,7 +684,7 @@ void chatting(char *chatting_file){
 			fclose(ifp);
 			if (buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
 				printf("git push 오류 발생!\n");
-				system("git pull origin master > pull_log.txt 2> /dev/null");
+				system("git pull > pull_log.txt 2> /dev/null");
 				printf("git pull 재시도 중...\n");
 				ifp = fopen("pull_log.txt", "rt");
 				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 첫 줄
