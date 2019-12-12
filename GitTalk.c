@@ -293,11 +293,14 @@ void make_chatting_room(void){
 	FILE* name_fp;
 	char echo_string2[50] = "echo  ";
 	char name[30];
+	char pwd[30];
 	char chatting_partner[30];
 	char chatting_room_name[50] = "";
 	char echo_chattinglist[100] = "echo ";
 	int option;
-	
+	char add_string[100] = "git add chatting_list </dev/null 2> /dev/null";
+	char push_string[120] = "";
+
 	// chatting_list
 	struct chatting_list list[100];	// 채팅방 리스트 100개 까지 
 	FILE *list_fp;
@@ -325,7 +328,7 @@ void make_chatting_room(void){
 	printf("\n 채팅방을 업로드 할 github 주소를 입력하세요 : ");
 	scanf_str(Git_address);
 	*/
-	
+		
 	if(option == 1){
 		printf("\n 채팅방을 업로드 할 github 주소를 입력하세요 : ");
 		scanf_str(Git_address);
@@ -380,7 +383,6 @@ void make_chatting_room(void){
 	}
 	
 	// chatting_list 파일에 지정된 형식대로 입력
-	
 	list_fp = fopen("./chatting_list","at");
 		
 	strcpy(list[list_num].chatting_room, chatting_room_name);
@@ -397,7 +399,16 @@ void make_chatting_room(void){
 			//list[list_num].key,
 			list[list_num].url);
 	fclose(list_fp);
-	// chatting_list
+	
+	// push chatting_list
+	FILE* pw_fp;
+	pw_fp = fopen("password.txt","rt");
+	fscanf(pw_fp, "%s", pwd);
+	fclose(pw_fp);
+	sprintf(push_string, "git push https://%s:%s@github.com/noino0819/GitTalk > /dev/null 2> push_err_log.txt", name, pwd);
+	system(add_string);
+	system("git commit -m 'new chatting room'");
+	system(push_string);
 	
 	if(overlap_title_check(chatting_room_name) == 0){
 		printf(" 이전 메뉴로 돌아갑니다.\n");
