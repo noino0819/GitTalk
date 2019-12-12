@@ -302,9 +302,9 @@ void make_chatting_room(void){
 	struct chatting_list list[100];	// 채팅방 리스트 100개 까지 
 	FILE *list_fp;
 	
-	if((list_fp = fopen("./chatting_list.txt","rt")) == NULL){
-		system("touch chatting_list.txt");
-		list_fp = fopen("./chatting_list.txt","rt");
+	if((list_fp = fopen("./chatting_list","rt")) == NULL){
+		system("touch chatting_list");
+		list_fp = fopen("./chatting_list","rt");
 	}
 	int list_num = 1;
 	char new_line;
@@ -325,6 +325,7 @@ void make_chatting_room(void){
 	printf("\n 채팅방을 업로드 할 github 주소를 입력하세요 : ");
 	scanf_str(Git_address);
 	*/
+	
 	if(option == 1){
 		printf("\n 채팅방을 업로드 할 github 주소를 입력하세요 : ");
 		scanf_str(Git_address);
@@ -380,7 +381,7 @@ void make_chatting_room(void){
 	
 	// chatting_list 파일에 지정된 형식대로 입력
 	
-	list_fp = fopen("./chatting_list.txt","at");
+	list_fp = fopen("./chatting_list","at");
 		
 	strcpy(list[list_num].chatting_room, chatting_room_name);
 	list[list_num].last_line = 0;
@@ -426,6 +427,13 @@ char* show_list(void){
 	char yn;
 	FILE *pFILE;
 	char check_string[10] = "";
+	char add_string[100] = "git add chatting_list >/dev/null 2> /dev/null";
+	char push_string[120] = "";
+	char ID[30] = "";
+	char PW[30] = "";
+	FILE* id_fp;
+	FILE* pw_fp;
+	char link[30] = "noino0819/GitTalk";
 
 	select = (char*)malloc(sizeof(char)*100);
 	//select2 = (char*)malloc(sizeof(char)*100);
@@ -438,33 +446,45 @@ char* show_list(void){
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	putchar('\n');
 	
-	//ls_string
+	// id,pw
+	id_fp = fopen("name.txt","rt");
+	pw_fp = fopen("password.txt","rt");
+
+	fscanf(id_fp, "%s", ID);
+	fscanf(pw_fp, "%s", PW);
+
+	fclose(id_fp);
+	fclose(pw_fp);
 	
-	system(ls_string);
+	// push_string
+	sprintf(push_string, "git push https://%s:%s@github.com/%s > /dev/null 2> push_err_log.txt", ID, PW ,link);
+
+	//ls_string
+	//system(ls_string);
 	
 	// print chatting_list
 	struct chatting_list list[100] = {};
 	FILE *list_fp;
 	
 	// pull chatting_list
-	system("git pull ");
+	system("git pull > /dev/null 2> /dev/null");
 
 		// chatting_list.txt exceoption
-	if((list_fp = fopen("chatting_list.txt","rt")) == NULL){
-		system("touch chatting_list.txt");
-		list_fp = fopen("chatting_list.txt","rt");
+	if((list_fp = fopen("chatting_list","rt")) == NULL){
+		system("touch chatting_list");
+		list_fp = fopen("chatting_list","rt");
 	}
 
 	int list_num = 0;
 	char new_line;
-	/*
+	
 	// print chatting_list func
 	while(fscanf(list_fp, "%s%d%d%s",
 			list[list_num].chatting_room,
 			&list[list_num].last_line,
 			&list[list_num].individual_or_group,
 			list[list_num].url) != EOF) list_num++;
-	*/
+	
 	while(fscanf(list_fp, "%s", list[list_num].chatting_room) != EOF) list_num++;
 
 	if(strcmp(list[0].chatting_room, ""))	// when there is chatting_room
@@ -534,11 +554,11 @@ char* show_list(void){
 			char chatting_room[100] = "";
 			int last_line;
 			int individual_or_group;
-			char key[100] = "";
+			//char key[100] = "";
 			char url[100] = "";
 			list_num = 0;
 
-			list_fp = fopen("chatting_list.txt","rt");
+			list_fp = fopen("chatting_list","rt");
 			while(fscanf(list_fp, "%s%d%d%s",
 			chatting_room, &last_line, &individual_or_group, url) != EOF){
 				if(strcmp(chatting_room, list[list_num].chatting_room)){
@@ -552,7 +572,7 @@ char* show_list(void){
 			fclose(list_fp);			
 			
 			// rewrite chatting_list.txt
-			list_fp = fopen("chatting_list.txt","wt");
+			list_fp = fopen("chatting_list","wt");
 			for(int line = 0; line < list_num; line++) {
 				fprintf(list_fp, "%s %d %d %s\n",
 					list[line].chatting_room,
@@ -561,8 +581,11 @@ char* show_list(void){
 					list[line].url);
 			}
 			fclose(list_fp);
+			system(add_string);
 			system(rm_string);
 			system(remote_rm_string);
+			system("git commit -m 'chatting room delete'");
+			system(push_string);
 			printf(" 이전메뉴로 돌아갑니다.\n");
 			sleep(2);
 			system("clear");
