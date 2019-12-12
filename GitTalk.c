@@ -717,6 +717,8 @@ void chatting(char *chatting_file){
 					fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 첫 줄
 					fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 두번째 줄
 					fclose(ifp);
+				} else {
+					break;
 				}
 			} while (push_log_buf[0] == '!');
 
