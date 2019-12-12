@@ -695,10 +695,20 @@ void chatting(char *chatting_file){
 					printf("git merge --abort 실행 중...\n");
 					system("git merge --abort");
 					printf("git reset --hard HEAD~ 실행 중...\n");
-					system("git reset --hard HEAD~");
+					system("git reset --hard HEAD~ > /dev/null 2> /dev/null");
 					printf("git pull 재실행 중\n");
 					system("git pull > pull_log.txt 2> /dev/null");
+					printf("merge conflict 해결 완료!\n");
 				}
+				ofp = fopen(chatting_file_string, "at");
+				fprintf(ofp, "%s\n", total_msg);
+				fclose(ofp);
+				system(add_string);
+				printf("git commit 재실행 중...\n");
+				system("git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
+				printf("git pull 재실행 중...\n");
+				system("git pull > /dev/null 2> /dev/null");
+				printf("git push 재실행 중...\n");
 				system(push_string); //merge conflict 혹은 push 오류 해결 후 다시 push!
 			}
 			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
