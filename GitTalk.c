@@ -31,7 +31,7 @@ struct chatting_list		// 채팅방 구조체 선언
 	char chatting_room[100];// 채팅방 이름
 	int last_line;		// 마지막으로 확인한 Line 수
 	int individual_or_group;// 개인톡 / 단톡 옵션
-	char key[20];		// 암호화 키
+	//char key[100];		// 암호화 키
 	char url[100];		// repository url
 };
 
@@ -385,15 +385,15 @@ void make_chatting_room(void){
 	strcpy(list[list_num].chatting_room, chatting_room_name);
 	list[list_num].last_line = 0;
 	list[list_num].individual_or_group = option;
-	strcpy(list[list_num].key,"random");
-	strcpy(list[list_num].key,Git_address);	
+	//strcpy(list[list_num].key,"random");
+	strcpy(list[list_num].url,Git_address);	
 	// 암호화키 생성 추가 예정 (랜덤 난수 혹은 스트링)
 		
-	fprintf(list_fp, "%s %d %d %s %s\n",
+	fprintf(list_fp, "%s %d %d %s\n",
 			list[list_num].chatting_room,
 			list[list_num].last_line,
 			list[list_num].individual_or_group,
-			list[list_num].key,
+			//list[list_num].key,
 			list[list_num].url);
 	fclose(list_fp);
 	// chatting_list
@@ -416,7 +416,7 @@ void make_chatting_room(void){
 	}
 }
 char* show_list(void){
-	char ls_string[100] = "ls -1 --format=single-column ./Chatting"; //한줄에 한개씩 세로로 출력
+	char ls_string[100] = "ls -1 --format=single-column ./Chatting > chatting_list.txt"; //한줄에 한개씩 세로로 출력
 	char* select;
 	int select2;
 	char select_arr[100] = "";
@@ -429,6 +429,7 @@ char* show_list(void){
 
 	select = (char*)malloc(sizeof(char)*100);
 	//select2 = (char*)malloc(sizeof(char)*100);
+	refresh();
 	system("clear");
 	printf("┌─────────────────────────────────────────────────────────────────────────────┐\n");
 	printf("│                                                                             │\n");
@@ -437,11 +438,13 @@ char* show_list(void){
 	printf("└─────────────────────────────────────────────────────────────────────────────┘\n");
 	putchar('\n');
 	
-	// system(ls_string);
-	//
+	//ls_string
+	
+	system(ls_string);
+	
 	// print chatting_list
 	struct chatting_list list[100] = {};
-	FILE *list_fp = NULL;
+	FILE *list_fp;
 
 		// chatting_list.txt exceoption
 	if((list_fp = fopen("chatting_list.txt","rt")) == NULL){
@@ -451,14 +454,15 @@ char* show_list(void){
 
 	int list_num = 0;
 	char new_line;
-
+	/*
 	// print chatting_list func
-	while(fscanf(list_fp, "%s%d%d%s%s",
+	while(fscanf(list_fp, "%s%d%d%s",
 			list[list_num].chatting_room,
 			&list[list_num].last_line,
 			&list[list_num].individual_or_group,
-			list[list_num].key,
-			list[list_num].key) != EOF) list_num++;
+			list[list_num].url) != EOF) list_num++;
+	*/
+	while(fscanf(list_fp, "%s", list[list_num].chatting_room) != EOF) list_num++;
 
 	if(strcmp(list[0].chatting_room, ""))	// when there is chatting_room
 			printf(" 채팅방 번호\t채팅방 이름\t\t읽지 않은 메시지\n");
@@ -469,10 +473,12 @@ char* show_list(void){
 		return NULL;
 	}	
 	for(int line = 0; line < list_num; line++){
-		printf(" %-10d\t%-20s\t%d\n",
+		/*printf(" %-10d\t%-20s\*%d\n",
+		*/
+		printf("%-10d\t%-20s\n",
 			line + 1,
-			list[line].chatting_room,
-			getTotalLine(list[line].chatting_room) - list[line].last_line);
+			list[line].chatting_room);
+			//getTotalLine(list[line].chatting_room) - list[line].last_line);
 	}
 	fclose(list_fp);
 
@@ -530,13 +536,12 @@ char* show_list(void){
 			list_num = 0;
 
 			list_fp = fopen("chatting_list.txt","rt");
-			while(fscanf(list_fp, "%s%d%d%s%s",
-			chatting_room, &last_line, &individual_or_group, key, url) != EOF){
+			while(fscanf(list_fp, "%s%d%d%s",
+			chatting_room, &last_line, &individual_or_group, url) != EOF){
 				if(strcmp(chatting_room, list[list_num].chatting_room)){
 					strcpy(list[list_num].chatting_room, chatting_room);
 					list[list_num].last_line = last_line;
 					list[list_num].individual_or_group = individual_or_group;
-					strcpy(list[list_num].key, key);
 					strcpy(list[list_num].url, url);
 					list_num ++;
 				}
@@ -546,11 +551,10 @@ char* show_list(void){
 			// rewrite chatting_list.txt
 			list_fp = fopen("chatting_list.txt","wt");
 			for(int line = 0; line < list_num; line++) {
-				fprintf(list_fp, "%s %d %d %s %s\n",
+				fprintf(list_fp, "%s %d %d %s\n",
 					list[line].chatting_room,
 					list[line].last_line,
-					list[line].individual_or_group,
-					list[line].key,
+					list[line].individual_or_group,	
 					list[line].url);
 			}
 			fclose(list_fp);
