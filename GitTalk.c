@@ -587,7 +587,8 @@ void chatting(char *chatting_file){
 	time_t timer;
 
 	char ch;
-	char buf[200];
+	char push_log_buf[100];
+	char pull_log_buf[100];
 	char* AM_PM[2] = {"오전", "오후"};
 	char name[30], pw[30], link[60];
 	char push_string[120];
@@ -620,7 +621,7 @@ void chatting(char *chatting_file){
 	// ifp = fopen("./chatting_list.txt", "rt");
 	// while(1){
 	// 	fscanf(ifp, "%s %*d %*d %*s %s", buf, link);
-	// 	if (!strcmp(buf, chatting_file)){
+	// 	if (!strcmp(push_log_buf, chatting_file)){
 	// 		break;
 	// 	} 
 	// }
@@ -679,38 +680,46 @@ void chatting(char *chatting_file){
 			printf("git push 실행 중...\n");
 			system(push_string);
 			ifp = fopen("push_err_log.txt", "rt");
-			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 첫 줄
-			fscanf(ifp, "%[^\n]\n", buf); //push_err_log 파일의 두번째 줄
+			fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 첫 줄
+			fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 두번째 줄
 			fclose(ifp);
-			if (buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
-				printf("git push 오류 발생!\n");
-				printf("git pull 재시도 중...\n");
-				system("git pull > pull_log.txt 2> /dev/null");
-				ifp = fopen("pull_log.txt", "rt");
-				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 첫 줄
-				fscanf(ifp, "%[^\n]\n", buf); //pull_log 파일의 두번째 줄
-				fclose(ifp);
-				if (buf[0] == 'C'){ //merge conflict 발생 (conflict 제거 후 다시 commit & push 필요)
-					printf("merge conflict 발생!\n");
-					printf("git merge --abort 실행 중...\n");
-					system("git merge --abort");
-					printf("git reset --hard HEAD~ 실행 중...\n");
-					system("git reset --hard HEAD~ > /dev/null 2> /dev/null");
-					printf("git pull 재실행 중...\n");
+			
+			do {
+				if (push_log_buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
+					printf("git push 오류 발생!\n");
+					printf("git pull 재시도 중...\n");
 					system("git pull > pull_log.txt 2> /dev/null");
-					printf("merge conflict 해결 완료!\n");
+					ifp = fopen("pull_log.txt", "rt");
+					fscanf(ifp, "%[^\n]\n", pull_log_buf); //pull_log 파일의 첫 줄
+					fscanf(ifp, "%[^\n]\n", pull_log_buf); //pull_log 파일의 두번째 줄
+					fclose(ifp);
+					if (pull_log_buf[0] == 'C'){ //merge conflict 발생 (conflict 제거 후 다시 commit & push 필요)
+						printf("merge conflict 발생!\n");
+						printf("git merge --abort 실행 중...\n");
+						system("git merge --abort");
+						printf("git reset --hard HEAD~ 실행 중...\n");
+						system("git reset --hard HEAD~ > /dev/null 2> /dev/null");
+						printf("git pull 재실행 중...\n");
+						system("git pull > pull_log.txt 2> /dev/null");
+						printf("merge conflict 해결 완료!\n");
+					}
+					ofp = fopen(chatting_file_string, "at");
+					fprintf(ofp, "%s\n", total_msg);
+					fclose(ofp);
+					system(add_string);
+					printf("git commit 재실행 중...\n");
+					system("git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
+					printf("git pull 재실행 중...\n");
+					system("git pull > /dev/null 2> /dev/null");
+					printf("git push 재실행 중...\n");
+					system(push_string); //merge conflict or push 오류 해결 후 다시 push!
+					ifp = fopen("push_err_log.txt", "rt");
+					fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 첫 줄
+					fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 두번째 줄
+					fclose(ifp);
 				}
-				ofp = fopen(chatting_file_string, "at");
-				fprintf(ofp, "%s\n", total_msg);
-				fclose(ofp);
-				system(add_string);
-				printf("git commit 재실행 중...\n");
-				system("git commit -m 'chatting_test_commit' > /dev/null 2> /dev/null"); //나중에 커밋 메시지 수정 예정
-				printf("git pull 재실행 중...\n");
-				system("git pull > /dev/null 2> /dev/null");
-				printf("git push 재실행 중...\n");
-				system(push_string); //merge conflict 혹은 push 오류 해결 후 다시 push!
-			}
+			} while (push_log_buf[0] == '!');
+
 			printf("메시지 전송이 완료되었습니다. 채팅을 재개합니다.\n");
 			sleep(1);
 			pthread_create(&refresh_thread, NULL, refresh_routine, chatting_file_string);
