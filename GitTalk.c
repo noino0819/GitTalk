@@ -445,6 +445,9 @@ char* show_list(void){
 	// print chatting_list
 	struct chatting_list list[100] = {};
 	FILE *list_fp;
+	
+	// pull chatting_list
+	system("git pull ");
 
 		// chatting_list.txt exceoption
 	if((list_fp = fopen("chatting_list.txt","rt")) == NULL){
