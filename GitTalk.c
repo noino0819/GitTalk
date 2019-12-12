@@ -679,12 +679,15 @@ void chatting(char *chatting_file){
 			system("git pull > /dev/null 2> /dev/null");
 			printf("git push 실행 중...\n");
 			system(push_string);
+			printf("안죽음\n");
 			ifp = fopen("push_err_log.txt", "rt");
 			fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 첫 줄
 			fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 두번째 줄
 			fclose(ifp);
 			
+			printf("안죽음2\n");
 			do {
+				printf("안죽음3\n");
 				if (push_log_buf[0] == '!'){ //push 오류 발생 (다시 pull이 필요한 경우)
 					printf("git push 오류 발생!\n");
 					printf("git pull 재시도 중...\n");
@@ -718,6 +721,7 @@ void chatting(char *chatting_file){
 					fscanf(ifp, "%[^\n]\n", push_log_buf); //push_err_log 파일의 두번째 줄
 					fclose(ifp);
 				} else {
+			printf("안죽음4\n");
 					break;
 				}
 			} while (push_log_buf[0] == '!');
