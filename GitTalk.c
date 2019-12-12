@@ -407,7 +407,7 @@ void make_chatting_room(void){
 	fclose(pw_fp);
 	sprintf(push_string, "git push https://%s:%s@github.com/noino0819/GitTalk > /dev/null 2> push_err_log.txt", name, pwd);
 	system(add_string);
-	system("git commit -m 'new chatting room'");
+	system("git commit -m 'new chatting room' > /dev/null 2> /dev/null");
 	system(push_string);
 	
 	if(overlap_title_check(chatting_room_name) == 0){
@@ -595,7 +595,7 @@ char* show_list(void){
 			system(add_string);
 			system(rm_string);
 			system(remote_rm_string);
-			system("git commit -m 'chatting room delete'");
+			system("git commit -m 'chatting room delete' > /dev/null 2> /dev/null");
 			system(push_string);
 			printf(" 이전메뉴로 돌아갑니다.\n");
 			sleep(2);
