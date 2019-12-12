@@ -587,8 +587,8 @@ void chatting(char *chatting_file){
 	time_t timer;
 
 	char ch;
-	char push_log_buf[100];
-	char pull_log_buf[100];
+	char push_log_buf[200];
+	char pull_log_buf[200];
 	char* AM_PM[2] = {"오전", "오후"};
 	char name[30], pw[30], link[60];
 	char push_string[120];
